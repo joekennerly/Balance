@@ -3,7 +3,8 @@ import React, { Component } from "react"
 export default class Header extends Component {
 
   handleClick = () => {
-    return sessionStorage.clear()
+    sessionStorage.clear()
+    this.props.history.push("/login")
   }
 
   render() {

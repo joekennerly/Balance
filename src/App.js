@@ -1,6 +1,6 @@
 import React, { Component }  from "react"
 import "./App.css"
-import Dashboard from "./components/dashboard/Dashboard"
+import ApplicationViews from "./components/ApplicationViews"
 import Login from "./components/login/Login"
 
 
@@ -30,7 +30,7 @@ export default class App extends Component {
     } else {
       return (
         <React.Fragment>
-          <Dashboard />
+          <ApplicationViews />
         </React.Fragment>
       )
     }
