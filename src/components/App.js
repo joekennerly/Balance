@@ -1,7 +1,7 @@
 import React, { Component }  from "react"
 import "./App.css"
-import ApplicationViews from "./components/ApplicationViews"
-import Login from "./components/login/Login"
+import ApplicationViews from "./ApplicationViews"
+import Login from "./login/Login"
 
 
 export default class App extends Component {
@@ -11,26 +11,30 @@ export default class App extends Component {
 
   setUser = activeUserId => {
     //return one user
+    //Add activeUser to state
     let newState = {}
     newState.activeUser = activeUserId
     this.setState(newState)
   }
 
-  isAuthenticated = () => {
-    return sessionStorage.getItem("activeUser") !== null
-  }
+  isAuthenticated = () => sessionStorage.getItem("activeUser") !== null
 
   render() {
-    if (sessionStorage.length === 0) {
+    if (this.isAuthenticated()) {
       return (
         <React.Fragment>
-          <Login setUser={this.setUser} />
+          <Login
+            activeUser={this.state.activeUser}
+            setUser={this.setUser} />
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <ApplicationViews />
+          <ApplicationViews
+          activeUser={this.state.activeUser}
+          setUser={this.setUser}
+        />
         </React.Fragment>
       )
     }

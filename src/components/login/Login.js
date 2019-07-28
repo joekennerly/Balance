@@ -1,6 +1,6 @@
 import React, { Component } from "react"
+import Button from "../form/Button"
 import APIManager from "../../modules/APIManager"
-
 export default class Login extends Component {
 
   state = {
@@ -15,27 +15,29 @@ export default class Login extends Component {
     this.setState(stateToChange)
   }
 
-  handleClick = () => {
-      //fetch
-      APIManager.get(`users?username=${this.state.username}`)
-        .then(user => {
-          //check for matching
-          if (user.length === 0) window.alert("no user found!")
-          else if (user[0].password === this.state.password) {
-            console.log(user[0])
-            //set sessionStorage
-            sessionStorage.setItem("activeUser", user[0].id)
-            this.props.setUser(user[0].id)
-            //routing to dashboard
-            this.props.history.push("/")
-          }
-          else window.alert("That password is incorrect")
-        console.log(user)
+  submit = () => {
+    console.log("submit login")
+    //fetch
+    APIManager.get(`users?username=${this.state.username}`)
+      .then(user => {
+        //check for matching
+        if (user.length === 0) window.alert("no user found!")
+        else if (user[0].password === this.state.password) {
+          //set sessionStorage
+          sessionStorage.setItem("activeUser", user[0].id)
+          this.props.setUser(user[0].id)
+          //routing to dashboard
+          this.props.history.push("/")
+        }
+        else window.alert("That password is incorrect")
       })
-  }
+    }
 
-  render() {
-    return (
+
+
+    render() {
+      console.log(this.props.history)
+      return (
       <div>
         <h2>Login</h2>
         <div className="ui input">
@@ -54,10 +56,10 @@ export default class Login extends Component {
             placeholder="password"
             onChange={this.handleFieldChange}
           />
-          <button
-            className="ui button primary"
-            onClick={this.handleClick}
-          ></button>
+          <Button
+            text="Login"
+            onClick={this.submit}
+          />
         </div>
       </div>
     )

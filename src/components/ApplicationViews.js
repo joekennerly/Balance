@@ -17,7 +17,7 @@ class ApplicationViews extends Component {
           exact
           path="/"
           render={props => {
-            if (this.isAuthenticated()) return <Dashboard {...propsgs}/>
+            if (this.isAuthenticated()) return <Dashboard {...props}/>
             else return <Redirect to="/login" />
           }}
         />
@@ -25,7 +25,7 @@ class ApplicationViews extends Component {
           exact
           path="/login"
           render={props => {
-            return <Login {...props} />
+            return <Login setUser={this.props.setUser} {...props} />
           }}
         />
       </React.Fragment>
