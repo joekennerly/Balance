@@ -15,11 +15,9 @@ export default class Login extends Component {
   }
 
   submit = () => {
-    console.log("submit login")
     //fetch
     APIManager.get(`users?name=${this.state.name}`)
     .then(user => {
-      console.log(user)
       //check for matching
       if (user.length === 0) window.alert("no user found!")
       else if (user[0].password === this.state.password) {
@@ -31,7 +29,6 @@ export default class Login extends Component {
       }
       else window.alert("That password is incorrect")
     })
-    console.log(this.props.activeUser)
     }
 
 
