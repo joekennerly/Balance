@@ -4,7 +4,7 @@ import APIManager from "../../modules/APIManager"
 export default class Login extends Component {
 
   state = {
-    username: "",
+    name: "",
     password: ""
   }
 
@@ -16,21 +16,22 @@ export default class Login extends Component {
 
   submit = () => {
     console.log("submit login")
-    console.log(this.props.activeUser)
     //fetch
-    APIManager.get(`users?username=${this.state.username}`)
-      .then(user => {
-        //check for matching
-        if (user.length === 0) window.alert("no user found!")
-        else if (user[0].password === this.state.password) {
-          //set sessionStorage
-          sessionStorage.setItem("activeUser", user[0].id)
-          this.props.setUser(user[0].id)
-          //routing to dashboard
-          this.props.history.push("/")
-        }
-        else window.alert("That password is incorrect")
-      })
+    APIManager.get(`users?name=${this.state.name}`)
+    .then(user => {
+      console.log(user)
+      //check for matching
+      if (user.length === 0) window.alert("no user found!")
+      else if (user[0].password === this.state.password) {
+        //set sessionStorage
+        sessionStorage.setItem("activeUser", user[0].id)
+        this.props.setUser(user[0].id)
+        //routing to dashboard
+        this.props.history.push("/")
+      }
+      else window.alert("That password is incorrect")
+    })
+    console.log(this.props.activeUser)
     }
 
 
@@ -41,7 +42,7 @@ export default class Login extends Component {
         <h2>Login</h2>
         <div className="ui input">
           <input
-            id="username"
+            id="name"
             required
             type="text"
             autoFocus

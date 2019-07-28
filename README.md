@@ -4,11 +4,14 @@
 2. Install json-server
 
 ## Setup
-* Clone the Repo
-* Run `npm install` in the root directory of application
-* Make and goto `api/` from root directory in application
-* Touch `database.json` and paste in the following:
+1. Clone the Repo
+1. Run `npm install` in the root directory of application
+1. Make and goto `api/` from root directory in application
+1. Touch `database.json` and paste in the file below
+1. (Inside api folder) Run `json-server -p 5002 -w database.json`
+1. Open another terminal and run `npm start`
 
+### `database.json`
 ```
 {
   "users": [
@@ -43,8 +46,6 @@
   ]
 }
 ```
-* (Inside api folder) Run `json-server -p 5002 -w database.json`
-* Open another terminal and run `npm start`
 
 --------------
 

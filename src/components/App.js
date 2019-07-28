@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import "./App.css"
 import ApplicationViews from "./ApplicationViews"
 
 export default class App extends Component {
