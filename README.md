@@ -1,6 +1,59 @@
+# Balance
+## Requirements
+1. Install npm
+2. Install json-server
+
+## Setup
+1. Clone the Repo
+1. Run `npm install` in the root directory of application
+1. Make and goto `api/` from root directory in application
+1. Touch `database.json` and paste in the file below
+1. (Inside api folder) Run `json-server -p 5002 -w database.json`
+1. Open another terminal and run `npm start`
+
+### `database.json`
+```
+{
+  "users": [
+    {
+      "name": "j",
+      "id": 1
+    }
+  ]
+  "expenses": [
+    {
+      "name": "taco",
+      "amount": 5.00,
+      "user_id": 1,
+      "id": 1
+    }
+  ]
+  "income": [
+    {
+      "name": "job",
+      "amount": 100.00,
+      "user_id": 1,
+      "id": 1
+    }
+  ]
+  "category": [
+    {
+      "name": "food",
+      "amount": 100.00,
+      "expense_id": 1,
+      "id": 1
+    }
+  ]
+}
+```
+
+--------------
+
+## REACT INFO
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
