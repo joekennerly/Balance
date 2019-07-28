@@ -9,7 +9,6 @@ export default class Login extends Component {
   }
 
   handleFieldChange = event => {
-    console.log(this.state.username)
     const stateToChange = {}
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
@@ -17,6 +16,7 @@ export default class Login extends Component {
 
   submit = () => {
     console.log("submit login")
+    console.log(this.props.activeUser)
     //fetch
     APIManager.get(`users?username=${this.state.username}`)
       .then(user => {
@@ -36,7 +36,6 @@ export default class Login extends Component {
 
 
     render() {
-      console.log(this.props.history)
       return (
       <div>
         <h2>Login</h2>

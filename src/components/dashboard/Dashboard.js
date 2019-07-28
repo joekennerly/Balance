@@ -8,7 +8,7 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div className="ui container">
-        <Header />
+        <Header {...this.props}/>
 
         <Totals />
 

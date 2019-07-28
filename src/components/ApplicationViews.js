@@ -10,6 +10,13 @@ class ApplicationViews extends Component {
     return sessionStorage.getItem("activeUser") !== null
   }
 
+  setUser = activeUserId => {
+    //return one user
+    let newState = {}
+    newState.activeUser = activeUserId
+    this.setState(newState)
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -25,7 +32,8 @@ class ApplicationViews extends Component {
           exact
           path="/login"
           render={props => {
-            return <Login setUser={this.props.setUser} {...props} />
+            if (!this.isAuthenticated()) return <Login setUser={this.setUser} {...props} />
+            else return <Redirect to="/" />
           }}
         />
       </React.Fragment>
