@@ -2,35 +2,61 @@ import React, { Component } from "react"
 
 export default class Totals extends Component {
   expenses = [
-    5.89,
-    5.66,
-    5.66,
-    5.66,
-    5.66,
-    5.66,
-    5.66,
-    5.66,
-    5.66,
-    5.66
+    {
+      amount: 5.55,
+      id: 1
+    },
+    {
+      amount: 5.55,
+      id: 2
+    },
+    {
+      amount: 5.55,
+      id: 3
+    },
+    {
+      amount: 5.55,
+      id: 4
+    },
+    {
+      amount: 5.55,
+      id: 5
+    },
+    {
+      amount: 5.55,
+      id: 6
+    }
   ]
 
   income = [
-    100.21,
-    100.21,
-    100.21,
-    100.21,
-    100.21
+    {
+      amount: 100.21,
+      id: 1
+    },
+    {
+      amount: 100.21,
+      id: 2
+    },
+    {
+      amount: 100.21,
+      id: 3
+    },
+    {
+      amount: 100.21,
+      id: 4
+    },
   ]
 
   sum = (arrayOfExp) => {
     let sum = 0
-    arrayOfExp.forEach(expense => {
-      return sum += expense
+    arrayOfExp.forEach(entry => {
+      return sum += entry.amount
     })
     return sum.toFixed(2)
   }
   diff = (inTotal, exTotal) => {
-    return inTotal - exTotal
+    let diff = inTotal - exTotal
+    return diff.toFixed(2)
   }
 
   render() {
