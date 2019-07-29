@@ -5,29 +5,30 @@ import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
 import APIManager from "../modules/APIManager"
 
+let moment = require("moment")
 class ApplicationViews extends Component {
 
   state = {
     expenses: []
   }
-
   componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
-      .then(expenses => newState.expenses = expenses)
+    .then(expenses => newState.expenses = expenses.reverse())
     .then(()=> this.setState(newState))
   }
 
   isAuthenticated = () => {
     return sessionStorage.getItem("activeUser") !== null
   }
-
   setUser = activeUserId => {
     //return one user
     let newState = {}
     newState.activeUser = activeUserId
     this.setState(newState)
   }
+
+
 
   render() {
     return (
@@ -36,7 +37,13 @@ class ApplicationViews extends Component {
           exact
           path="/"
           render={props => {
-            if (this.isAuthenticated()) return <Dashboard expenses={this.state.expenses}{...props}/>
+            if (this.isAuthenticated()) {
+              return <Dashboard
+                expenses={this.state.expenses}
+                date={moment().format("YYYY-MM-DD")}
+                {...props}
+              />
+            }
             else return <Redirect to="/login" />
           }}
         />
@@ -44,7 +51,9 @@ class ApplicationViews extends Component {
           exact
           path="/login"
           render={props => {
-            if (!this.isAuthenticated()) return <Login setUser={this.setUser} {...props} />
+            if (!this.isAuthenticated()) {
+              return <Login setUser={this.setUser} {...props} />
+            }
             else return <Redirect to="/" />
           }}
         />
