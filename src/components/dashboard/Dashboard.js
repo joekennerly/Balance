@@ -9,7 +9,7 @@ export default class Dashboard extends Component {
     return (
       <div className="ui centered grid">
         <article className="row">
-          <Totals expenses={this.props.expenses}/>
+          <Totals {...this.props}/>
         </article>
         <article className="row">
           <EntryForm />

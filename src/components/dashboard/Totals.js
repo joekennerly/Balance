@@ -1,21 +1,12 @@
 import React, { Component } from "react"
 
 export default class Totals extends Component {
-  // expenses = [
-  //   { amount: 5.55, id: 1 },
-  //   { amount: 5.55, id: 2 },
-  //   { amount: 5.55, id: 3 },
-  //   { amount: 5.55, id: 4 },
-  //   { amount: 5.55, id: 5 },
-  //   { amount: 5.55, id: 6 }
+  // income = [
+  //   { amount: 100.21, id: 1 },
+  //   { amount: 100.21, id: 2 },
+  //   { amount: 100.21, id: 3 },
+  //   { amount: 100.21, id: 4 },
   // ]
-
-  income = [
-    { amount: 100.21, id: 1 },
-    { amount: 100.21, id: 2 },
-    { amount: 100.21, id: 3 },
-    { amount: 100.21, id: 4 },
-  ]
 
   sum = (entryArray) => {
     let sum = 0
@@ -31,8 +22,7 @@ export default class Totals extends Component {
   }
 
   render() {
-    console.log(this.expenses)
-    let totalIn = this.sum(this.income)
+    let totalIn = this.sum(this.props.income)
     let totalEx = this.sum(this.props.expenses)
     return (
       <React.Fragment>

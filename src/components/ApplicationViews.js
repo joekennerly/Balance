@@ -8,18 +8,21 @@ import APIManager from "../modules/APIManager"
 class ApplicationViews extends Component {
 
   state = {
-    expenses: []
+    expenses: [],
+    income: []
   }
 
   componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
-      .then(expenses => newState.expenses = expenses)
+      .then(expenses => newState.expenses = expenses.reverse())
+      .then(()=> APIManager.get("income")
+      .then(income => newState.income = income))
     .then(()=> this.setState(newState))
   }
 
   isAuthenticated = () => {
-    return sessionStorage.getItem("activeUser") !== null
+    return sessionStorage.getItem("activeUser")
   }
 
   setUser = activeUserId => {
@@ -36,7 +39,13 @@ class ApplicationViews extends Component {
           exact
           path="/"
           render={props => {
-            if (this.isAuthenticated()) return <Dashboard expenses={this.state.expenses}{...props}/>
+            if (this.isAuthenticated()) {
+              return <Dashboard
+              {...props}
+              expenses={this.state.expenses}
+              income={this.state.income}
+              />
+            }
             else return <Redirect to="/login" />
           }}
         />
