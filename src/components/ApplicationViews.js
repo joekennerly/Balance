@@ -31,6 +31,44 @@ class ApplicationViews extends Component {
     this.setState(newState)
   }
 
+  deleteItem = (name, id) => {
+    let newObj = {}
+    return fetch(`http://localhost:5002/${name}/${id}`, {
+      method: "DELETE"
+    })
+      .then(e => e.json())
+      .then(() => APIManager.getAll(`${name}`))
+      .then(group => {
+        newObj[name] = group
+        this.setState(newObj)
+        console.log(name, newObj, this.state)
+        this.props.history.push(`/${name}`)
+      })
+  }
+
+  updateItem = (name, editedObject) => {
+    let newObj = {}
+    return APIManager.put(name, editedObject)
+      .then(() => APIManager.getAll(`${name}`))
+      .then(item => {
+        newObj[name] = item
+        this.setState(newObj)
+      })
+      .then(() => this.props.history.push(`/${name}`))
+  }
+
+  addItem = (name, item, path) => {
+    let newObj = {}
+    APIManager.post(name, item)
+      .then(() => APIManager.getAll(`${name}`))
+      .then(items => {
+        newObj[name] = items
+        this.setState(newObj)
+      })
+      .then(() => this.props.history.push("/"))
+      .then(() => this.props.history.push(`/${path}`))
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -38,9 +76,17 @@ class ApplicationViews extends Component {
           exact
           path="/"
           render={props => {
+            return <Redirect to="/dashboard" />
+          }}
+        />
+        <Route
+          exact
+          path="/dashboard"
+          render={props => {
             if (this.isAuthenticated()) {
               return (
                 <Dashboard
+                  addItem={this.addItem}
                   income={this.state.income}
                   expenses={this.state.expenses}
                   date={moment().format("YYYY-MM-DD")}
