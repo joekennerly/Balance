@@ -34,8 +34,8 @@ export default Object.create(null, {
     }
   },
   put: {
-    value (name, updatedPost) {
-      return fetch(`${remoteURL}/${name}/${updatedPost.id}`, {
+    value (name, id, updatedPost) {
+      return fetch(`${remoteURL}/${name}/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

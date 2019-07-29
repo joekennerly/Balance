@@ -45,9 +45,9 @@ class ApplicationViews extends Component {
       })
   }
 
-  updateItem = (name, editedObject, path) => {
+  updateItem = (name, id, editedObject, path) => {
     let newObj = {}
-    return APIManager.put(name, editedObject)
+    return APIManager.put(name, id, editedObject)
       .then(() => APIManager.getAll(`${name}`))
       .then(item => {
         newObj[name] = item
