@@ -74,8 +74,8 @@ export default class EntryForm extends Component {
                 placeholder="amount"
               />
             </div>
-            <button className="ui button" onClick={()=>this.props.addItem("expenses", this.state, "dashboard")}>
-              <i className="plus icon" />
+            <button className="ui button" onClick={() => this.props.addItem("expenses", this.state, "/dashboard")}>
+              +
             </button>
           </div>
         </div>

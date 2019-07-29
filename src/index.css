@@ -23,7 +23,7 @@ header {
 }
 
 /* display list in decending order*/
-.expenses {
+/* .entryList {
   display: flex;
   flex-flow: column-reverse wrap;
-}
+} */

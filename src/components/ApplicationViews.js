@@ -14,7 +14,7 @@ class ApplicationViews extends Component {
   componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
-      .then(expenses => (newState.expenses = expenses.reverse()))
+      .then(expenses => (newState.expenses = expenses))
       .then(() =>
         APIManager.get("income").then(income => (newState.income = income))
       )
@@ -31,7 +31,7 @@ class ApplicationViews extends Component {
     this.setState(newState)
   }
 
-  deleteItem = (name, id) => {
+  deleteItem = (name, id, path) => {
     let newObj = {}
     return fetch(`http://localhost:5002/${name}/${id}`, {
       method: "DELETE"
@@ -41,12 +41,11 @@ class ApplicationViews extends Component {
       .then(group => {
         newObj[name] = group
         this.setState(newObj)
-        console.log(name, newObj, this.state)
-        this.props.history.push(`/${name}`)
+        this.props.history.push(`${path}`)
       })
   }
 
-  updateItem = (name, editedObject) => {
+  updateItem = (name, editedObject, path) => {
     let newObj = {}
     return APIManager.put(name, editedObject)
       .then(() => APIManager.getAll(`${name}`))
@@ -54,7 +53,7 @@ class ApplicationViews extends Component {
         newObj[name] = item
         this.setState(newObj)
       })
-      .then(() => this.props.history.push(`/${name}`))
+      .then(() => this.props.history.push(`${path}`))
   }
 
   addItem = (name, item, path) => {
@@ -66,7 +65,7 @@ class ApplicationViews extends Component {
         this.setState(newObj)
       })
       .then(() => this.props.history.push("/"))
-      .then(() => this.props.history.push(`/${path}`))
+      .then(() => this.props.history.push(`${path}`))
   }
 
   render() {
@@ -87,6 +86,8 @@ class ApplicationViews extends Component {
               return (
                 <Dashboard
                   addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
                   income={this.state.income}
                   expenses={this.state.expenses}
                   date={moment().format("YYYY-MM-DD")}
