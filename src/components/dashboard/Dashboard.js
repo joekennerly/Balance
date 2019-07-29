@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 // import Header from "./Header"
 import Totals from "./Totals"
-import EntryForm from "./EntryForm"
 import Expenses from "./Expenses"
 
 export default class Dashboard extends Component {
@@ -12,10 +11,7 @@ export default class Dashboard extends Component {
           <Totals {...this.props}/>
         </article>
         <article className="row">
-          <EntryForm />
-        </article>
-        <article className="row">
-          <Expenses expenses={this.props.expenses} />
+          <Expenses {...this.props} />
         </article>
       </div>
     )
