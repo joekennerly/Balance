@@ -3,17 +3,23 @@ const remoteURL = "http://localhost:5002"
 export default Object.create(null, {
   get: {
     value: function(name) {
-      return fetch(`${remoteURL}/${name}`).then(e => e.json())
+      return fetch(`${remoteURL}/${name}`)
+        .then(e => e.json())
+        .then(converted => converted.reverse())
     }
   },
   getById: {
     value: function(name, id) {
-      return fetch(`${remoteURL}/${name}/${id}`).then(e => e.json())
+      return fetch(`${remoteURL}/${name}/${id}`)
+        .then(e => e.json())
+        .then(converted => converted.reverse())
     }
   },
   getAll: {
     value: function (name) {
-      return fetch(`${remoteURL}/${name}`).then(e => e.json())
+      return fetch(`${remoteURL}/${name}`)
+        .then(e => e.json())
+        .then(converted => converted.reverse())
     }
   },
   post: {
@@ -28,8 +34,8 @@ export default Object.create(null, {
     }
   },
   put: {
-    value (name, updatedPost) {
-      return fetch(`${remoteURL}/${name}/${updatedPost.id}`, {
+    value (name, id, updatedPost) {
+      return fetch(`${remoteURL}/${name}/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

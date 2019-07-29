@@ -28,10 +28,11 @@ export default class EntryForm extends Component {
   handleClick = () => {
     // Post to db
     APIManager.post("expenses", this.state)
-    this.props.history.push("/")
+    .then(()=> this.props.history.push("/"))
   }
 
   render() {
+
     return (
       <React.Fragment>
         <div className="ui form">
@@ -73,8 +74,8 @@ export default class EntryForm extends Component {
                 placeholder="amount"
               />
             </div>
-            <button className="ui button" onClick={this.handleClick}>
-              <i className="plus icon" />
+            <button className="ui button" onClick={() => this.props.addItem("expenses", this.state, "/dashboard")}>
+              +
             </button>
           </div>
         </div>
