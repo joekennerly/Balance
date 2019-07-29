@@ -3,7 +3,6 @@ import React, { Component } from "react"
 export default class Expenses extends Component {
   //TODO Add state for expense category
   render() {
-    console.log(this.props.expenses)
     return (
       <React.Fragment>
         <section className="expenses ui six column grid">
