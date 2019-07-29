@@ -1,16 +1,19 @@
 import React, { Component } from "react"
-import Header from "./Header"
-// import Totals from "./Totals"
+// import Header from "./Header"
+import Totals from "./Totals"
 import Expenses from "./Expenses"
 
 export default class Dashboard extends Component {
   render() {
     return (
-      <React.Fragment>
-          <Header {...this.props} />
-          {/* <Totals {...this.props}/> */}
+      <div className="ui centered grid">
+        <article className="row">
+          <Totals {...this.props}/>
+        </article>
+        <article className="row">
           <Expenses {...this.props} />
-      </React.Fragment>
+        </article>
+      </div>
     )
   }
 }

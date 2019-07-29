@@ -16,32 +16,103 @@
 {
   "users": [
     {
-      "name": "j",
+      "name": "joe",
+      "password": "joe",
       "id": 1
-    }
-  ]
-  "expenses": [
+    },
     {
-      "name": "taco",
-      "amount": 5.00,
-      "user_id": 1,
-      "id": 1
-    }
-  ]
-  "income": [
+      "name": "1",
+      "password": "1",
+      "id": 3
+    },
     {
-      "name": "job",
-      "amount": 100.00,
-      "user_id": 1,
-      "id": 1
+      "name": "jim",
+      "password": "jim",
+      "id": 2
     }
-  ]
-  "category": [
+  ],
+  "categories": [
     {
       "name": "food",
-      "amount": 100.00,
-      "expense_id": 1,
+      "user_Id": 1,
+      "budget": 400,
       "id": 1
+    },
+    {
+      "name": "utilities",
+      "user_Id": 1,
+      "budget": 400,
+      "id": 2
+    }
+  ],
+  "income": [
+    {
+      "name": "pizzahut",
+      "date": "2019-07-01",
+      "amount": 100.21,
+      "user_id": 1,
+      "reoccuring": true,
+      "id": 1
+    },
+    {
+      "name": "pizzahut",
+      "date": "2019-07-01",
+      "amount": 100.21,
+      "user_id": 1,
+      "reoccuring": true,
+      "id": 2
+    },
+    {
+      "name": "pizzahut",
+      "date": "2019-07-01",
+      "amount": 100.21,
+      "user_id": 1,
+      "reoccuring": true,
+      "id": 3
+    }
+  ],
+  "expenses": [
+    {
+      "date": "2019-07-01",
+      "category_id": 1,
+      "name": "taco",
+      "amount": 5,
+      "id": 1
+    },
+    {
+      "date": "2019-07-01",
+      "category_id": 1,
+      "name": "taco",
+      "amount": 5,
+      "id": 2
+    },
+    {
+      "date": "2019-07-01",
+      "category_id": 1,
+      "name": "taco",
+      "amount": 5,
+      "id": 3
+    },
+    {
+      "date": "2019-07-01",
+      "category_id": 1,
+      "name": "taco",
+      "amount": 5,
+      "id": 4
+    },
+    {
+      "date": "2019-07-28",
+      "category": "Food",
+      "name": "Taco",
+      "amount": "5.00",
+      "id": 5
+    },
+    {
+      "date": "2019-07-28",
+      "category": "food",
+      "name": "taco",
+      "amount": "5",
+      "id": 6
     }
   ]
 }
