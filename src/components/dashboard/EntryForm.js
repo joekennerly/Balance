@@ -27,58 +27,59 @@ export default class EntryForm extends Component {
   //Handle Submit
   handleClick = () => {
     // Post to db
-    APIManager.post("expenses", this.state)
-    .then(()=> this.props.history.push("/"))
+    APIManager.post("expenses", this.state).then(() =>
+      this.props.history.push("/")
+    )
   }
 
   render() {
-
     return (
       <React.Fragment>
-        <div className="ui form">
-          <div className="five fields">
-            <div className="field">
-              <input
-                id="date"
-                type="date"
-                value={this.props.date}
-                onChange={this.handleFieldChange}
-              />
-            </div>
-            <div className="field">
-              <select
-                id="category"
-                type="text"
-                placeholder="category"
-                onChange={this.handleFieldChange}
-              >
-                <option value="food">Food</option>
-                <option value="utilities">Utilities</option>
-                <option value="car">Car</option>
-                <option value="health">Health</option>
-              </select>
-            </div>
-            <div className="field">
-              <input
-                id="name"
-                type="text"
-                onChange={this.handleFieldChange}
-                placeholder="expense"
-              />
-            </div>
-            <div className="field">
-              <input
-                id="amount"
-                type="text"
-                onChange={this.handleFieldChange}
-                placeholder="amount"
-              />
-            </div>
-            <button className="ui button" onClick={() => this.props.addItem("expenses", this.state, "/dashboard")}>
-              +
-            </button>
-          </div>
+        <div className="column">
+          <input
+            id="date"
+            type="date"
+            value={this.props.date}
+            onChange={this.handleFieldChange}
+          />
         </div>
+        <div className="column">
+          <select
+            id="category"
+            type="text"
+            placeholder="category"
+            onChange={this.handleFieldChange}
+          >
+            <option value="food">Food</option>
+            <option value="utilities">Utilities</option>
+            <option value="car">Car</option>
+            <option value="health">Health</option>
+          </select>
+        </div>
+        <div className="column">
+          <input
+            id="name"
+            type="text"
+            onChange={this.handleFieldChange}
+            placeholder="expense"
+          />
+        </div>
+        <div className="column">
+          <input
+            id="amount"
+            type="text"
+            onChange={this.handleFieldChange}
+            placeholder="amount"
+          />
+        </div>
+        <button
+          className="ui button"
+          onClick={() =>
+            this.props.addItem("expenses", this.state, "/dashboard")
+          }
+        >
+          +
+        </button>
       </React.Fragment>
     )
   }
