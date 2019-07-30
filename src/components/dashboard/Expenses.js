@@ -35,10 +35,8 @@ export default class Expenses extends Component {
 
   enterKey = (event) => {
     if (event.key === "Enter") {
-      console.log(this.state)
-      // console.log("enter", +event.target.id.split("-")[2])
+      event.target.classList.toggle("hide")
       let eventId = +event.target.id.split("-")[2]
-      // let updatedObject = {}
       return this.props.updateItem("expenses", eventId, this.state, "/dashboard")
     }
   }
