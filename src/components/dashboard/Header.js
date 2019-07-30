@@ -8,12 +8,8 @@ export default class Header extends Component {
 
   render() {
     return (
-      <header id="header">
-        <h1>
-          <i className="balance scale icon"></i>
-          Balance
-        </h1>
-        <button className="ui column button" onClick={this.handleClick}>
+      <header>
+        <button className="ui button" onClick={this.handleClick}>
           Logout
         </button>
       </header>

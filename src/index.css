@@ -19,18 +19,12 @@ code {
 
 /* Red border just used as marker; will delete later */
 header {
-  border:1px dotted red;
+  /* border:1px dotted red; */
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
 }
 
-.expenses {
-  border: 1px dotted green;
-}
-.row {
-  border: 1px dotted orangered;
-}
 .hide {
   display:none;
 }
