@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import APIManager from "../../modules/APIManager"
+// import APIManager from "../../modules/APIManager"
 
 export default class EntryForm extends Component {
   state = {
@@ -13,7 +13,6 @@ export default class EntryForm extends Component {
   componentDidMount() {
     const stateToChange = {}
     stateToChange.date = this.props.date
-    stateToChange.category = document.querySelector("#category").value
     this.setState(stateToChange)
   }
 
@@ -27,9 +26,11 @@ export default class EntryForm extends Component {
   //Handle Submit
   handleClick = () => {
     // Post to db
-    APIManager.post("expenses", this.state).then(() =>
-      this.props.history.push("/")
-    )
+
+    console.log("submit clicked")
+    // APIManager.post("expenses", this.state).then(() =>
+    //   this.props.history.push("/")
+    // )
   }
 
   render() {

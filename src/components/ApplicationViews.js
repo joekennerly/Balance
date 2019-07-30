@@ -21,9 +21,8 @@ class ApplicationViews extends Component {
       .then(() => this.setState(newState))
   }
 
-  isAuthenticated = () => {
-    return sessionStorage.getItem("activeUser")
-  }
+  isAuthenticated = () => sessionStorage.getItem("activeUser")
+
   setUser = activeUserId => {
     //return one user
     let newState = {}
@@ -31,37 +30,37 @@ class ApplicationViews extends Component {
     this.setState(newState)
   }
 
-  deleteItem = (name, id, path) => {
+  deleteItem = (resource, id, path) => {
     let newObj = {}
-    return fetch(`http://localhost:5002/${name}/${id}`, {
+    return fetch(`http://localhost:5002/${resource}/${id}`, {
       method: "DELETE"
     })
       .then(e => e.json())
-      .then(() => APIManager.getAll(`${name}`))
+      .then(() => APIManager.getAll(`${resource}`))
       .then(group => {
-        newObj[name] = group
+        newObj[resource] = group
         this.setState(newObj)
         this.props.history.push(`${path}`)
       })
   }
 
-  updateItem = (name, id, editedObject, path) => {
+  updateItem = (resource, id, editedObject, path) => {
     let newObj = {}
-    return APIManager.put(name, id, editedObject)
-      .then(() => APIManager.getAll(`${name}`))
+    return APIManager.put(resource, id, editedObject)
+      .then(() => APIManager.getAll(`${resource}`))
       .then(item => {
-        newObj[name] = item
+        newObj[resource] = item
         this.setState(newObj)
       })
       .then(() => this.props.history.push(`${path}`))
   }
 
-  addItem = (name, item, path) => {
+  addItem = (resource, item, path) => {
     let newObj = {}
-    APIManager.post(name, item)
-      .then(() => APIManager.getAll(`${name}`))
+    APIManager.post(resource, item)
+      .then(() => APIManager.getAll(`${resource}`))
       .then(items => {
-        newObj[name] = items
+        newObj[resource] = items
         this.setState(newObj)
       })
       .then(() => this.props.history.push("/"))

@@ -8,7 +8,7 @@ export default class Header extends Component {
 
   render() {
     return (
-      <header>
+      <header id="header">
         <h1>
           <i className="balance scale icon"></i>
           Balance

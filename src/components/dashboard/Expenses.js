@@ -1,11 +1,44 @@
 import React, { Component } from "react"
 import EntryForm from "./EntryForm"
+// import APIManager from "../../modules/APIManager"
 
 export default class Expenses extends Component {
+  state = {
+    date: "",
+    category: "",
+    name: "",
+    amount: ""
+  }
 
-  update = (id) => {
-    console.log("edit click", id)
-    // return this.props.updateItem("expenses", this.state, "/dashboard")
+  //Save current value when changed
+  handleKeyPress = event => {
+    // console.log(event.target.id.split("-")[1])
+    const stateToChange = {}
+    stateToChange[event.target.id.split("-")[1]] = event.target.value
+    this.setState(stateToChange)
+  }
+
+  handleClick = event => {
+    if (!event.target.id.startsWith("edit")) {
+      //show edit form when text is clicked
+      let eventId = +event.target.id.split("-")[1]
+      event.target.children[0].classList.toggle("hide")
+      //find the object with matching id from this.props
+      let upObj = this.props.expenses.find(expense => expense.id === eventId)
+      //update state with current values
+      this.setState(upObj)
+    } else {
+      //Do nothing if edit-input is clicked
+      event.preventDefault()
+    }
+  }
+
+  enterKey = (event) => {
+    if (event.key === "Enter") {
+      event.target.classList.toggle("hide")
+      let eventId = +event.target.id.split("-")[2]
+      return this.props.updateItem("expenses", eventId, this.state, "/dashboard")
+    }
   }
 
   render() {
@@ -29,20 +62,77 @@ export default class Expenses extends Component {
           <div className="row card">
             <EntryForm {...this.props} />
           </div>
+
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
-              <div id="date" className="column">{expense.date}</div>
-              <div id="category" className="column">{expense.category}</div>
-              <div id="name" className="column">{expense.name}</div>
-              <div id="amount" className="column">{expense.amount}</div>
+              <div
+                id={`date-${expense.id}`}
+                className="column"
+                onClick={this.handleClick}
+              >
+                {expense.date}
+                <input
+                  id={`edit-date-${expense.id}`}
+                  type="date"
+                  placeholder={expense.date}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </div>
+              <div
+                id={`category-${expense.id}`}
+                className="column"
+                onClick={this.handleClick}
+              >
+                {expense.category}
+                <input
+                  id={`edit-category-${expense.id}`}
+                  type="text"
+                  placeholder={expense.category}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </div>
+              <div
+                id={`name-${expense.id}`}
+                className="column"
+                onClick={this.handleClick}
+              >
+                {expense.name}
+                <input
+                  id={`edit-name-${expense.id}`}
+                  type="text"
+                  placeholder={expense.name}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </div>
+              <div
+                id={`amount-${expense.id}`}
+                className="column"
+                onClick={this.handleClick}
+              >
+                {expense.amount}
+                <input
+                  id={`edit-amount-${expense.id}`}
+                  type="text"
+                  placeholder={expense.amount}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </div>
               <button
                 className="ui button"
-                onClick={()=>this.update(expense.id)}
-              >e</button>
-              <button
-                className="ui button"
-                onClick={()=>this.props.deleteItem("expenses", expense.id, "/dashboard")}
-              >x</button>
+                onClick={() =>
+                  this.props.deleteItem("expenses", expense.id, "/dashboard")
+                }
+              >
+                x
+              </button>
             </div>
           ))}
         </section>
