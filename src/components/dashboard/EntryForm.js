@@ -35,7 +35,7 @@ export default class EntryForm extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="column">
+        <div className="column ui input">
           <input
             id="date"
             type="date"
@@ -43,13 +43,14 @@ export default class EntryForm extends Component {
             onChange={this.handleFieldChange}
           />
         </div>
-        <div className="column">
+        <div className="column ui input">
           <select
             id="category"
             type="text"
             placeholder="category"
             value={this.props.category}
             onChange={this.handleFieldChange}
+            className="ui dropdown"
           >
             <option value="food">Food</option>
             <option value="utilities">Utilities</option>
@@ -57,7 +58,7 @@ export default class EntryForm extends Component {
             <option value="health">Health</option>
           </select>
         </div>
-        <div className="column">
+        <div className="column ui input">
           <input
             id="name"
             type="text"
@@ -66,7 +67,7 @@ export default class EntryForm extends Component {
             value={this.props.name}
           />
         </div>
-        <div className="column">
+        <div className="column ui input">
           <input
             id="amount"
             type="text"

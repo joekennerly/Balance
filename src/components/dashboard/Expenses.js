@@ -67,7 +67,7 @@ export default class Expenses extends Component {
             <div key={expense.id} className="row card">
               <div
                 id={`date-${expense.id}`}
-                className="column"
+                className="column ui input"
                 onClick={this.handleClick}
               >
                 {expense.date}
@@ -82,7 +82,7 @@ export default class Expenses extends Component {
               </div>
               <div
                 id={`category-${expense.id}`}
-                className="column"
+                className="column ui input"
                 onClick={this.handleClick}
               >
                 {expense.category}
@@ -97,7 +97,7 @@ export default class Expenses extends Component {
               </div>
               <div
                 id={`name-${expense.id}`}
-                className="column"
+                className="column ui input"
                 onClick={this.handleClick}
               >
                 {expense.name}
@@ -112,7 +112,7 @@ export default class Expenses extends Component {
               </div>
               <div
                 id={`amount-${expense.id}`}
-                className="column"
+                className="column ui input"
                 onClick={this.handleClick}
               >
                 {expense.amount}
