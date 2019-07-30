@@ -12,8 +12,9 @@ export default class Expenses extends Component {
 
   //Save current value when changed
   handleKeyPress = event => {
+    // console.log(event.target.id.split("-")[1])
     const stateToChange = {}
-    stateToChange[event.target.id] = event.target.value
+    stateToChange[event.target.id.split("-")[1]] = event.target.value
     this.setState(stateToChange)
   }
 
@@ -36,9 +37,9 @@ export default class Expenses extends Component {
     if (event.key === "Enter") {
       console.log(this.state)
       // console.log("enter", +event.target.id.split("-")[2])
-      // let eventId = +event.target.id.split("-")[2]
+      let eventId = +event.target.id.split("-")[2]
       // let updatedObject = {}
-      // return this.props.updateItem("expenses", eventId, updatedObject, "/dashboard")
+      return this.props.updateItem("expenses", eventId, this.state, "/dashboard")
     }
   }
 
