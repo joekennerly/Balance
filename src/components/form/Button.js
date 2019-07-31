@@ -7,7 +7,7 @@ export default class Button extends Component {
     //Uses "onClick" prop to dynamically import callback functions
     return (
       <button
-        className="ui button primary"
+        className="ui button"
         onClick={this.props.onClick}
       >
         {this.props.text}

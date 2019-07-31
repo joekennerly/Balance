@@ -12,7 +12,6 @@ export default class Expenses extends Component {
 
   //Save current value when changed
   handleKeyPress = event => {
-    // console.log(event.target.id.split("-")[1])
     const stateToChange = {}
     stateToChange[event.target.id.split("-")[1]] = event.target.value
     this.setState(stateToChange)

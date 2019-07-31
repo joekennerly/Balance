@@ -17,9 +17,7 @@ code {
   margin:0 auto;
 }
 
-/* Red border just used as marker; will delete later */
 header {
-  /* border:1px dotted red; */
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
