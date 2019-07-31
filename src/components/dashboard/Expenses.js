@@ -19,18 +19,21 @@ export default class Expenses extends Component {
   }
 
   handleClick = event => {
-    if (!event.target.id.startsWith("edit")) {
-      //show edit form when text is clicked
-      let eventId = +event.target.id.split("-")[1]
-      event.target.children[0].classList.toggle("hide")
-      //find the object with matching id from this.props
-      let upObj = this.props.expenses.find(expense => expense.id === eventId)
-      //update state with current values
-      this.setState(upObj)
-    } else {
-      //Do nothing if edit-input is clicked
-      event.preventDefault()
-    }
+    let id = +event.target.id.split("-")[1]
+    //show edit form when TEXT is clicked
+    document.querySelector(`#edit-${event.target.id}`).classList.toggle("hide")
+
+    //hide text
+    event.target.classList.toggle("hide")
+
+    //find the object with matching id from this.props
+    let upObj = this.props.expenses.find(expense => expense.id === id)
+    //update state with current values
+    this.setState(upObj)
+
+    /*if (!event.target.id.startsWith("edit")) {
+
+    } */
   }
 
   enterKey = (event) => {
@@ -66,60 +69,52 @@ export default class Expenses extends Component {
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
               <div
-                id={`date-${expense.id}`}
                 className="column ui input"
-                onClick={this.handleClick}
               >
-                {expense.date}
+                <div id={`date-${expense.id}`} onClick={this.handleClick}>{expense.date}</div>
                 <input
                   id={`edit-date-${expense.id}`}
                   type="date"
-                  placeholder={expense.date}
+                  value={this.state.date}
                   className="hide"
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
               </div>
               <div
-                id={`category-${expense.id}`}
                 className="column ui input"
-                onClick={this.handleClick}
               >
-                {expense.category}
+                <div id={`category-${expense.id}`} onClick={this.handleClick}>{expense.category}</div>
                 <input
                   id={`edit-category-${expense.id}`}
                   type="text"
-                  placeholder={expense.category}
+                  value={this.state.category}
                   className="hide"
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
               </div>
               <div
-                id={`name-${expense.id}`}
                 className="column ui input"
-                onClick={this.handleClick}
               >
-                {expense.name}
+                <div id={`name-${expense.id}`} onClick={this.handleClick}>{expense.name}</div>
                 <input
                   id={`edit-name-${expense.id}`}
                   type="text"
-                  placeholder={expense.name}
+                  value={this.state.name}
                   className="hide"
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
               </div>
               <div
-                id={`amount-${expense.id}`}
                 className="column ui input"
-                onClick={this.handleClick}
               >
-                {expense.amount}
+                <div id={`amount-${expense.id}`} onClick={this.handleClick}>{expense.amount}</div>
                 <input
                   id={`edit-amount-${expense.id}`}
                   type="text"
-                  placeholder={expense.amount}
+                  value={this.state.amount}
                   className="hide"
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
