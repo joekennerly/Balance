@@ -9,9 +9,38 @@ export default class Header extends Component {
   render() {
     return (
       <header>
-        <button className="ui button" onClick={this.handleClick}>
-          Logout
-        </button>
+        <div className="ui top attached menu">
+          <div className="ui dropdown icon item">
+            <i className="chart pie icon" />
+            <div className="menu">
+              <div className="item">
+                <i className="dropdown icon" />
+                <span className="text">New</span>
+                <div className="menu">
+                  <div className="item">Document</div>
+                  <div className="item">Image</div>
+                </div>
+              </div>
+              <div className="item">Open...</div>
+              <div className="item">Save...</div>
+              <div className="item">Edit Permissions</div>
+              <div className="divider" />
+              <div className="header">Export</div>
+              <div className="item">Share...</div>
+            </div>
+          </div>
+          <div className="ui dropdown icon item">
+            <i className="magic icon" />
+          </div>
+          <div className="ui dropdown icon item">
+            <i className="flask icon" />
+          </div>
+          <div className="ui right menu">
+            <button className="ui button" onClick={this.handleClick}>
+              Logout
+            </button>
+          </div>
+        </div>
       </header>
     )
   }
