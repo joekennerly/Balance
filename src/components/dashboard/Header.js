@@ -11,7 +11,7 @@ export default class Header extends Component {
       <header>
         <div className="ui top attached menu">
           <div className="ui dropdown icon item">
-            <i className="chart pie icon" />
+            <i className="bars icon" />
             <div className="menu">
               <div className="item">
                 <i className="dropdown icon" />
@@ -30,15 +30,16 @@ export default class Header extends Component {
             </div>
           </div>
           <div className="ui dropdown icon item">
-            <i className="magic icon" />
+            <i className="info icon" />
           </div>
-          <div className="ui dropdown icon item">
-            <i className="flask icon" />
-          </div>
+
           <div className="ui right menu">
             <button className="ui button" onClick={this.handleClick}>
               Logout
             </button>
+            <div className="ui dropdown icon item">
+              <i className="cog icon" />
+            </div>
           </div>
         </div>
       </header>
