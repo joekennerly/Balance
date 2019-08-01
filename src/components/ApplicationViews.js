@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import { Route, Redirect } from "react-router-dom"
 import { withRouter } from "react-router"
+import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
-import APIManager from "../modules/APIManager"
+import Budget from "./budget/Budget"
 
 let moment = require("moment")
 class ApplicationViews extends Component {
@@ -79,6 +80,15 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
+          path="/login"
+          render={props => {
+            if (!this.isAuthenticated()) {
+              return <Login setUser={this.setUser} {...props} />
+            } else return <Redirect to="/" />
+          }}
+        />
+        <Route
+          exact
           path="/dashboard"
           render={props => {
             if (this.isAuthenticated()) {
@@ -98,11 +108,11 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
-          path="/login"
+          path="/budget"
           render={props => {
-            if (!this.isAuthenticated()) {
-              return <Login setUser={this.setUser} {...props} />
-            } else return <Redirect to="/" />
+            if (this.isAuthenticated()) {
+              return <Budget {...props} />
+            } else return <Redirect to="/login" />
           }}
         />
       </React.Fragment>
