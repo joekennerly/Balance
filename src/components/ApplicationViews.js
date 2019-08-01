@@ -57,7 +57,7 @@ class ApplicationViews extends Component {
 
   addItem = (resource, item, path) => {
     let newObj = {}
-    APIManager.post(resource, item)
+    return APIManager.post(resource, item)
       .then(() => APIManager.getAll(`${resource}`))
       .then(items => {
         newObj[resource] = items
