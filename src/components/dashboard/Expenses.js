@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import EntryForm from "./EntryForm"
-// import APIManager from "../../modules/APIManager"
 
 export default class Expenses extends Component {
   state = {
@@ -18,21 +17,38 @@ export default class Expenses extends Component {
   }
 
   handleClick = event => {
-    let id = +event.target.id.split("-")[1]
-    //show edit form when TEXT is clicked
-    document.querySelector(`#edit-${event.target.id}`).classList.toggle("hide")
+    //click anywhere in the comp, if not an INPUT...
+    if (event.target.tagName !== "INPUT") {
+      //only previously toggled forms will have a "show" class
+      let toggledForm = document.querySelector(".show")
+      let toggledText = document.querySelector(".toggled")
+      //if there is an element with "show" class, toggle it back
+      if (toggledForm) {
+        toggledForm.classList.toggle("hide")
+        toggledForm.classList.remove("show")
+        toggledText.classList.toggle("hide")
+        toggledText.classList.remove("toggled")
+      }
+      //selectable elements will include "-"
+      if (event.target.id.includes("-")) {
+        //hide text; add "toggled" class
+        event.target.classList.toggle("hide")
+        event.target.classList.add("toggled")
 
-    //hide text
-    event.target.classList.toggle("hide")
+        //when TEXT is clicked
+        let editable = document.querySelector(`#edit-${event.target.id}`)
+        editable.classList.toggle("hide")
+        //show edit form
+        editable.classList.add("show")
+        // console.log(editable.classList)
 
-    //find the object with matching id from this.props
-    let upObj = this.props.expenses.find(expense => expense.id === id)
-    //update state with current values
-    this.setState(upObj)
-
-    /*if (!event.target.id.startsWith("edit")) {
-
-    } */
+        let id = +event.target.id.split("-")[1]
+        //find the object with matching id from this.props
+        let upObj = this.props.expenses.find(expense => expense.id === id)
+        //update state with current values
+        this.setState(upObj)
+      }
+    }
   }
 
   enterKey = event => {
@@ -47,23 +63,16 @@ export default class Expenses extends Component {
     console.log(this.state)
     return (
       <React.Fragment>
-        <section className="expenses ui five column grid">
+        <section
+          className="expenses ui five column grid"
+          onClick={this.handleClick}
+        >
           <div className="ui tabular menu">
-            <div className="active item">
-              All
-            </div>
-            <div className="item">
-              Year
-            </div>
-            <div className="item">
-              Quarter
-            </div>
-            <div className="item">
-              Month
-            </div>
-            <div className="item">
-              Week
-            </div>
+            <div className="active item">All</div>
+            <div className="item">Year</div>
+            <div className="item">Quarter</div>
+            <div className="item">Month</div>
+            <div className="item">Week</div>
             <div className="right menu">
               <div className="item">
                 <div className="ui icon input">
@@ -94,9 +103,7 @@ export default class Expenses extends Component {
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
               <div className="column ui input">
-                <div id={`date-${expense.id}`} onClick={this.handleClick}>
-                  {expense.date}
-                </div>
+                <div id={`date-${expense.id}`}>{expense.date}</div>
                 <input
                   id={`edit-date-${expense.id}`}
                   type="date"
@@ -107,9 +114,7 @@ export default class Expenses extends Component {
                 />
               </div>
               <div className="column ui input">
-                <div id={`category-${expense.id}`} onClick={this.handleClick}>
-                  {expense.category}
-                </div>
+                <div id={`category-${expense.id}`}>{expense.category}</div>
                 <input
                   id={`edit-category-${expense.id}`}
                   type="text"
@@ -120,9 +125,7 @@ export default class Expenses extends Component {
                 />
               </div>
               <div className="column ui input">
-                <div id={`name-${expense.id}`} onClick={this.handleClick}>
-                  {expense.name}
-                </div>
+                <div id={`name-${expense.id}`}>{expense.name}</div>
                 <input
                   id={`edit-name-${expense.id}`}
                   type="text"
@@ -133,9 +136,7 @@ export default class Expenses extends Component {
                 />
               </div>
               <div className="column ui input">
-                <div id={`amount-${expense.id}`} onClick={this.handleClick}>
-                  {expense.amount}
-                </div>
+                <div id={`amount-${expense.id}`}>{expense.amount}</div>
                 <input
                   id={`edit-amount-${expense.id}`}
                   type="text"
