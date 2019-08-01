@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import { Route, Redirect } from "react-router-dom"
 import { withRouter } from "react-router"
+import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
-import APIManager from "../modules/APIManager"
+import Budget from "./budget/Budget"
 
 let moment = require("moment")
 class ApplicationViews extends Component {
@@ -19,6 +20,19 @@ class ApplicationViews extends Component {
         APIManager.get("income").then(income => (newState.income = income))
       )
       .then(() => this.setState(newState))
+  }
+
+  sum = (entryArray) => {
+    let total = 0
+    entryArray.forEach(entry => {
+      return total += +entry.amount
+    })
+    // return total
+    return total.toFixed(2)
+  }
+  diff = (inTotal, exTotal) => {
+    let diff = inTotal - exTotal
+    return diff.toFixed(2)
   }
 
   isAuthenticated = () => sessionStorage.getItem("activeUser")
@@ -79,11 +93,22 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
+          path="/login"
+          render={props => {
+            if (!this.isAuthenticated()) {
+              return <Login setUser={this.setUser} {...props} />
+            } else return <Redirect to="/" />
+          }}
+        />
+        <Route
+          exact
           path="/dashboard"
           render={props => {
             if (this.isAuthenticated()) {
               return (
                 <Dashboard
+                  sum={this.sum}
+                  diff={this.diff}
                   addItem={this.addItem}
                   deleteItem={this.deleteItem}
                   updateItem={this.updateItem}
@@ -98,11 +123,16 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
-          path="/login"
+          path="/budget"
           render={props => {
-            if (!this.isAuthenticated()) {
-              return <Login setUser={this.setUser} {...props} />
-            } else return <Redirect to="/" />
+            if (this.isAuthenticated()) {
+              return <Budget
+                sum={this.sum}
+                diff={this.diff}
+                income={this.state.income}
+                expenses={this.state.expenses}
+                date={moment()}{...props} />
+            } else return <Redirect to="/login" />
           }}
         />
       </React.Fragment>

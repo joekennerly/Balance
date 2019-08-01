@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import EntryForm from "./EntryForm"
-// import APIManager from "../../modules/APIManager"
+// import Menu from '../menu/Menu'
 
 export default class Expenses extends Component {
   state = {
@@ -17,22 +17,48 @@ export default class Expenses extends Component {
     this.setState(stateToChange)
   }
 
-  handleClick = event => {
-    let id = +event.target.id.split("-")[1]
-    //show edit form when TEXT is clicked
-    document.querySelector(`#edit-${event.target.id}`).classList.toggle("hide")
+  helper(target) {
+    target.focus()
+    target.select()
+  }
 
-    //hide text
-    event.target.classList.toggle("hide")
+  toggleClick = event => {
+    // if not an INPUT...
+    if (event.target.tagName !== "INPUT") {
 
-    //find the object with matching id from this.props
-    let upObj = this.props.expenses.find(expense => expense.id === id)
-    //update state with current values
-    this.setState(upObj)
+      //only previously toggled forms will have a "show/toggle" class
+      let toggledForm = document.querySelector(".show")
+      let toggledText = document.querySelector(".toggled")
+      //if there is an element with "show/toggled" class...
+      if (toggledForm) {
+        // toggle it back
+        toggledForm.classList.toggle("hide")
+        toggledText.classList.toggle("hide")
+        // and remove temporary class
+        toggledForm.classList.remove("show")
+        toggledText.classList.remove("toggled")
+      }
 
-    /*if (!event.target.id.startsWith("edit")) {
-
-    } */
+      //selectable elements will include "-"
+      if (event.target.id.includes("-")) {
+        //grab the num from a two element array
+        let id = +event.target.id.split("-")[1]
+        //hide text; add "toggled" class
+        event.target.classList.toggle("hide")
+        // add temporary class
+        event.target.classList.add("toggled")
+        //when TEXT is clicked
+        let editable = document.querySelector(`#edit-${event.target.id}`)
+        console.log(editable)
+        editable.classList.toggle("hide")
+        //show edit form
+        editable.classList.add("show")
+        //find the object with matching id from this.props
+        let upObj = this.props.expenses.find(expense => expense.id === id)
+        //update state with current values
+        this.setState(upObj)
+      }
+    }
   }
 
   enterKey = event => {
@@ -44,35 +70,14 @@ export default class Expenses extends Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <React.Fragment>
-        <section className="expenses ui five column grid">
-          <div className="ui tabular menu">
-            <div className="active item">
-              All
-            </div>
-            <div className="item">
-              Year
-            </div>
-            <div className="item">
-              Quarter
-            </div>
-            <div className="item">
-              Month
-            </div>
-            <div className="item">
-              Week
-            </div>
-            <div className="right menu">
-              <div className="item">
-                <div className="ui icon input">
-                  <input type="text" placeholder="Search..." />
-                  <i className="search icon" />
-                </div>
-              </div>
-            </div>
-          </div>
+        <section
+          className="expenses ui five column grid"
+          onClick={this.toggleClick}
+        >
+          {/* <Menu /> //This is where a menu could go */}
           <div className="row card">
             <div className="column">
               <b>Date</b>
@@ -94,9 +99,7 @@ export default class Expenses extends Component {
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
               <div className="column ui input">
-                <div id={`date-${expense.id}`} onClick={this.handleClick}>
-                  {expense.date}
-                </div>
+                <div id={`date-${expense.id}`}>{expense.date}</div>
                 <input
                   id={`edit-date-${expense.id}`}
                   type="date"
@@ -107,9 +110,7 @@ export default class Expenses extends Component {
                 />
               </div>
               <div className="column ui input">
-                <div id={`category-${expense.id}`} onClick={this.handleClick}>
-                  {expense.category}
-                </div>
+                <div id={`category-${expense.id}`}>{expense.category}</div>
                 <input
                   id={`edit-category-${expense.id}`}
                   type="text"
@@ -120,9 +121,7 @@ export default class Expenses extends Component {
                 />
               </div>
               <div className="column ui input">
-                <div id={`name-${expense.id}`} onClick={this.handleClick}>
-                  {expense.name}
-                </div>
+                <div id={`name-${expense.id}`}>{expense.name}</div>
                 <input
                   id={`edit-name-${expense.id}`}
                   type="text"
@@ -133,9 +132,7 @@ export default class Expenses extends Component {
                 />
               </div>
               <div className="column ui input">
-                <div id={`amount-${expense.id}`} onClick={this.handleClick}>
-                  {expense.amount}
-                </div>
+                <div id={`amount-${expense.id}`}>{expense.amount}</div>
                 <input
                   id={`edit-amount-${expense.id}`}
                   type="text"
