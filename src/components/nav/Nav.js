@@ -11,14 +11,18 @@ export default class Nav extends Component {
     return (
       <header>
         <div className="ui top attached menu">
-          <div className="ui dropdown icon item">
-            <Link className="nav-link" to="/dashboard"><i className="bars icon" /></Link>
-          </div>
 
+          <Link className="nav-link" to="/dashboard">
+            <div className="ui dropdown icon item">
+              <i className="bars icon" />
+            </div>
+          </Link>
 
-          <div className="ui dropdown icon item">
-            <Link className="nav-link" to="/budget"><i className="pie chart icon" /></Link>
-          </div>
+          <Link className="nav-link" to="/budget">
+            <div className="ui dropdown icon item">
+              <i className="pie chart icon" />
+            </div>
+          </Link>
 
           <div className="ui right menu">
             <button className="ui button" onClick={this.handleClick}>
