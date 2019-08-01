@@ -29,17 +29,14 @@ export default class Header extends Component {
               <div className="item">Share...</div>
             </div>
           </div>
-          {/* <div className="ui dropdown icon item">
-            <i className="info icon" />
-          </div> */}
+          <div className="ui dropdown icon item">
+            <i className="pie graph icon" />
+          </div>
 
           <div className="ui right menu">
-            {/* <button className="ui button" onClick={this.handleClick}>
-              Logout
-            </button> */}
-            <div className="ui dropdown icon item">
-              <i className="cog icon" />
-            </div>
+            <button className="ui button" onClick={this.handleClick}>
+              <i className="user icon" />
+            </button>
           </div>
         </div>
       </header>
