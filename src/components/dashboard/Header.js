@@ -8,14 +8,40 @@ export default class Header extends Component {
 
   render() {
     return (
-      <header id="header">
-        <h1>
-          <i className="balance scale icon"></i>
-          Balance
-        </h1>
-        <button className="ui column button" onClick={this.handleClick}>
-          Logout
-        </button>
+      <header>
+        <div className="ui top attached menu">
+          <div className="ui dropdown icon item">
+            <i className="bars icon" />
+            <div className="menu">
+              <div className="item">
+                <i className="dropdown icon" />
+                <span className="text">New</span>
+                <div className="menu">
+                  <div className="item">Document</div>
+                  <div className="item">Image</div>
+                </div>
+              </div>
+              <div className="item">Open...</div>
+              <div className="item">Save...</div>
+              <div className="item">Edit Permissions</div>
+              <div className="divider" />
+              <div className="header">Export</div>
+              <div className="item">Share...</div>
+            </div>
+          </div>
+          {/* <div className="ui dropdown icon item">
+            <i className="info icon" />
+          </div> */}
+
+          <div className="ui right menu">
+            {/* <button className="ui button" onClick={this.handleClick}>
+              Logout
+            </button> */}
+            <div className="ui dropdown icon item">
+              <i className="cog icon" />
+            </div>
+          </div>
+        </div>
       </header>
     )
   }
