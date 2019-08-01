@@ -22,6 +22,19 @@ class ApplicationViews extends Component {
       .then(() => this.setState(newState))
   }
 
+  sum = (entryArray) => {
+    let total = 0
+    entryArray.forEach(entry => {
+      return total += +entry.amount
+    })
+    // return total
+    return total.toFixed(2)
+  }
+  diff = (inTotal, exTotal) => {
+    let diff = inTotal - exTotal
+    return diff.toFixed(2)
+  }
+
   isAuthenticated = () => sessionStorage.getItem("activeUser")
 
   setUser = activeUserId => {
@@ -94,6 +107,8 @@ class ApplicationViews extends Component {
             if (this.isAuthenticated()) {
               return (
                 <Dashboard
+                  sum={this.sum}
+                  diff={this.diff}
                   addItem={this.addItem}
                   deleteItem={this.deleteItem}
                   updateItem={this.updateItem}
@@ -111,7 +126,12 @@ class ApplicationViews extends Component {
           path="/budget"
           render={props => {
             if (this.isAuthenticated()) {
-              return <Budget {...props} />
+              return <Budget
+                sum={this.sum}
+                diff={this.diff}
+                income={this.state.income}
+                expenses={this.state.expenses}
+                date={moment()}{...props} />
             } else return <Redirect to="/login" />
           }}
         />

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import EntryForm from "./EntryForm"
+// import Menu from '../menu/Menu'
 
 export default class Expenses extends Component {
   state = {
@@ -16,33 +17,42 @@ export default class Expenses extends Component {
     this.setState(stateToChange)
   }
 
-  handleClick = event => {
-    //click anywhere in the comp, if not an INPUT...
+  helper(target) {
+    target.focus()
+    target.select()
+  }
+
+  toggleClick = event => {
+    // if not an INPUT...
     if (event.target.tagName !== "INPUT") {
-      //only previously toggled forms will have a "show" class
+
+      //only previously toggled forms will have a "show/toggle" class
       let toggledForm = document.querySelector(".show")
       let toggledText = document.querySelector(".toggled")
-      //if there is an element with "show" class, toggle it back
+      //if there is an element with "show/toggled" class...
       if (toggledForm) {
+        // toggle it back
         toggledForm.classList.toggle("hide")
-        toggledForm.classList.remove("show")
         toggledText.classList.toggle("hide")
+        // and remove temporary class
+        toggledForm.classList.remove("show")
         toggledText.classList.remove("toggled")
       }
+
       //selectable elements will include "-"
       if (event.target.id.includes("-")) {
+        //grab the num from a two element array
+        let id = +event.target.id.split("-")[1]
         //hide text; add "toggled" class
         event.target.classList.toggle("hide")
+        // add temporary class
         event.target.classList.add("toggled")
-
         //when TEXT is clicked
         let editable = document.querySelector(`#edit-${event.target.id}`)
+        console.log(editable)
         editable.classList.toggle("hide")
         //show edit form
         editable.classList.add("show")
-        // console.log(editable.classList)
-
-        let id = +event.target.id.split("-")[1]
         //find the object with matching id from this.props
         let upObj = this.props.expenses.find(expense => expense.id === id)
         //update state with current values
@@ -60,28 +70,14 @@ export default class Expenses extends Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <React.Fragment>
         <section
           className="expenses ui five column grid"
-          onClick={this.handleClick}
+          onClick={this.toggleClick}
         >
-          <div className="ui tabular menu">
-            <div className="active item">All</div>
-            <div className="item">Year</div>
-            <div className="item">Quarter</div>
-            <div className="item">Month</div>
-            <div className="item">Week</div>
-            <div className="right menu">
-              <div className="item">
-                <div className="ui icon input">
-                  <input type="text" placeholder="Search..." />
-                  <i className="search icon" />
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* <Menu /> //This is where a menu could go */}
           <div className="row card">
             <div className="column">
               <b>Date</b>
