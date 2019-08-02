@@ -10,7 +10,8 @@ let moment = require("moment")
 class ApplicationViews extends Component {
   state = {
     expenses: [],
-    income: []
+    income: [],
+    categories:[]
   }
   componentDidMount() {
     let newState = {}
@@ -18,6 +19,9 @@ class ApplicationViews extends Component {
       .then(expenses => (newState.expenses = expenses))
       .then(() =>
         APIManager.get("income").then(income => (newState.income = income))
+      )
+      .then(() =>
+        APIManager.all("categories").then(categories => (newState.categories = categories))
       )
       .then(() => this.setState(newState))
   }
@@ -114,6 +118,7 @@ class ApplicationViews extends Component {
                   updateItem={this.updateItem}
                   income={this.state.income}
                   expenses={this.state.expenses}
+                  categories={this.state.categories}
                   date={moment().format("YYYY-MM-DD")}
                   {...props}
                 />
