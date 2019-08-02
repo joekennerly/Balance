@@ -17,11 +17,6 @@ export default class Expenses extends Component {
     this.setState(stateToChange)
   }
 
-  helper(target) {
-    target.focus()
-    target.select()
-  }
-
   toggleClick = event => {
     // if not an INPUT...
     if (event.target.tagName !== "INPUT") {
@@ -74,30 +69,30 @@ export default class Expenses extends Component {
     return (
       <React.Fragment>
         <section
-          className="expenses ui five column grid"
+          className="expenses ui six column grid"
           onClick={this.toggleClick}
         >
           {/* <Menu /> //This is where a menu could go */}
-          <div className="row card">
-            <div className="column">
-              <b>Date</b>
-            </div>
-            <div className="column">
-              <b>Category</b>
-            </div>
-            <div className="column">
-              <b>Name</b>
-            </div>
-            <div className="column">
-              <b>Amount</b>
-            </div>
-          </div>
           <div className="row card">
             <EntryForm {...this.props} />
           </div>
 
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
+              <div className="column ui input">
+                <div id={`type-${expense.id}`}>"expense"</div>
+                <select
+                  id={`edit-type-${expense.id}`}
+                  type="text"
+                  value={this.state.category}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                >
+                  <option>income</option>
+                  <option>expense</option>
+                </select>
+              </div>
               <div className="column ui input">
                 <div id={`date-${expense.id}`}>{expense.date}</div>
                 <input

@@ -15,6 +15,12 @@ export default Object.create(null, {
         .then(converted => converted.reverse())
     }
   },
+  all: {
+    value: function (name) {
+      return fetch(`${remoteURL}/${name}`)
+        .then(e => e.json())
+    }
+  },
   getAll: {
     value: function (name) {
       return fetch(`${remoteURL}/${name}`)
