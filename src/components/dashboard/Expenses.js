@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import EntryForm from "./EntryForm"
-// import Menu from '../menu/Menu'
+import Menu from '../menu/Menu'
 
 export default class Expenses extends Component {
   state = {
@@ -72,7 +72,7 @@ export default class Expenses extends Component {
           className="expenses ui six column grid"
           onClick={this.toggleClick}
         >
-          {/* <Menu /> //This is where a menu could go */}
+          <Menu />
           <div className="row card">
             <EntryForm {...this.props} />
           </div>

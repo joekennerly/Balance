@@ -92,7 +92,7 @@ export default class EntryForm extends Component {
           />
         </div>
         <button
-          className="ui button"
+          className="ui button primary"
           onClick={() =>
             this.props.addItem("expenses", this.state, "/dashboard")
           }
