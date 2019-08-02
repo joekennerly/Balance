@@ -5,6 +5,9 @@ import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
 import Budget from "./budget/Budget"
+import Expenses from "./expenses/Expenses";
+import Income from "./income/Income";
+import Balance from "./balance/Balance";
 
 let moment = require("moment")
 class ApplicationViews extends Component {
@@ -13,6 +16,14 @@ class ApplicationViews extends Component {
     income: [],
     categories:[]
   }
+  // componentDidMount() {
+  //   console.log(this.props, this.state)
+  //   let newState = {}
+  //   newState.expenses = this.props.expenses
+  //   newState.income = this.props.income
+  //   newState.categories = this.props.categories
+  //   this.setState(newState)
+  // }
   componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
@@ -28,16 +39,10 @@ class ApplicationViews extends Component {
 
   sum = (entryArray) => {
     let total = 0
-    entryArray.forEach(entry => {
-      return total += +entry.amount
-    })
-    // return total
+    entryArray.forEach(entry => total += +entry.amount)
     return total.toFixed(2)
   }
-  diff = (inTotal, exTotal) => {
-    let diff = inTotal - exTotal
-    return diff.toFixed(2)
-  }
+  diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
 
   isAuthenticated = () => sessionStorage.getItem("activeUser")
 
@@ -58,6 +63,7 @@ class ApplicationViews extends Component {
       .then(group => {
         newObj[resource] = group
         this.setState(newObj)
+        this.props.history.push("/")
         this.props.history.push(`${path}`)
       })
   }
@@ -69,8 +75,9 @@ class ApplicationViews extends Component {
       .then(item => {
         newObj[resource] = item
         this.setState(newObj)
+        this.props.history.push("/")
+        this.props.history.push(`${path}`)
       })
-      .then(() => this.props.history.push(`${path}`))
   }
 
   addItem = (resource, item, path) => {
@@ -80,9 +87,9 @@ class ApplicationViews extends Component {
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
+        this.props.history.push("/")
+        this.props.history.push(`${path}`)
       })
-      .then(() => this.props.history.push("/"))
-      .then(() => this.props.history.push(`${path}`))
   }
 
   render() {
@@ -128,7 +135,73 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
-          path="/budget"
+          path="/income"
+          render={props => {
+            if (this.isAuthenticated()) {
+              return (
+                <Income
+                  sum={this.sum}
+                  diff={this.diff}
+                  addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
+                  income={this.state.income}
+                  expenses={this.state.expenses}
+                  categories={this.state.categories}
+                  date={moment().format("YYYY-MM-DD")}
+                  {...props}
+                />
+              )
+            } else return <Redirect to="/login" />
+          }}
+        />
+        <Route
+          exact
+          path="/expenses"
+          render={props => {
+            if (this.isAuthenticated()) {
+              return (
+                <Expenses
+                  sum={this.sum}
+                  diff={this.diff}
+                  addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
+                  income={this.state.income}
+                  expenses={this.state.expenses}
+                  categories={this.state.categories}
+                  date={moment().format("YYYY-MM-DD")}
+                  {...props}
+                />
+              )
+            } else return <Redirect to="/login" />
+          }}
+        />
+        <Route
+          exact
+          path="/balance"
+          render={props => {
+            if (this.isAuthenticated()) {
+              return (
+                <Balance
+                  sum={this.sum}
+                  diff={this.diff}
+                  addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
+                  income={this.state.income}
+                  expenses={this.state.expenses}
+                  categories={this.state.categories}
+                  date={moment().format("YYYY-MM-DD")}
+                  {...props}
+                />
+              )
+            } else return <Redirect to="/login" />
+          }}
+        />
+        <Route
+          exact
+          path="/expenses/categories"
           render={props => {
             if (this.isAuthenticated()) {
               return <Budget

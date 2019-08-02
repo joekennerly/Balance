@@ -19,7 +19,7 @@ export default class Menu extends Component {
               </div>
             </div> */}
             <div className="item">
-              <Link to="/budget">
+              <Link to="/expenses/categories">
                 <button className="ui button">
                   <div>
                     <i className="cog icon" /> Manage Categories

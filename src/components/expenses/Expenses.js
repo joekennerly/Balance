@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import EntryForm from "./EntryForm"
+import EntryForm from "../dashboard/EntryForm"
 import Menu from '../menu/Menu'
 
 export default class Expenses extends Component {
@@ -60,7 +60,7 @@ export default class Expenses extends Component {
     if (event.key === "Enter") {
       event.target.classList.toggle("hide")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("expenses", eventId, this.state, "/")
+      return this.props.updateItem("expenses", eventId, this.state, "/expenses")
     }
   }
 
@@ -69,7 +69,7 @@ export default class Expenses extends Component {
     return (
       <React.Fragment>
         <section
-          className="expenses ui six column grid"
+          className="expenses ui five column grid"
           onClick={this.toggleClick}
         >
           <Menu />
@@ -78,7 +78,7 @@ export default class Expenses extends Component {
           </div>
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
-              <div className="column ui input">
+              {/* <div className="column ui input">
                 <div id={`type-${expense.id}`}>"expense"</div>
                 <select
                   id={`edit-type-${expense.id}`}
@@ -91,7 +91,7 @@ export default class Expenses extends Component {
                   <option>income</option>
                   <option>expense</option>
                 </select>
-              </div>
+              </div> */}
               <div className="column ui input">
                 <div id={`date-${expense.id}`}>{expense.date}</div>
                 <input
@@ -139,7 +139,7 @@ export default class Expenses extends Component {
               <button
                 className="ui button"
                 onClick={() =>
-                  this.props.deleteItem("expenses", expense.id, "/dashboard")
+                  this.props.deleteItem("expenses", expense.id, "/expenses")
                 }
               >
                 x

@@ -42,13 +42,13 @@ export default class EntryForm extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="column ui input">
+        {/* <div className="column ui input">
           <label htmlFor="type">Type</label>
           <select id="type" type="text">
             <option value="income">income</option>
             <option value="expense">expense</option>
           </select>
-        </div>
+        </div> */}
         <div className="column ui input">
           <label htmlFor="date">Date</label>
           <input
@@ -94,7 +94,7 @@ export default class EntryForm extends Component {
         <button
           className="ui button primary"
           onClick={() =>
-            this.props.addItem("expenses", this.state, "/dashboard")
+            this.props.addItem("expenses", this.state, "/expenses")
           }
         >
           +

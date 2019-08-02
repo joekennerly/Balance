@@ -7,35 +7,38 @@ export default class Nav extends Component {
   }
 
   render() {
+    let totalIn = this.props.sum(this.props.income)
+    let totalEx = this.props.sum(this.props.expenses)
+    let balance = this.props.diff(totalIn, totalEx)
+    console.log(totalIn, totalEx)
     return (
       <header>
         <div className="ui top attached menu">
           <Link to="/">
             <div className="ui dropdown icon item">
-              <i className="home icon"></i>
-              {/* <p>Home</p> */}
+              <i className="home icon" />
             </div>
           </Link>
           <Link to="/income">
             <div className="ui dropdown icon item">
               <div>Income</div>
-              <div>$0.00</div>
+              <div>${totalIn}</div>
             </div>
           </Link>
           <Link to="/expenses">
             <div className="ui dropdown icon item">
               <div>Expenses</div>
-              <div>$0.00</div>
+              <div>${totalEx}</div>
             </div>
           </Link>
           <Link to="/balance">
             <div className="ui dropdown icon item">
               <div>Balance</div>
-              <div>$0.00</div>
+              <div>${balance}</div>
             </div>
           </Link>
 
-          {/* <Link to="/budget">
+          {/* <Link to="/expenses/categories">
             <div className="ui dropdown icon item">
               <i className="pie chart icon" />
               <p>Budget</p>
