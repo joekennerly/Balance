@@ -76,7 +76,6 @@ export default class Expenses extends Component {
           <div className="row card">
             <EntryForm {...this.props} />
           </div>
-
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
               <div className="column ui input">

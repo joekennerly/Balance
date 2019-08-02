@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import Categories from "../form/Categories";
 // import APIManager from "../../modules/APIManager"
 
 export default class EntryForm extends Component {
@@ -67,10 +68,7 @@ export default class EntryForm extends Component {
             onChange={this.handleFieldChange}
             className="ui dropdown"
           >
-            {this.props.categories.map(category => (
-              <option key={category.id} value={category.name}>{category.name}</option>
-              ))}
-              {/* <option value="food">+Add New Category</option> */}
+            <Categories categories={this.props.categories}/>
           </select>
         </div>
         <div className="column ui input">
