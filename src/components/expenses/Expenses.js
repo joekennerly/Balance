@@ -68,7 +68,7 @@ export default class Expenses extends Component {
     return (
       <React.Fragment>
         <section
-          className="expenses ui five column grid"
+          className="entry-list ui five column grid"
           onClick={this.toggleClick}
         >
           {/* <Menu /> */}

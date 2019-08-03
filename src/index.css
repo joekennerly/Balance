@@ -13,8 +13,6 @@ code {
 }
 
 /* #root {
-  width: 66.6%;
-  margin:0 auto;
 } */
 
 /* header {
@@ -28,7 +26,9 @@ code {
   margin-bottom: 40px;
 } */
 
-.expenses {
+.entry-list {
+  width: 66.6%;
+  margin:0 auto;
   /* box-shadow: 10px 10px 50px rgb(238, 237, 237); */
   border-radius: 3px;
 }

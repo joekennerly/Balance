@@ -69,7 +69,7 @@ export default class Income extends Component {
     return (
       <React.Fragment>
         <section
-          className="income ui four column grid"
+          className="entry-list ui four column grid"
           onClick={this.toggleClick}
         >
           {/* <Totals {...this.props}/> */}
