@@ -29,9 +29,11 @@ header {
 }
 
 .expenses {
-  box-shadow: 10px 10px 50px rgb(238, 237, 237);
+  /* box-shadow: 10px 10px 50px rgb(238, 237, 237); */
   border-radius: 3px;
 }
+
+
 
 .hide {
   display:none;

@@ -5,6 +5,8 @@ import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
 import Budget from "./budget/Budget"
+import Expenses from "./expenses/Expenses";
+import Income from "./income/Income";
 
 let moment = require("moment")
 class ApplicationViews extends Component {
@@ -28,16 +30,10 @@ class ApplicationViews extends Component {
 
   sum = (entryArray) => {
     let total = 0
-    entryArray.forEach(entry => {
-      return total += +entry.amount
-    })
-    // return total
+    entryArray.forEach(entry => total += +entry.amount)
     return total.toFixed(2)
   }
-  diff = (inTotal, exTotal) => {
-    let diff = inTotal - exTotal
-    return diff.toFixed(2)
-  }
+  diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
 
   isAuthenticated = () => sessionStorage.getItem("activeUser")
 
@@ -69,8 +65,9 @@ class ApplicationViews extends Component {
       .then(item => {
         newObj[resource] = item
         this.setState(newObj)
+        this.props.history.push("/")
+        this.props.history.push(`${path}`)
       })
-      .then(() => this.props.history.push(`${path}`))
   }
 
   addItem = (resource, item, path) => {
@@ -80,9 +77,9 @@ class ApplicationViews extends Component {
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
+        this.props.history.push("/")
+        this.props.history.push(`${path}`)
       })
-      .then(() => this.props.history.push("/"))
-      .then(() => this.props.history.push(`${path}`))
   }
 
   render() {
@@ -128,7 +125,51 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
-          path="/budget"
+          path="/income"
+          render={props => {
+            if (this.isAuthenticated()) {
+              return (
+                <Income
+                  sum={this.sum}
+                  diff={this.diff}
+                  addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
+                  income={this.state.income}
+                  expenses={this.state.expenses}
+                  categories={this.state.categories}
+                  date={moment().format("YYYY-MM-DD")}
+                  {...props}
+                />
+              )
+            } else return <Redirect to="/login" />
+          }}
+        />
+        <Route
+          exact
+          path="/expenses"
+          render={props => {
+            if (this.isAuthenticated()) {
+              return (
+                <Expenses
+                  sum={this.sum}
+                  diff={this.diff}
+                  addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
+                  income={this.state.income}
+                  expenses={this.state.expenses}
+                  categories={this.state.categories}
+                  date={moment().format("YYYY-MM-DD")}
+                  {...props}
+                />
+              )
+            } else return <Redirect to="/login" />
+          }}
+        />
+        <Route
+          exact
+          path="/expenses/categories"
           render={props => {
             if (this.isAuthenticated()) {
               return <Budget
@@ -136,6 +177,7 @@ class ApplicationViews extends Component {
                 diff={this.diff}
                 income={this.state.income}
                 expenses={this.state.expenses}
+                categories={this.state.categories}
                 date={moment()}{...props} />
             } else return <Redirect to="/login" />
           }}

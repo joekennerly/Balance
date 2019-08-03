@@ -1,11 +1,11 @@
 import React, { Component } from "react"
-import EntryForm from "./EntryForm"
+import IncomeForm from "./IncomeForm"
+// import Totals from "../totals/Totals";
 // import Menu from '../menu/Menu'
 
-export default class Expenses extends Component {
+export default class Income extends Component {
   state = {
     date: "",
-    category: "",
     name: "",
     amount: ""
   }
@@ -49,7 +49,7 @@ export default class Expenses extends Component {
         //show edit form
         editable.classList.add("show")
         //find the object with matching id from this.props
-        let upObj = this.props.expenses.find(expense => expense.id === id)
+        let upObj = this.props.income.find(inco => inco.id === id)
         //update state with current values
         this.setState(upObj)
       }
@@ -60,7 +60,7 @@ export default class Expenses extends Component {
     if (event.key === "Enter") {
       event.target.classList.toggle("hide")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("expenses", eventId, this.state, "/")
+      return this.props.updateItem("income", eventId, this.state, "/income")
     }
   }
 
@@ -69,34 +69,20 @@ export default class Expenses extends Component {
     return (
       <React.Fragment>
         <section
-          className="expenses ui six column grid"
+          className="income ui four column grid"
           onClick={this.toggleClick}
         >
-          {/* <Menu /> //This is where a menu could go */}
+          {/* <Totals {...this.props}/> */}
+          {/* <Menu /> */}
           <div className="row card">
-            <EntryForm {...this.props} />
+            <IncomeForm {...this.props} />
           </div>
-
-          {this.props.expenses.map(expense => (
-            <div key={expense.id} className="row card">
+          {this.props.income.map(inco => (
+            <div key={inco.id} className="row card">
               <div className="column ui input">
-                <div id={`type-${expense.id}`}>"expense"</div>
-                <select
-                  id={`edit-type-${expense.id}`}
-                  type="text"
-                  value={this.state.category}
-                  className="hide"
-                  onChange={this.handleKeyPress}
-                  onKeyPress={this.enterKey}
-                >
-                  <option>income</option>
-                  <option>expense</option>
-                </select>
-              </div>
-              <div className="column ui input">
-                <div id={`date-${expense.id}`}>{expense.date}</div>
+                <div id={`date-${inco.id}`}>{inco.date}</div>
                 <input
-                  id={`edit-date-${expense.id}`}
+                  id={`edit-date-${inco.id}`}
                   type="date"
                   value={this.state.date}
                   className="hide"
@@ -104,21 +90,21 @@ export default class Expenses extends Component {
                   onKeyPress={this.enterKey}
                 />
               </div>
-              <div className="column ui input">
-                <div id={`category-${expense.id}`}>{expense.category}</div>
+              {/* <div className="column ui input">
+                <div id={`category-${inco.id}`}>{inco.category}</div>
                 <input
-                  id={`edit-category-${expense.id}`}
+                  id={`edit-category-${inco.id}`}
                   type="text"
                   value={this.state.category}
                   className="hide"
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
-              </div>
+              </div> */}
               <div className="column ui input">
-                <div id={`name-${expense.id}`}>{expense.name}</div>
+                <div id={`name-${inco.id}`}>{inco.name}</div>
                 <input
-                  id={`edit-name-${expense.id}`}
+                  id={`edit-name-${inco.id}`}
                   type="text"
                   value={this.state.name}
                   className="hide"
@@ -127,9 +113,9 @@ export default class Expenses extends Component {
                 />
               </div>
               <div className="column ui input">
-                <div id={`amount-${expense.id}`}>{expense.amount}</div>
+                <div id={`amount-${inco.id}`}>{inco.amount}</div>
                 <input
-                  id={`edit-amount-${expense.id}`}
+                  id={`edit-amount-${inco.id}`}
                   type="text"
                   value={this.state.amount}
                   className="hide"
@@ -140,7 +126,7 @@ export default class Expenses extends Component {
               <button
                 className="ui button"
                 onClick={() =>
-                  this.props.deleteItem("expenses", expense.id, "/dashboard")
+                  this.props.deleteItem("income", inco.id, "/income")
                 }
               >
                 x

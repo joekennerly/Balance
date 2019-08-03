@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import Categories from '../form/Categories';
 // import Totals from "../totals/Totals"
+
 export default class Budget extends Component {
   currentYear = this.props.date.format("YYYY")
   currentMonth = this.props.date.format("MM")
@@ -30,14 +32,14 @@ export default class Budget extends Component {
 
 
   render() {
-    console.log(this.total("income"))
+    console.log(this.props)
     return (
       <div>
         <p>Today is {this.currentMonth}-{this.currentDay}-{this.currentYear}</p>
-        {/* <Totals {...this.props} /> */}
         <h1>Total Income: {this.total("income")}</h1>
         <ul>
           <h3>Expense Categories</h3>
+          <Categories {...this.props} />
           <li>food: $50 ({this.calcPercent(50)}%)</li>
           <li>car: $40 ({this.calcPercent(40)}%)</li>
           <li>house: $100 ({this.calcPercent(100)}%)</li>
