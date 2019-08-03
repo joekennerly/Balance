@@ -7,7 +7,6 @@ import Login from "./login/Login"
 import Budget from "./budget/Budget"
 import Expenses from "./expenses/Expenses";
 import Income from "./income/Income";
-import Balance from "./balance/Balance";
 
 let moment = require("moment")
 class ApplicationViews extends Component {
@@ -16,14 +15,6 @@ class ApplicationViews extends Component {
     income: [],
     categories:[]
   }
-  // componentDidMount() {
-  //   console.log(this.props, this.state)
-  //   let newState = {}
-  //   newState.expenses = this.props.expenses
-  //   newState.income = this.props.income
-  //   newState.categories = this.props.categories
-  //   this.setState(newState)
-  // }
   componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
@@ -63,7 +54,6 @@ class ApplicationViews extends Component {
       .then(group => {
         newObj[resource] = group
         this.setState(newObj)
-        this.props.history.push("/")
         this.props.history.push(`${path}`)
       })
   }
@@ -179,28 +169,6 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
-          path="/balance"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return (
-                <Balance
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  expenses={this.state.expenses}
-                  categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
-                  {...props}
-                />
-              )
-            } else return <Redirect to="/login" />
-          }}
-        />
-        <Route
-          exact
           path="/expenses/categories"
           render={props => {
             if (this.isAuthenticated()) {
@@ -209,6 +177,7 @@ class ApplicationViews extends Component {
                 diff={this.diff}
                 income={this.state.income}
                 expenses={this.state.expenses}
+                categories={this.state.categories}
                 date={moment()}{...props} />
             } else return <Redirect to="/login" />
           }}

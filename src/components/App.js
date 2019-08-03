@@ -1,27 +1,12 @@
 import React, { Component } from "react"
-import APIManager from "../modules/APIManager"
+// import APIManager from "../modules/APIManager"
 import ApplicationViews from "./ApplicationViews"
 import Nav from "./nav/Nav"
 
 
 export default class App extends Component {
   state = {
-    expenses: [],
-    income: [],
-    categories: [],
     activeUser: ""
-  }
-  componentDidMount() {
-    let newState = {}
-    APIManager.get("expenses")
-      .then(expenses => (newState.expenses = expenses))
-      .then(() =>
-        APIManager.get("income").then(income => (newState.income = income))
-      )
-      .then(() =>
-        APIManager.all("categories").then(categories => (newState.categories = categories))
-      )
-      .then(() => this.setState(newState))
   }
 
   sum = (entryArray) => {
@@ -30,10 +15,6 @@ export default class App extends Component {
     return total.toFixed(2)
   }
   diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
-
-  // state = {
-  //   activeUser: ""
-  // }
 
   isAuthenticated = () => sessionStorage.getItem("activeUser")
 
@@ -52,7 +33,8 @@ export default class App extends Component {
           <Nav
             sum={this.sum}
             diff={this.diff}
-            {...this.state}
+            income={this.state.income}
+            expenses={this.state.expenses}
           />
           <ApplicationViews
             activeUser={this.state.activeUser}

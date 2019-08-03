@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
+// import Totals from "../totals/Totals";
 // import Menu from '../menu/Menu'
 
 export default class Income extends Component {
@@ -71,26 +72,13 @@ export default class Income extends Component {
           className="income ui four column grid"
           onClick={this.toggleClick}
         >
+          {/* <Totals {...this.props}/> */}
           {/* <Menu /> */}
           <div className="row card">
             <IncomeForm {...this.props} />
           </div>
           {this.props.income.map(inco => (
             <div key={inco.id} className="row card">
-              {/* <div className="column ui input">
-                <div id={`type-${inco.id}`}>"inco"</div>
-                <select
-                  id={`edit-type-${inco.id}`}
-                  type="text"
-                  value={this.state.category}
-                  className="hide"
-                  onChange={this.handleKeyPress}
-                  onKeyPress={this.enterKey}
-                >
-                  <option>income</option>
-                  <option>inco</option>
-                </select>
-              </div> */}
               <div className="column ui input">
                 <div id={`date-${inco.id}`}>{inco.date}</div>
                 <input

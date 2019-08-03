@@ -33,22 +33,11 @@ export default class EntryForm extends Component {
     obj.amount = this.state.amount.toFixed(2)
     this.setState(obj)
     console.log(this.state)
-
-    // APIManager.post("expenses", this.state).then(() =>
-    //   this.props.history.push("/")
-    // )
   }
 
   render() {
     return (
       <React.Fragment>
-        {/* <div className="column ui input">
-          <label htmlFor="type">Type</label>
-          <select id="type" type="text">
-            <option value="income">income</option>
-            <option value="expense">expense</option>
-          </select>
-        </div> */}
         <div className="column ui input">
           <label htmlFor="date">Date</label>
           <input

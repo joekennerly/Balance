@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import EntryForm from "../dashboard/EntryForm"
-import Menu from '../menu/Menu'
+// import Menu from '../menu/Menu'
 
 export default class Expenses extends Component {
   state = {
@@ -44,7 +44,6 @@ export default class Expenses extends Component {
         event.target.classList.add("toggled")
         //when TEXT is clicked
         let editable = document.querySelector(`#edit-${event.target.id}`)
-        console.log(editable)
         editable.classList.toggle("hide")
         //show edit form
         editable.classList.add("show")
@@ -72,26 +71,12 @@ export default class Expenses extends Component {
           className="expenses ui five column grid"
           onClick={this.toggleClick}
         >
-          <Menu />
+          {/* <Menu /> */}
           <div className="row card">
             <EntryForm {...this.props} />
           </div>
           {this.props.expenses.map(expense => (
             <div key={expense.id} className="row card">
-              {/* <div className="column ui input">
-                <div id={`type-${expense.id}`}>"expense"</div>
-                <select
-                  id={`edit-type-${expense.id}`}
-                  type="text"
-                  value={this.state.category}
-                  className="hide"
-                  onChange={this.handleKeyPress}
-                  onKeyPress={this.enterKey}
-                >
-                  <option>income</option>
-                  <option>expense</option>
-                </select>
-              </div> */}
               <div className="column ui input">
                 <div id={`date-${expense.id}`}>{expense.date}</div>
                 <input
