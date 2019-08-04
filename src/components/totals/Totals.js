@@ -1,17 +1,23 @@
 import React, { Component } from "react"
+import { Grid } from "semantic-ui-react"
 
 export default class Totals extends Component {
   render() {
     let totalIn = this.props.sum(this.props.income)
     let totalEx = this.props.sum(this.props.expenses)
+    let totalBalance = this.props.diff(totalIn, totalEx)
     return (
-        <div className="totals ui three column grid">
-          <div className="column"><h1>Income: ${`${totalIn}`}</h1></div>
-          <div className="column"><h1>Expense: ${`${totalEx}`}</h1></div>
-          <div className="column">
-            <h1>Balance: ${`${this.props.diff(totalIn, totalEx)}`}</h1>
-          </div>
-        </div>
+      <Grid columns={3}>
+        <Grid.Column textAlign="left">
+          <h1>Income: ${totalIn}</h1>
+        </Grid.Column>
+        <Grid.Column textAlign="center">
+          <h1>Expense: ${totalEx}</h1>
+        </Grid.Column>
+        <Grid.Column textAlign="right">
+          <h1>Balance: ${totalBalance}</h1>
+        </Grid.Column>
+      </Grid>
     )
   }
 }

@@ -8,14 +8,12 @@ export default class Income extends Component {
     name: "",
     amount: ""
   }
-
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
     stateToChange[event.target.id.split("-")[1]] = event.target.value
     this.setState(stateToChange)
   }
-
   toggleClick = event => {
     // if not an INPUT...
     if (event.target.tagName !== "INPUT") {
@@ -42,11 +40,17 @@ export default class Income extends Component {
         // add temporary class
         event.target.classList.add("toggled")
         //when TEXT is clicked
-        let editable = document.querySelector(`#edit-${event.target.id}`)
-        console.log(editable)
+        let editable = document.getElementById(`edit-${event.target.id}`)
         editable.classList.toggle("hide")
-        //show edit form
+        //show edit form; show class is just a marker
         editable.classList.add("show")
+
+        //I WANT TO SELECT THE INPUT TEXT
+        let editableValue = editable.value
+        console.log(editableValue)
+        editableValue.focus()
+        editableValue.select()
+
         //find the object with matching id from this.props
         let upObj = this.props.income.find(inco => inco.id === id)
         //update state with current values
@@ -54,7 +58,6 @@ export default class Income extends Component {
       }
     }
   }
-
   enterKey = event => {
     if (event.key === "Enter") {
       event.target.classList.toggle("hide")
@@ -76,7 +79,7 @@ export default class Income extends Component {
           </Grid.Row>
           {this.props.income.map(inco => (
             <Grid.Row key={inco.id} className="row card">
-              <Grid.Column>
+              <Grid.Column textAlign="center">
                 <div id={`date-${inco.id}`}>{inco.date}</div>
                 <input
                   id={`edit-date-${inco.id}`}
@@ -87,7 +90,7 @@ export default class Income extends Component {
                   onKeyPress={this.enterKey}
                 />
               </Grid.Column>
-              <Grid.Column>
+              <Grid.Column textAlign="center">
                 <div id={`name-${inco.id}`}>{inco.name}</div>
                 <input
                   id={`edit-name-${inco.id}`}
@@ -98,7 +101,7 @@ export default class Income extends Component {
                   onKeyPress={this.enterKey}
                 />
               </Grid.Column>
-              <Grid.Column>
+              <Grid.Column textAlign="center">
                 <div id={`amount-${inco.id}`}>{inco.amount}</div>
                 <input
                   id={`edit-amount-${inco.id}`}

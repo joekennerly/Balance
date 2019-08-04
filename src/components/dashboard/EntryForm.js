@@ -17,14 +17,12 @@ export default class EntryForm extends Component {
     stateToChange.category = document.querySelector("#category").value
     this.setState(stateToChange)
   }
-
   //Save current value when changed
   handleFieldChange = event => {
     const stateToChange = {}
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
   }
-
   //Handle Submit
   handleClick = () => {
     let obj = {}
@@ -84,6 +82,9 @@ export default class EntryForm extends Component {
           }
         >
           +
+        </Button>
+        <Button>
+          Manage Categories
         </Button>
       </React.Fragment>
     )

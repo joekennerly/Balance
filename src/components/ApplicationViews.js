@@ -5,15 +5,16 @@ import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
 import Budget from "./budget/Budget"
-import Expenses from "./expenses/Expenses";
-import Income from "./income/Income";
+import Expenses from "./expenses/Expenses"
+import Income from "./income/Income"
+import { Container } from 'semantic-ui-react'
 
 let moment = require("moment")
 class ApplicationViews extends Component {
   state = {
     expenses: [],
     income: [],
-    categories:[]
+    categories: []
   }
   componentDidMount() {
     let newState = {}
@@ -23,27 +24,25 @@ class ApplicationViews extends Component {
         APIManager.get("income").then(income => (newState.income = income))
       )
       .then(() =>
-        APIManager.all("categories").then(categories => (newState.categories = categories))
+        APIManager.all("categories").then(
+          categories => (newState.categories = categories)
+        )
       )
       .then(() => this.setState(newState))
   }
-
-  sum = (entryArray) => {
+  sum = entryArray => {
     let total = 0
-    entryArray.forEach(entry => total += +entry.amount)
+    entryArray.forEach(entry => (total += +entry.amount))
     return total.toFixed(2)
   }
   diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
-
   isAuthenticated = () => sessionStorage.getItem("activeUser")
-
   setUser = activeUserId => {
     //return one user
     let newState = {}
     newState.activeUser = activeUserId
     this.setState(newState)
   }
-
   deleteItem = (resource, id, path) => {
     let newObj = {}
     return fetch(`http://localhost:5002/${resource}/${id}`, {
@@ -57,7 +56,6 @@ class ApplicationViews extends Component {
         this.props.history.push(`${path}`)
       })
   }
-
   updateItem = (resource, id, editedObject, path) => {
     let newObj = {}
     return APIManager.put(resource, id, editedObject)
@@ -69,7 +67,6 @@ class ApplicationViews extends Component {
         this.props.history.push(`${path}`)
       })
   }
-
   addItem = (resource, item, path) => {
     let newObj = {}
     return APIManager.post(resource, item)
@@ -84,7 +81,7 @@ class ApplicationViews extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Container fluid>
         <Route
           exact
           path="/"
@@ -172,17 +169,21 @@ class ApplicationViews extends Component {
           path="/budget"
           render={props => {
             if (this.isAuthenticated()) {
-              return <Budget
-                sum={this.sum}
-                diff={this.diff}
-                income={this.state.income}
-                expenses={this.state.expenses}
-                categories={this.state.categories}
-                date={moment()}{...props} />
+              return (
+                <Budget
+                  sum={this.sum}
+                  diff={this.diff}
+                  income={this.state.income}
+                  expenses={this.state.expenses}
+                  categories={this.state.categories}
+                  date={moment()}
+                  {...props}
+                />
+              )
             } else return <Redirect to="/login" />
           }}
         />
-      </React.Fragment>
+      </Container>
     )
   }
 }
