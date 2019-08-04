@@ -15,33 +15,43 @@ export default class Nav extends Component {
       <header>
         <Menu>
           <Menu.Item
-            name="editorials"
+            name="dashboard"
             as={Link}
             to="/"
-            active={activeItem === "editorials"}
+            active={activeItem === "dashboard"}
             onClick={this.handleItemClick}
           >
             Dashboard
           </Menu.Item>
 
           <Menu.Item
-            name="reviews"
+            name="income"
             as={Link}
             to="/income"
-            active={activeItem === "reviews"}
+            active={activeItem === "income"}
             onClick={this.handleItemClick}
           >
             Income
           </Menu.Item>
 
           <Menu.Item
-            name="upcomingEvents"
+            name="expenses"
             as={Link}
             to="/expenses"
-            active={activeItem === "upcomingEvents"}
+            active={activeItem === "expenses"}
             onClick={this.handleItemClick}
           >
             Expenses
+          </Menu.Item>
+
+          <Menu.Item
+            name="budget"
+            as={Link}
+            to="/budget"
+            active={activeItem === "budget"}
+            onClick={this.handleItemClick}
+          >
+            Budget
           </Menu.Item>
 
           <Menu.Menu position='right'>

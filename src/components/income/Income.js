@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
-// import Totals from "../totals/Totals";
-// import Menu from '../menu/Menu'
+import { Grid, Button } from 'semantic-ui-react'
 
 export default class Income extends Component {
   state = {
@@ -65,21 +64,19 @@ export default class Income extends Component {
   }
 
   render() {
-    // console.log(this.state)
     return (
       <React.Fragment>
-        <section
-          className="entry-list ui four column grid"
+        <Grid
+          columns={4}
+          className="entry-list"
           onClick={this.toggleClick}
         >
-          {/* <Totals {...this.props}/> */}
-          {/* <Menu /> */}
-          <div className="row card">
+          <Grid.Row>
             <IncomeForm {...this.props} />
-          </div>
+          </Grid.Row>
           {this.props.income.map(inco => (
-            <div key={inco.id} className="row card">
-              <div className="column ui input">
+            <Grid.Row key={inco.id} className="row card">
+              <Grid.Column>
                 <div id={`date-${inco.id}`}>{inco.date}</div>
                 <input
                   id={`edit-date-${inco.id}`}
@@ -89,19 +86,8 @@ export default class Income extends Component {
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
-              </div>
-              {/* <div className="column ui input">
-                <div id={`category-${inco.id}`}>{inco.category}</div>
-                <input
-                  id={`edit-category-${inco.id}`}
-                  type="text"
-                  value={this.state.category}
-                  className="hide"
-                  onChange={this.handleKeyPress}
-                  onKeyPress={this.enterKey}
-                />
-              </div> */}
-              <div className="column ui input">
+              </Grid.Column>
+              <Grid.Column>
                 <div id={`name-${inco.id}`}>{inco.name}</div>
                 <input
                   id={`edit-name-${inco.id}`}
@@ -111,8 +97,8 @@ export default class Income extends Component {
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
-              </div>
-              <div className="column ui input">
+              </Grid.Column>
+              <Grid.Column>
                 <div id={`amount-${inco.id}`}>{inco.amount}</div>
                 <input
                   id={`edit-amount-${inco.id}`}
@@ -122,18 +108,17 @@ export default class Income extends Component {
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
-              </div>
-              <button
-                className="ui button"
+              </Grid.Column>
+              <Button
                 onClick={() =>
                   this.props.deleteItem("income", inco.id, "/income")
                 }
               >
                 x
-              </button>
-            </div>
+              </Button>
+            </Grid.Row>
           ))}
-        </section>
+        </Grid>
       </React.Fragment>
     )
   }

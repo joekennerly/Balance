@@ -169,7 +169,7 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
-          path="/expenses/categories"
+          path="/budget"
           render={props => {
             if (this.isAuthenticated()) {
               return <Budget

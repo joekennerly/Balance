@@ -1,11 +1,9 @@
 import React, { Component } from "react"
-// import Categories from "../form/Categories";
-// import APIManager from "../../modules/APIManager"
+import { Grid, Button, Input, Label } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
   state = {
     date: "",
-    // category: "",
     name: "",
     amount: ""
   }
@@ -14,7 +12,6 @@ export default class EntryForm extends Component {
   componentDidMount() {
     const stateToChange = {}
     stateToChange.date = this.props.date
-    // stateToChange.category = document.querySelector("#category").value
     this.setState(stateToChange)
   }
 
@@ -25,80 +22,50 @@ export default class EntryForm extends Component {
     this.setState(stateToChange)
   }
 
-  //Handle Submit
   handleClick = () => {
-    // Post to db
-
     let obj = {}
     obj.amount = this.state.amount.toFixed(2)
     this.setState(obj)
-    console.log(this.state)
-
-    // APIManager.post("expenses", this.state).then(() =>
-    //   this.props.history.push("/")
-    // )
   }
 
   render() {
     return (
       <React.Fragment>
-        {/* <div className="column ui input">
-          <label htmlFor="type">Type</label>
-          <select id="type" type="text">
-            <option value="income">income</option>
-            <option value="expense">expense</option>
-          </select>
-        </div> */}
-        <div className="column ui input">
-          <label htmlFor="date">Date</label>
-          <input
+        <Grid.Column>
+          <Label htmlFor="date">Date</Label>
+          <Input
             id="date"
             type="date"
             value={this.props.date}
             onChange={this.handleFieldChange}
           />
-        </div>
-        {/* <div className="column ui input">
-          <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            type="text"
-            placeholder="category"
-            value={this.props.category}
-            onChange={this.handleFieldChange}
-            className="ui dropdown"
-          >
-            <Categories categories={this.props.categories}/>
-          </select>
-        </div> */}
-        <div className="column ui input">
-        <label htmlFor="name">Name</label>
-          <input
+        </Grid.Column>
+        <Grid.Column>
+          <Label htmlFor="name">Name</Label>
+          <Input
             id="name"
             type="text"
             onChange={this.handleFieldChange}
             placeholder="name"
             value={this.props.name}
           />
-        </div>
-        <div className="column ui input">
-          <label htmlFor="amount">Amount</label>
-          <input
+        </Grid.Column>
+        <Grid.Column>
+          <Label htmlFor="amount">Amount</Label>
+          <Input
             id="amount"
             type="text"
             onChange={this.handleFieldChange}
             placeholder="amount"
             value={this.props.amount}
           />
-        </div>
-        <button
-          className="ui button primary"
-          onClick={() =>
-            this.props.addItem("income", this.state, "/income")
-          }
+        </Grid.Column>
+        <Button
+          className="teal"
+          onClick={() => this.props.addItem("income", this.state, "/income")}
         >
           +
-        </button>
+        </Button>
       </React.Fragment>
     )
   }
