@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { Pie } from 'react-chartjs-2'
 
 export default class Chart extends Component {
-  state = { chartData: {} }
-  componentDidMount = () => this.setState({chartData:this.props.chartData})
+  // state = { chartData: {} }
+  // componentDidMount = () => this.setState({chartData:this.props.chartData})
   render() {
     return (
       <div className="chart">
         <Pie
-          data={this.state.chartData}
+          data={this.props.chartData}
           options={{
             title: {
               display: true,

@@ -15,9 +15,9 @@ class ApplicationViews extends Component {
     expenses: [],
     income: [],
     categories: [],
+    chartData: {}
   }
-
-  componentDidMount() {
+  componentWillMount() {
     let newState = {}
     APIManager.get("expenses")
       .then(expenses => (newState.expenses = expenses))
@@ -25,12 +25,31 @@ class ApplicationViews extends Component {
         APIManager.get("income").then(income => (newState.income = income))
       )
       .then(() =>
-        APIManager.all("categories").then(
-          categories => (newState.categories = categories)
-        )
+        APIManager.all("categories").then(categories => {
+          newState.categories = categories
+          newState.chartData = {
+            labels: this.makeArray(categories, "name"),
+            datasets: [
+              {
+                data: this.makeArray(categories, "amount"),
+                backgroundColor: [
+                  "red",
+                  "orange",
+                  "yellow",
+                  "green",
+                  "blue",
+                  "indigo",
+                  "violet"
+                ]
+              }
+            ]
+          }
+        })
       )
       .then(() => this.setState(newState))
   }
+  makeArray = (arr, prop) => arr.map(el => el[prop])
+
   sum = entryArray => {
     let total = 0
     entryArray.forEach(entry => (total += +entry.amount))
@@ -81,6 +100,7 @@ class ApplicationViews extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <Container>
         <Route
@@ -115,6 +135,7 @@ class ApplicationViews extends Component {
                   expenses={this.state.expenses}
                   categories={this.state.categories}
                   date={moment().format("YYYY-MM-DD")}
+                  chartData={this.state.chartData}
                   {...props}
                 />
               )
