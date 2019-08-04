@@ -42,7 +42,7 @@ export default class Chart extends Component {
             },
             legend: {
               display: true,
-              position: "right"
+              position: "left"
             }
           }}
         />
