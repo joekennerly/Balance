@@ -7,15 +7,16 @@ import Login from "./login/Login"
 import Budget from "./budget/Budget"
 import Expenses from "./expenses/Expenses"
 import Income from "./income/Income"
-import { Container } from 'semantic-ui-react'
+import { Container } from "semantic-ui-react"
 
 let moment = require("moment")
 class ApplicationViews extends Component {
   state = {
     expenses: [],
     income: [],
-    categories: []
+    categories: [],
   }
+
   componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
@@ -81,7 +82,7 @@ class ApplicationViews extends Component {
 
   render() {
     return (
-      <Container fluid>
+      <Container>
         <Route
           exact
           path="/"
