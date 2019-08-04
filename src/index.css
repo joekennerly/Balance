@@ -11,29 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-#root {
-  width: 66.6%;
-  margin:0 auto;
+input {
+  text-align: center;
 }
-
-header {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  margin-bottom: 45px;
-}
-
-.totals h1 {
-  margin-bottom: 40px;
-}
-
-.expenses {
-  /* box-shadow: 10px 10px 50px rgb(238, 237, 237); */
-  border-radius: 3px;
-}
-
-
 
 .hide {
   display:none;

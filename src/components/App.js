@@ -9,13 +9,6 @@ export default class App extends Component {
     activeUser: ""
   }
 
-  sum = (entryArray) => {
-    let total = 0
-    entryArray.forEach(entry => total += +entry.amount)
-    return total.toFixed(2)
-  }
-  diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
-
   isAuthenticated = () => sessionStorage.getItem("activeUser")
 
   setUser = activeUserId => {
@@ -30,12 +23,7 @@ export default class App extends Component {
       //if there is an active user
       return (
         <React.Fragment>
-          <Nav
-            sum={this.sum}
-            diff={this.diff}
-            income={this.state.income}
-            expenses={this.state.expenses}
-          />
+          <Nav />
           <ApplicationViews
             activeUser={this.state.activeUser}
             setUser={this.setUser}
