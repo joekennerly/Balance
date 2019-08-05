@@ -6,8 +6,12 @@ export default class EntryForm extends Component {
     date: "",
     category: "",
     name: "",
-    amount: ""
+    amount: "",
+    user_id: ""
   }
+  componentWillMount = () => this.setState({
+    user_id: +sessionStorage.getItem("a")
+  })
   //Load current date and current category
   componentDidMount() {
     const stateToChange = {}

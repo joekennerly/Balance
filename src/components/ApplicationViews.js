@@ -17,7 +17,7 @@ class ApplicationViews extends Component {
     categories: [],
     chartData: {}
   }
-  componentWillMount() {
+  componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
       .then(expenses => (newState.expenses = expenses))
