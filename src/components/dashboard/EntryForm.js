@@ -10,7 +10,7 @@ export default class EntryForm extends Component {
     user_id: ""
   }
   componentWillMount = () => this.setState({
-    user_id: +sessionStorage.getItem("a")
+    user_id: this.props.activeUser
   })
   //Load current date and current category
   componentDidMount() {

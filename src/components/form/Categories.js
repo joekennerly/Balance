@@ -4,10 +4,12 @@ import { Button } from "semantic-ui-react"
 export default class Categories extends Component {
   add = () => this.props.addItem("categories", {
     "name": "woo woo",
-    "user_Id": 1,
+    "user_id": 1,
     "amount": 300,
-  }, "/budget")
-  del = (e) => this.props.deleteItem("categories", e.target.id.split("-")[1], "/budget")
+  })
+
+  // .then(()=>this.props.history.push("/budget"))
+  del = (e) => this.props.deleteItem("categories", e.target.id.split("-")[1])
 
   render() {
     return (

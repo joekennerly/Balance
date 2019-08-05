@@ -16,21 +16,17 @@ class ApplicationViews extends Component {
     income: [],
     categories: [],
     chartData: {},
-    activeUser:""
   }
-  // Manually setting the active user to session storage value
-  componentWillMount = () => this.setState({
-    activeUser: +sessionStorage.getItem("activeUser")
-  })
+
   componentDidMount() {
     let newState = {}
-    APIManager.get("expenses")
+    APIManager.get(`expenses?user_id=${this.props.activeUser}`)
       .then(expenses => (newState.expenses = expenses))
       .then(() =>
-        APIManager.get("income").then(income => (newState.income = income))
+        APIManager.get(`income?user_id=${this.props.activeUser}`).then(income => (newState.income = income))
       )
       .then(() =>
-        APIManager.all("categories").then(categories => {
+        APIManager.all(`categories?user_id=${this.props.activeUser}`).then(categories => {
           newState.categories = categories
           newState.chartData = {
             labels: this.makeArray(categories, "name"),
@@ -73,38 +69,38 @@ class ApplicationViews extends Component {
       method: "DELETE"
     })
       .then(e => e.json())
-      .then(() => APIManager.getAll(`${resource}`))
+      .then(() => APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`))
       .then(group => {
         newObj[resource] = group
         this.setState(newObj)
-        this.props.history.push(`${path}`)
+        // this.props.history.push(`${path}`)
       })
   }
   updateItem = (resource, id, editedObject, path) => {
     let newObj = {}
     return APIManager.put(resource, id, editedObject)
-      .then(() => APIManager.getAll(`${resource}`))
+      .then(() => APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`))
       .then(item => {
         newObj[resource] = item
         this.setState(newObj)
-        this.props.history.push("/")
-        this.props.history.push(`${path}`)
+        // this.props.history.push("/")
+        // this.props.history.push(`${path}`)
       })
   }
   addItem = (resource, item, path) => {
     let newObj = {}
     return APIManager.post(resource, item)
-      .then(() => APIManager.getAll(`${resource}`))
+      .then(() => APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`))
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
-        this.props.history.push("/")
-        this.props.history.push(`${path}`)
+        // this.props.history.push("/")
+        // this.props.history.push(`${path}`)
       })
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return (
       <React.Fragment>
         <Container>
@@ -131,6 +127,7 @@ class ApplicationViews extends Component {
               if (this.isAuthenticated()) {
                 return (
                   <Dashboard
+                    activeUser={this.props.activeUser}
                     sum={this.sum}
                     diff={this.diff}
                     addItem={this.addItem}
@@ -154,6 +151,7 @@ class ApplicationViews extends Component {
               if (this.isAuthenticated()) {
                 return (
                   <Income
+                    activeUser={this.props.activeUser}
                     sum={this.sum}
                     diff={this.diff}
                     addItem={this.addItem}
@@ -176,6 +174,7 @@ class ApplicationViews extends Component {
               if (this.isAuthenticated()) {
                 return (
                   <Expenses
+                    activeUser={this.props.activeUser}
                     sum={this.sum}
                     diff={this.diff}
                     addItem={this.addItem}

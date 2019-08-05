@@ -6,10 +6,16 @@ import Nav from "./nav/Nav"
 
 export default class App extends Component {
   state = {
-    activeUser: ""
+    activeUser: null
   }
 
-  isAuthenticated = () => sessionStorage.getItem("activeUser")
+  componentDidMount() {
+    let newState = {}
+    newState.activeUser = +sessionStorage.getItem("activeUser")
+    this.setState(newState)
+  }
+
+  isAuthenticated = () => sessionStorage.getItem("activeUser") !== null
 
   setUser = (activeUserId) => {
     //return one user
@@ -23,7 +29,7 @@ export default class App extends Component {
       //if there is an active user
       return (
         <React.Fragment>
-          <Nav />
+          <Nav setUser={this.setUser}/>
           <ApplicationViews
             activeUser={this.state.activeUser}
             setUser={this.setUser}

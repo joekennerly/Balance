@@ -5,7 +5,11 @@ import { Menu } from "semantic-ui-react"
 export default class Nav extends Component {
   state = {}
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-  logout = () => sessionStorage.clear()
+  logout = () => {
+    this.props.setUser(null)
+    sessionStorage.clear()
+  }
+  // logout = () => sessionStorage.clear()
   render() {
     const { activeItem } = this.state
     return (
@@ -14,7 +18,7 @@ export default class Nav extends Component {
           <Menu.Item
             name="dashboard"
             as={Link}
-            to="/"
+            to="/dashboard"
             active={activeItem === "dashboard"}
             onClick={this.handleItemClick}
           >
