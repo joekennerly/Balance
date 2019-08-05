@@ -7,16 +7,17 @@ import Login from "./login/Login"
 import Budget from "./budget/Budget"
 import Expenses from "./expenses/Expenses"
 import Income from "./income/Income"
-import { Container } from 'semantic-ui-react'
+import { Container } from "semantic-ui-react"
 
 let moment = require("moment")
 class ApplicationViews extends Component {
   state = {
     expenses: [],
     income: [],
-    categories: []
+    categories: [],
+    chartData: {}
   }
-  componentDidMount() {
+  componentWillMount() {
     let newState = {}
     APIManager.get("expenses")
       .then(expenses => (newState.expenses = expenses))
@@ -24,12 +25,30 @@ class ApplicationViews extends Component {
         APIManager.get("income").then(income => (newState.income = income))
       )
       .then(() =>
-        APIManager.all("categories").then(
-          categories => (newState.categories = categories)
-        )
+        APIManager.all("categories").then(categories => {
+          newState.categories = categories
+          newState.chartData = {
+            labels: this.makeArray(categories, "name"),
+            datasets: [
+              {
+                data: this.makeArray(categories, "amount"),
+                backgroundColor: [
+                  "red",
+                  "orange",
+                  "yellow",
+                  "green",
+                  "blue",
+                  "indigo",
+                  "violet"
+                ]
+              }
+            ]
+          }
+        })
       )
       .then(() => this.setState(newState))
   }
+  makeArray = (arr, prop) => arr.map(el => el[prop])
   sum = entryArray => {
     let total = 0
     entryArray.forEach(entry => (total += +entry.amount))
@@ -81,7 +100,7 @@ class ApplicationViews extends Component {
 
   render() {
     return (
-      <Container fluid>
+      <Container>
         <Route
           exact
           path="/"
@@ -114,6 +133,7 @@ class ApplicationViews extends Component {
                   expenses={this.state.expenses}
                   categories={this.state.categories}
                   date={moment().format("YYYY-MM-DD")}
+                  chartData={this.state.chartData}
                   {...props}
                 />
               )
@@ -173,6 +193,9 @@ class ApplicationViews extends Component {
                 <Budget
                   sum={this.sum}
                   diff={this.diff}
+                  addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
                   income={this.state.income}
                   expenses={this.state.expenses}
                   categories={this.state.categories}

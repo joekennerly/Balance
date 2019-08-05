@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import Categories from "../form/Categories"
 import { Grid, Button, Input, Label } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
@@ -9,7 +8,6 @@ export default class EntryForm extends Component {
     name: "",
     amount: ""
   }
-
   //Load current date and current category
   componentDidMount() {
     const stateToChange = {}
@@ -52,7 +50,11 @@ export default class EntryForm extends Component {
             onChange={this.handleFieldChange}
             className="ui dropdown"
           >
-            <Categories categories={this.props.categories} />
+            {this.props.categories.map(category => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </Grid.Column>
         <Grid.Column>
@@ -83,9 +85,7 @@ export default class EntryForm extends Component {
         >
           +
         </Button>
-        <Button>
-          Manage Categories
-        </Button>
+        <Button>Manage Categories</Button>
       </React.Fragment>
     )
   }
