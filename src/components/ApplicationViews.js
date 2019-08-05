@@ -20,7 +20,8 @@ class ApplicationViews extends Component {
 
   componentDidMount() {
     let newState = {}
-    APIManager.get(`expenses?user_id=${this.props.activeUser}`)
+    APIManager.get(`expenses`)
+    // APIManager.get(`expenses?user_id=${this.props.activeUser}`)
       .then(expenses => (newState.expenses = expenses))
       .then(() =>
         APIManager.get(`income?user_id=${this.props.activeUser}`).then(income => (newState.income = income))
@@ -57,12 +58,6 @@ class ApplicationViews extends Component {
   }
   diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
   isAuthenticated = () => sessionStorage.getItem("activeUser")
-  // setUser = activeUserId => {
-  //   //return one user
-  //   let newState = {}
-  //   newState.activeUser = activeUserId
-  //   this.setState(newState)
-  // }
   deleteItem = (resource, id) => {
     let newObj = {}
     return fetch(`http://localhost:5002/${resource}/${id}`, {
@@ -101,17 +96,16 @@ class ApplicationViews extends Component {
 
   render() {
     // console.log(this.props)
-    console.log(this.state.expenses)
     return (
       <React.Fragment>
         <Container>
-          <Route
+          {/* <Route
             exact
             path="/"
             render={props => {
               return <Redirect to="/dashboard" />
             }}
-          />
+          /> */}
           <Route
           exact
           path="/login"
@@ -137,7 +131,7 @@ class ApplicationViews extends Component {
                     income={this.state.income}
                     expenses={this.state.expenses}
                     categories={this.state.categories}
-                    date={moment().format("YYYY-MM-DD")}
+                    date={moment()}
                     chartData={this.state.chartData}
                     {...props}
                   />

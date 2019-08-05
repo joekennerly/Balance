@@ -9,7 +9,6 @@ export default class Nav extends Component {
     this.props.setUser(null)
     sessionStorage.clear()
   }
-  // logout = () => sessionStorage.clear()
   render() {
     const { activeItem } = this.state
     return (
@@ -45,7 +44,7 @@ export default class Nav extends Component {
             Expenses
           </Menu.Item>
 
-          <Menu.Item
+          {/* <Menu.Item
             name="budget"
             as={Link}
             to="/budget"
@@ -53,7 +52,7 @@ export default class Nav extends Component {
             onClick={this.handleItemClick}
           >
             Budget
-          </Menu.Item>
+          </Menu.Item> */}
 
           <Menu.Menu position='right'>
             <Menu.Item
