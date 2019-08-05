@@ -15,8 +15,13 @@ class ApplicationViews extends Component {
     expenses: [],
     income: [],
     categories: [],
-    chartData: {}
+    chartData: {},
+    activeUser:""
   }
+  // Manually setting the active user to session storage value
+  componentWillMount = () => this.setState({
+    activeUser: +sessionStorage.getItem("activeUser")
+  })
   componentDidMount() {
     let newState = {}
     APIManager.get("expenses")
@@ -99,114 +104,117 @@ class ApplicationViews extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
-      <Container>
-        <Route
-          exact
-          path="/"
-          render={props => {
-            return <Redirect to="/dashboard" />
-          }}
-        />
-        <Route
+      <React.Fragment>
+        <Container>
+          <Route
+            exact
+            path="/"
+            render={props => {
+              return <Redirect to="/dashboard" />
+            }}
+          />
+          <Route
           exact
           path="/login"
           render={props => {
             if (!this.isAuthenticated()) {
-              return <Login setUser={this.setUser} {...props} />
+              return <Login setUser={this.props.setUser} {...props} />
             } else return <Redirect to="/" />
           }}
         />
-        <Route
-          exact
-          path="/dashboard"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return (
-                <Dashboard
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  expenses={this.state.expenses}
-                  categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
-                  chartData={this.state.chartData}
-                  {...props}
-                />
-              )
-            } else return <Redirect to="/login" />
-          }}
-        />
-        <Route
-          exact
-          path="/income"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return (
-                <Income
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  expenses={this.state.expenses}
-                  categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
-                  {...props}
-                />
-              )
-            } else return <Redirect to="/login" />
-          }}
-        />
-        <Route
-          exact
-          path="/expenses"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return (
-                <Expenses
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  expenses={this.state.expenses}
-                  categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
-                  {...props}
-                />
-              )
-            } else return <Redirect to="/login" />
-          }}
-        />
-        <Route
-          exact
-          path="/budget"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return (
-                <Budget
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  expenses={this.state.expenses}
-                  categories={this.state.categories}
-                  date={moment()}
-                  {...props}
-                />
-              )
-            } else return <Redirect to="/login" />
-          }}
-        />
-      </Container>
+          <Route
+            exact
+            path="/dashboard"
+            render={props => {
+              if (this.isAuthenticated()) {
+                return (
+                  <Dashboard
+                    sum={this.sum}
+                    diff={this.diff}
+                    addItem={this.addItem}
+                    deleteItem={this.deleteItem}
+                    updateItem={this.updateItem}
+                    income={this.state.income}
+                    expenses={this.state.expenses}
+                    categories={this.state.categories}
+                    date={moment().format("YYYY-MM-DD")}
+                    chartData={this.state.chartData}
+                    {...props}
+                  />
+                )
+              } else return <Redirect to="/login" />
+            }}
+          />
+          <Route
+            exact
+            path="/income"
+            render={props => {
+              if (this.isAuthenticated()) {
+                return (
+                  <Income
+                    sum={this.sum}
+                    diff={this.diff}
+                    addItem={this.addItem}
+                    deleteItem={this.deleteItem}
+                    updateItem={this.updateItem}
+                    income={this.state.income}
+                    expenses={this.state.expenses}
+                    categories={this.state.categories}
+                    date={moment().format("YYYY-MM-DD")}
+                    {...props}
+                  />
+                )
+              } else return <Redirect to="/login" />
+            }}
+          />
+          <Route
+            exact
+            path="/expenses"
+            render={props => {
+              if (this.isAuthenticated()) {
+                return (
+                  <Expenses
+                    sum={this.sum}
+                    diff={this.diff}
+                    addItem={this.addItem}
+                    deleteItem={this.deleteItem}
+                    updateItem={this.updateItem}
+                    income={this.state.income}
+                    expenses={this.state.expenses}
+                    categories={this.state.categories}
+                    date={moment().format("YYYY-MM-DD")}
+                    {...props}
+                  />
+                )
+              } else return <Redirect to="/login" />
+            }}
+          />
+          <Route
+            exact
+            path="/budget"
+            render={props => {
+              if (this.isAuthenticated()) {
+                return (
+                  <Budget
+                    sum={this.sum}
+                    diff={this.diff}
+                    addItem={this.addItem}
+                    deleteItem={this.deleteItem}
+                    updateItem={this.updateItem}
+                    income={this.state.income}
+                    expenses={this.state.expenses}
+                    categories={this.state.categories}
+                    date={moment()}
+                    {...props}
+                  />
+                )
+              } else return <Redirect to="/login" />
+            }}
+          />
+        </Container>
+      </React.Fragment>
     )
   }
 }
