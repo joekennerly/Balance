@@ -25,6 +25,7 @@ export default class App extends Component {
   }
 
   render() {
+    console.log("APP user", this.state.activeUser)
     if (this.isAuthenticated()) {
       //if there is an active user
       return (

@@ -57,13 +57,13 @@ class ApplicationViews extends Component {
   }
   diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
   isAuthenticated = () => sessionStorage.getItem("activeUser")
-  setUser = activeUserId => {
-    //return one user
-    let newState = {}
-    newState.activeUser = activeUserId
-    this.setState(newState)
-  }
-  deleteItem = (resource, id, path) => {
+  // setUser = activeUserId => {
+  //   //return one user
+  //   let newState = {}
+  //   newState.activeUser = activeUserId
+  //   this.setState(newState)
+  // }
+  deleteItem = (resource, id) => {
     let newObj = {}
     return fetch(`http://localhost:5002/${resource}/${id}`, {
       method: "DELETE"
@@ -76,7 +76,7 @@ class ApplicationViews extends Component {
         // this.props.history.push(`${path}`)
       })
   }
-  updateItem = (resource, id, editedObject, path) => {
+  updateItem = (resource, id, editedObject) => {
     let newObj = {}
     return APIManager.put(resource, id, editedObject)
       .then(() => APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`))
@@ -87,7 +87,7 @@ class ApplicationViews extends Component {
         // this.props.history.push(`${path}`)
       })
   }
-  addItem = (resource, item, path) => {
+  addItem = (resource, item) => {
     let newObj = {}
     return APIManager.post(resource, item)
       .then(() => APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`))
@@ -100,7 +100,8 @@ class ApplicationViews extends Component {
   }
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
+    console.log(this.state.expenses)
     return (
       <React.Fragment>
         <Container>
