@@ -4,11 +4,8 @@ import { Menu } from "semantic-ui-react"
 
 export default class Nav extends Component {
   state = {}
-
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
   logout = () => sessionStorage.clear()
-
   render() {
     const { activeItem } = this.state
     return (

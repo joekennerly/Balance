@@ -49,7 +49,6 @@ class ApplicationViews extends Component {
       .then(() => this.setState(newState))
   }
   makeArray = (arr, prop) => arr.map(el => el[prop])
-
   sum = entryArray => {
     let total = 0
     entryArray.forEach(entry => (total += +entry.amount))
@@ -100,7 +99,6 @@ class ApplicationViews extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Container>
         <Route
@@ -195,6 +193,9 @@ class ApplicationViews extends Component {
                 <Budget
                   sum={this.sum}
                   diff={this.diff}
+                  addItem={this.addItem}
+                  deleteItem={this.deleteItem}
+                  updateItem={this.updateItem}
                   income={this.state.income}
                   expenses={this.state.expenses}
                   categories={this.state.categories}
