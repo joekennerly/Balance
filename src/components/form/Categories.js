@@ -5,32 +5,40 @@ export default class Categories extends Component {
   state = {
     name: "",
     amount: "",
-    user_id: ""
+    modalOpen: false
   }
+  // Functions to open and close the "add category" modal
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
 
-  componentWillMount = () =>
-    this.setState({
-      user_id: +sessionStorage.getItem("activeUser")
-    })
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
   }
-  add = () => this.props.addItem("categories", this.state)
+  makeObj = () => {
+    return {
+      name: this.state.name,
+      amount: this.state.amount,
+      user_id: +sessionStorage.getItem("activeUser")
+    }
+  }
+  addAndClose = () => {
+    console.log(this.makeObj())
+    this.props.addItem("categories", this.makeObj())
+    this.handleClose()
+  }
 
   del = e => this.props.deleteItem("categories", e.target.id.split("-")[1])
 
   render() {
-    console.log(this.state)
     return (
       <React.Fragment>
         <Modal
-          trigger={<Button>Add category</Button>}
-          // header="Reminder!"
-          // content="Call Benjamin regarding the reports."
-          actions={[{ key: "done", content: "Done", positive: true }]}
+          trigger={<Button onClick={this.handleOpen}>+ Add category</Button>}
+          open={this.state.modalOpen}
+          onClose={this.handleClose}
         >
           <Modal.Header>Enter a new category</Modal.Header>
           <Modal.Content>
@@ -45,7 +53,7 @@ export default class Categories extends Component {
               placeholder="amount"
               onChange={this.handleKeyPress}
             />
-            <Button onClick={this.add}>+ Add Category</Button>
+            <Button onClick={this.addAndClose}>+ Add Category</Button>
           </Modal.Content>
         </Modal>
         {this.props.categories.map(category => (
