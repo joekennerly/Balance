@@ -5,8 +5,13 @@ export default class EntryForm extends Component {
   state = {
     date: "",
     name: "",
-    amount: ""
+    amount: "",
+    user_id: ""
   }
+
+  componentWillMount = () => this.setState({
+    user_id: this.props.activeUser
+  })
 
   //Load current date and current category
   componentDidMount() {

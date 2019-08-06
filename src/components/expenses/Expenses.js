@@ -61,7 +61,7 @@ export default class Expenses extends Component {
   }
 
   render() {
-    // console.log(this.state)
+    console.log(this.props.expenses)
     return (
       <Grid columns={6} onClick={this.toggleClick}>
         {/* <Menu /> */}

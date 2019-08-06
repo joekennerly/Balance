@@ -6,7 +6,6 @@ import {
   Form,
   Grid,
   Header,
-  // Image,
   Message,
   Segment
 } from "semantic-ui-react"
@@ -34,13 +33,13 @@ export default class Login extends Component {
         sessionStorage.setItem("activeUser", user[0].id)
         this.props.setUser(user[0].id)
         //routing to dashboard
-        this.props.history.push("/")
+        this.props.history.push("/dashboard")
       } else window.alert("That password is incorrect")
     })
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <Grid
         textAlign="center"
