@@ -27,7 +27,7 @@ class ApplicationViews extends Component {
         APIManager.get(`income?user_id=${this.props.activeUser}`).then(income => (newState.income = income))
       )
       .then(() =>
-        APIManager.all(`categories?user_id=${this.props.activeUser}`).then(categories => {
+        APIManager.get(`categories?user_id=${this.props.activeUser}`).then(categories => {
           newState.categories = categories
           newState.chartData = {
             labels: this.makeArray(categories, "name"),
@@ -99,13 +99,13 @@ class ApplicationViews extends Component {
     return (
       <React.Fragment>
         <Container>
-          {/* <Route
+          <Route
             exact
             path="/"
             render={props => {
               return <Redirect to="/dashboard" />
             }}
-          /> */}
+          />
           <Route
           exact
           path="/login"

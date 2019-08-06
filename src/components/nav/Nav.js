@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import { Menu } from "semantic-ui-react"
+import { Menu, Icon } from "semantic-ui-react"
 
 export default class Nav extends Component {
   state = {}
@@ -21,7 +21,7 @@ export default class Nav extends Component {
             active={activeItem === "dashboard"}
             onClick={this.handleItemClick}
           >
-            Dashboard
+            <Icon name="balance scale"/>
           </Menu.Item>
 
           <Menu.Item
@@ -43,16 +43,6 @@ export default class Nav extends Component {
           >
             Expenses
           </Menu.Item>
-
-          {/* <Menu.Item
-            name="budget"
-            as={Link}
-            to="/budget"
-            active={activeItem === "budget"}
-            onClick={this.handleItemClick}
-          >
-            Budget
-          </Menu.Item> */}
 
           <Menu.Menu position='right'>
             <Menu.Item
