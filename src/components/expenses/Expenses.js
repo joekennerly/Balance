@@ -55,14 +55,31 @@ export default class Expenses extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
+      let hiddenId = event.target.id.split("-")
+      let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
+      hiddenText.classList.toggle("hide")
+      hiddenText.classList.remove("toggled")
       event.target.classList.toggle("hide")
+      event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("expenses", eventId, this.state, "/expenses")
+      return this.props.updateItem("expenses", eventId, this.makeObj())
+    }
+  }
+  //Factory function
+  makeObj = () => {
+    return {
+      date: this.state.date,
+      category: this.state.category,
+      name: this.state.name,
+      amount: this.state.amount,
+      user_id: +sessionStorage.getItem("activeUser")
     }
   }
 
   render() {
-    // console.log(this.props.expenses)
+    // console.log(this.state)
+    // console.log(document.getElementsByClassName(".toggled"))
+    // console.log(document.getElementsByClassName(".show"))
     return (
       <React.Fragment>
         <Totals {...this.props}/>

@@ -45,13 +45,6 @@ export default class Income extends Component {
         editable.classList.toggle("hide")
         //show edit form; show class is just a marker
         editable.classList.add("show")
-
-        //I WANT TO SELECT THE INPUT TEXT
-        let editableValue = editable.value
-        console.log(editableValue)
-        editableValue.focus()
-        editableValue.select()
-
         //find the object with matching id from this.props
         let upObj = this.props.income.find(inco => inco.id === id)
         //update state with current values
@@ -61,9 +54,23 @@ export default class Income extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
+      let hiddenId = event.target.id.split("-")
+      let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
+      hiddenText.classList.toggle("hide")
+      hiddenText.classList.remove("toggled")
       event.target.classList.toggle("hide")
+      event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("income", eventId, this.state, "/income")
+      return this.props.updateItem("income", eventId, this.makeObj())
+    }
+  }
+  //Factory function
+  makeObj = () => {
+    return {
+      date: this.state.date,
+      name: this.state.name,
+      amount: this.state.amount,
+      user_id: +sessionStorage.getItem("activeUser")
     }
   }
 
