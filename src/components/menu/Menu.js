@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import { Menu, Input } from "semantic-ui-react"
+import { Menu } from "semantic-ui-react"
 
 export default class CategoryMenu extends Component {
   state = { activeItem: "home" }
@@ -9,35 +9,25 @@ export default class CategoryMenu extends Component {
 
   render() {
     const { activeItem } = this.state
-
     return (
       <Menu tabular>
         <Menu.Item
-          name="home"
+          name="all"
           as={Link}
           to="/expenses"
-          active={activeItem === "home"}
+          active={activeItem === "all"}
           onClick={this.handleItemClick}
         />
-        <Menu.Item
-          name="messages"
-          as={Link}
-          to="/expenses"
-          active={activeItem === "messages"}
-          onClick={this.handleItemClick}
-        />
-        <Menu.Item
-          name="friends"
-          as={Link}
-          to="/expenses"
-          active={activeItem === "friends"}
-          onClick={this.handleItemClick}
-        />
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Input icon="search" placeholder="Search..." />
-          </Menu.Item>
-        </Menu.Menu>
+        {this.props.categories.map(category => (
+          <Menu.Item
+            key={category.id}
+            name={category.name}
+            as={Link}
+            to={`/expenses/${category.name}`}
+            active={activeItem === `${category.name}`}
+            onClick={this.handleItemClick}
+          />
+        ))}
       </Menu>
     )
   }
