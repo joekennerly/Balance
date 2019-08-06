@@ -89,7 +89,6 @@ export default class EntryForm extends Component {
         >
           +
         </Button>
-        <Button>Manage Categories</Button>
       </React.Fragment>
     )
   }

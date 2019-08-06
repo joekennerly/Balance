@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 import EntryForm from "../dashboard/EntryForm"
 import { Grid, Button } from "semantic-ui-react"
-// import Menu from '../menu/Menu'
+import Menu from "../menu/Menu"
+import Totals from "../totals/Totals";
 
 export default class Expenses extends Component {
   state = {
@@ -54,76 +55,96 @@ export default class Expenses extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
+      let hiddenId = event.target.id.split("-")
+      let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
+      hiddenText.classList.toggle("hide")
+      hiddenText.classList.remove("toggled")
       event.target.classList.toggle("hide")
+      event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("expenses", eventId, this.state, "/expenses")
+      return this.props.updateItem("expenses", eventId, this.makeObj())
+    }
+  }
+  //Factory function
+  makeObj = () => {
+    return {
+      date: this.state.date,
+      category: this.state.category,
+      name: this.state.name,
+      amount: this.state.amount,
+      user_id: +sessionStorage.getItem("activeUser")
     }
   }
 
   render() {
-    // console.log(this.props.expenses)
+    // console.log(this.state)
+    // console.log(document.getElementsByClassName(".toggled"))
+    // console.log(document.getElementsByClassName(".show"))
     return (
-      <Grid columns={6} onClick={this.toggleClick}>
-        {/* <Menu /> */}
-        <Grid.Row>
-          <EntryForm {...this.props} />
-        </Grid.Row>
-        {this.props.expenses.map(expense => (
-          <Grid.Row key={expense.id}>
-            <Grid.Column textAlign="center">
-              <div id={`date-${expense.id}`}>{expense.date}</div>
-              <input
-                id={`edit-date-${expense.id}`}
-                type="date"
-                value={this.state.date}
-                className="hide"
-                onChange={this.handleKeyPress}
-                onKeyPress={this.enterKey}
-              />
-            </Grid.Column>
-            <Grid.Column textAlign="center">
-              <div id={`category-${expense.id}`}>{expense.category}</div>
-              <input
-                id={`edit-category-${expense.id}`}
-                type="text"
-                value={this.state.category}
-                className="hide"
-                onChange={this.handleKeyPress}
-                onKeyPress={this.enterKey}
-              />
-            </Grid.Column>
-            <Grid.Column textAlign="center">
-              <div id={`name-${expense.id}`}>{expense.name}</div>
-              <input
-                id={`edit-name-${expense.id}`}
-                type="text"
-                value={this.state.name}
-                className="hide"
-                onChange={this.handleKeyPress}
-                onKeyPress={this.enterKey}
-              />
-            </Grid.Column>
-            <Grid.Column textAlign="center">
-              <div id={`amount-${expense.id}`}>{expense.amount}</div>
-              <input
-                id={`edit-amount-${expense.id}`}
-                type="text"
-                value={this.state.amount}
-                className="hide"
-                onChange={this.handleKeyPress}
-                onKeyPress={this.enterKey}
-              />
-            </Grid.Column>
-            <Button
-              onClick={() =>
-                this.props.deleteItem("expenses", expense.id, "/expenses")
-              }
-            >
-              x
-            </Button>
+      <React.Fragment>
+        <Totals {...this.props}/>
+        <Menu {...this.props} />
+        <Grid columns={5} onClick={this.toggleClick}>
+          <Grid.Row>
+            <EntryForm {...this.props} />
           </Grid.Row>
-        ))}
-      </Grid>
+          {this.props.expenses.map(expense => (
+            <Grid.Row key={expense.id}>
+              <Grid.Column textAlign="center">
+                <div id={`date-${expense.id}`}>{expense.date}</div>
+                <input
+                  id={`edit-date-${expense.id}`}
+                  type="date"
+                  value={this.state.date}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </Grid.Column>
+              <Grid.Column textAlign="center">
+                <div id={`category-${expense.id}`}>{expense.category}</div>
+                <input
+                  id={`edit-category-${expense.id}`}
+                  type="text"
+                  value={this.state.category}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </Grid.Column>
+              <Grid.Column textAlign="center">
+                <div id={`name-${expense.id}`}>{expense.name}</div>
+                <input
+                  id={`edit-name-${expense.id}`}
+                  type="text"
+                  value={this.state.name}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </Grid.Column>
+              <Grid.Column textAlign="center">
+                <div id={`amount-${expense.id}`}>{expense.amount}</div>
+                <input
+                  id={`edit-amount-${expense.id}`}
+                  type="text"
+                  value={this.state.amount}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </Grid.Column>
+              <Button
+                onClick={() =>
+                  this.props.deleteItem("expenses", expense.id, "/expenses")
+                }
+              >
+                x
+              </Button>
+            </Grid.Row>
+          ))}
+        </Grid>
+      </React.Fragment>
     )
   }
 }

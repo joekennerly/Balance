@@ -45,9 +45,13 @@ export default class Categories extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
+      let hiddenId = event.target.id.split("-")
+      let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
+      hiddenText.classList.toggle("hide")
+      hiddenText.classList.remove("toggled")
       event.target.classList.toggle("hide")
+      event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      console.log(this.makeObj())
       return this.props.updateItem("categories", eventId, this.makeObj())
     }
   }

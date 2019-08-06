@@ -20,8 +20,7 @@ class ApplicationViews extends Component {
 
   componentDidMount() {
     let newState = {}
-    APIManager.get(`expenses`)
-    // APIManager.get(`expenses?user_id=${this.props.activeUser}`)
+    APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
       .then(expenses => (newState.expenses = expenses))
       .then(() =>
         APIManager.get(`income?user_id=${this.props.activeUser}`).then(income => (newState.income = income))
@@ -68,7 +67,6 @@ class ApplicationViews extends Component {
       .then(group => {
         newObj[resource] = group
         this.setState(newObj)
-        // this.props.history.push(`${path}`)
       })
   }
   updateItem = (resource, id, editedObject) => {
@@ -78,8 +76,6 @@ class ApplicationViews extends Component {
       .then(item => {
         newObj[resource] = item
         this.setState(newObj)
-        // this.props.history.push("/")
-        // this.props.history.push(`${path}`)
       })
   }
   addItem = (resource, item) => {
@@ -89,8 +85,6 @@ class ApplicationViews extends Component {
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
-        // this.props.history.push("/")
-        // this.props.history.push(`${path}`)
       })
   }
 

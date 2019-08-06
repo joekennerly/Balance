@@ -1,35 +1,34 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
+import { Menu } from "semantic-ui-react"
 
-export default class Menu extends Component {
+export default class CategoryMenu extends Component {
+  state = { activeItem: "home" }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
   render() {
+    const { activeItem } = this.state
     return (
-      <React.Fragment>
-        <div className="ui tabular menu">
-          <div className="active item">All</div>
-          <div className="item">Food</div>
-          <div className="item">Utilities</div>
-          <div className="item">Cats</div>
-          <div className="item">Car</div>
-          <div className="right menu">
-            {/* <div className="item">
-              <div className="ui icon input">
-                <input type="text" placeholder="Search..." />
-                <i className="search icon" />
-              </div>
-            </div> */}
-            <div className="item">
-              <Link to="/expenses/categories">
-                <button className="ui button">
-                  <div>
-                    <i className="cog icon" /> Manage Categories
-                  </div>
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </React.Fragment>
+      <Menu tabular>
+        <Menu.Item
+          name="all"
+          as={Link}
+          to="/expenses"
+          active={activeItem === "all"}
+          onClick={this.handleItemClick}
+        />
+        {this.props.categories.map(category => (
+          <Menu.Item
+            key={category.id}
+            name={category.name}
+            as={Link}
+            to={`/expenses/${category.name}`}
+            active={activeItem === `${category.name}`}
+            onClick={this.handleItemClick}
+          />
+        ))}
+      </Menu>
     )
   }
 }

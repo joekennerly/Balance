@@ -67,7 +67,7 @@ export default class EntryForm extends Component {
         </Grid.Column>
         <Button
           className="teal"
-          onClick={() => this.props.addItem("income", this.state, "/income")}
+          onClick={() => this.props.addItem("income", this.state)}
         >
           +
         </Button>
