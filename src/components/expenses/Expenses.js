@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import EntryForm from "../dashboard/EntryForm"
 import { Grid, Button } from "semantic-ui-react"
-// import Menu from '../menu/Menu'
+import Menu from '../menu/Menu'
 
 export default class Expenses extends Component {
   state = {
@@ -64,7 +64,7 @@ export default class Expenses extends Component {
     // console.log(this.props.expenses)
     return (
       <Grid columns={6} onClick={this.toggleClick}>
-        {/* <Menu /> */}
+        <Menu />
         <Grid.Row>
           <EntryForm {...this.props} />
         </Grid.Row>

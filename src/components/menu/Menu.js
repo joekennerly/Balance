@@ -1,35 +1,44 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
+import { Menu, Input } from "semantic-ui-react"
 
-export default class Menu extends Component {
+export default class CategoryMenu extends Component {
+  state = { activeItem: "home" }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
   render() {
+    const { activeItem } = this.state
+
     return (
-      <React.Fragment>
-        <div className="ui tabular menu">
-          <div className="active item">All</div>
-          <div className="item">Food</div>
-          <div className="item">Utilities</div>
-          <div className="item">Cats</div>
-          <div className="item">Car</div>
-          <div className="right menu">
-            {/* <div className="item">
-              <div className="ui icon input">
-                <input type="text" placeholder="Search..." />
-                <i className="search icon" />
-              </div>
-            </div> */}
-            <div className="item">
-              <Link to="/expenses/categories">
-                <button className="ui button">
-                  <div>
-                    <i className="cog icon" /> Manage Categories
-                  </div>
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </React.Fragment>
+      <Menu tabular>
+        <Menu.Item
+          name="home"
+          as={Link}
+          to="/expenses"
+          active={activeItem === "home"}
+          onClick={this.handleItemClick}
+        />
+        <Menu.Item
+          name="messages"
+          as={Link}
+          to="/expenses"
+          active={activeItem === "messages"}
+          onClick={this.handleItemClick}
+        />
+        <Menu.Item
+          name="friends"
+          as={Link}
+          to="/expenses"
+          active={activeItem === "friends"}
+          onClick={this.handleItemClick}
+        />
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Input icon="search" placeholder="Search..." />
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
     )
   }
 }
