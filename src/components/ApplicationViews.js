@@ -67,7 +67,6 @@ class ApplicationViews extends Component {
       .then(group => {
         newObj[resource] = group
         this.setState(newObj)
-        // this.props.history.push(`${path}`)
       })
   }
   updateItem = (resource, id, editedObject) => {
@@ -77,8 +76,6 @@ class ApplicationViews extends Component {
       .then(item => {
         newObj[resource] = item
         this.setState(newObj)
-        // this.props.history.push("/")
-        // this.props.history.push(`${path}`)
       })
   }
   addItem = (resource, item) => {
@@ -88,8 +85,6 @@ class ApplicationViews extends Component {
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
-        // this.props.history.push("/")
-        // this.props.history.push(`${path}`)
       })
   }
 
