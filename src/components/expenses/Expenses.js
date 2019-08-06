@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import EntryForm from "../dashboard/EntryForm"
 import { Grid, Button } from "semantic-ui-react"
 import Menu from "../menu/Menu"
+import Totals from "../totals/Totals";
 
 export default class Expenses extends Component {
   state = {
@@ -64,6 +65,7 @@ export default class Expenses extends Component {
     // console.log(this.props.expenses)
     return (
       <React.Fragment>
+        <Totals {...this.props}/>
         <Menu {...this.props} />
         <Grid columns={5} onClick={this.toggleClick}>
           <Grid.Row>

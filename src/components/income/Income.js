@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
 import { Grid, Button } from 'semantic-ui-react'
+import Totals from "../totals/Totals";
 
 export default class Income extends Component {
   state = {
@@ -69,9 +70,9 @@ export default class Income extends Component {
   render() {
     return (
       <React.Fragment>
+        <Totals {...this.props} />
         <Grid
           columns={4}
-          className="entry-list"
           onClick={this.toggleClick}
         >
           <Grid.Row>

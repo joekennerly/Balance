@@ -20,8 +20,7 @@ class ApplicationViews extends Component {
 
   componentDidMount() {
     let newState = {}
-    APIManager.get(`expenses`)
-    // APIManager.get(`expenses?user_id=${this.props.activeUser}`)
+    APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
       .then(expenses => (newState.expenses = expenses))
       .then(() =>
         APIManager.get(`income?user_id=${this.props.activeUser}`).then(income => (newState.income = income))
