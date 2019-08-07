@@ -27,7 +27,7 @@ class ApplicationViews extends Component {
         )
       )
       .then(() =>
-        APIManager.get(`categories?user_id=${this.props.activeUser}`).then(
+        APIManager.get(`categories?user_id=${sessionStorage.getItem("activeUser")}`).then(
           categories => {
             newState.categories = categories
             newState.chartData = {
@@ -111,6 +111,44 @@ class ApplicationViews extends Component {
         newObj[resource] = items
         this.setState(newObj)
       })
+      .then(()=>console.log(this.state.categories))
+  }
+  updateChart = () => {
+    let newState = {}
+    newState.chartData = {
+      labels: this.makeArray(this.state.categories, "name"),
+      datasets: [
+        {
+          data: this.makeArray(this.state.categories, "amount"),
+          backgroundColor: [
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "indigo",
+            "violet",
+            "brown",
+            "black",
+            "gray",
+            "white",
+            "pink",
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "indigo",
+            "violet",
+            "brown",
+            "black",
+            "gray",
+            "white"
+          ]
+        }
+      ]
+    }
+    this.setState(newState)
   }
 
   render() {
@@ -157,6 +195,7 @@ class ApplicationViews extends Component {
                     categories={this.state.categories}
                     date={moment()}
                     chartData={this.state.chartData}
+                    updateChart={this.updateChart}
                     {...props}
                   />
                 )
@@ -210,9 +249,6 @@ class ApplicationViews extends Component {
             }}
           />
           {/* dynamically route expense categories */}
-          {/* !!!!!!!!!!!!!!!!
-          change expenses to have a FK, not a str
-          !!!!!!!!!!!!!!!!!!*/}
           <Route
             path="/expenses/:categoryName"
             render={props => {

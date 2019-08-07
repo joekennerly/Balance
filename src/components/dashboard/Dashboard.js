@@ -4,16 +4,16 @@ import Chart from "../chart/Chart"
 import Categories from "../form/Categories"
 
 export default class Dashboard extends Component {
-  state = {
-    chartData: this.props.chartData
+
+  componentDidMount = () => {
+    console.log("dashboard did mount")
   }
 
-  componentDidMount() {
-    console.log(
-      "chartData", this.props.chartData
-    )
+  componentDidUpdate = () => {
+    console.log("dashboard did update")
   }
   render() {
+    console.log(this.props.chartData)
     return (
       <React.Fragment>
         <Totals {...this.props} />

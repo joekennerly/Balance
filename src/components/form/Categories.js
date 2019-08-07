@@ -33,9 +33,11 @@ export default class Categories extends Component {
         event.target.classList.add("toggled")
         //when TEXT is clicked
         let editable = document.querySelector(`#edit-${event.target.id}`)
-        editable.classList.toggle("hide")
-        //show edit form
-        editable.classList.add("show")
+        if (editable) {
+          editable.classList.toggle("hide")
+          //show edit form
+          editable.classList.add("show")
+        }
         //find the object with matching id from this.props
         let upObj = this.props.categories.find(category => category.id === id)
         //update state with current values
@@ -52,7 +54,7 @@ export default class Categories extends Component {
       event.target.classList.toggle("hide")
       event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("categories", eventId, this.makeObj())
+      return this.props.updateItem("categories", eventId, this.makeObj()).then(()=>this.props.updateChart())
     }
   }
   // Functions to open and close the "add category" modal
@@ -80,9 +82,10 @@ export default class Categories extends Component {
   // ADD / Delete
   addAndClose = () => {
     this.props.addItem("categories", this.makeObj())
-    this.handleClose()
+    .then(()=>this.props.updateChart())
+    .then(()=>this.handleClose())
   }
-  del = e => this.props.deleteItem("categories", e.target.id.split("-")[1])
+  del = e => this.props.deleteItem("categories", e.target.id.split("-")[1]).then(()=>this.props.updateChart())
 
   render() {
     return (
