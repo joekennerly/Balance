@@ -6,10 +6,11 @@ import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
 import Expenses from "./expenses/Expenses"
 import Income from "./income/Income"
-import { Container } from "semantic-ui-react"
 import Register from "./login/Register";
+import { Container } from "semantic-ui-react"
 
 let moment = require("moment")
+let thisMonth = moment().format("YYYY-MM")
 class ApplicationViews extends Component {
   state = {
     expenses: [],
@@ -18,12 +19,13 @@ class ApplicationViews extends Component {
     chartData: {}
   }
   componentDidMount() {
+    //Filtering by month on income and expenses
     let newState = {}
     APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
-      .then(expenses => (newState.expenses = expenses))
+      .then(expenses => (newState.expenses = expenses.filter(expense => expense.date.startsWith(thisMonth))))
       .then(() =>
         APIManager.get(`income?user_id=${this.props.activeUser}`).then(
-          income => (newState.income = income)
+          income => (newState.income = income.filter(income => income.date.startsWith(thisMonth)))
         )
       )
       .then(() =>
@@ -85,8 +87,8 @@ class ApplicationViews extends Component {
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
       )
-      .then(group => {
-        newObj[resource] = group
+      .then(items => {
+        newObj[resource] = items
         this.setState(newObj)
       })
   }
@@ -111,7 +113,6 @@ class ApplicationViews extends Component {
         newObj[resource] = items
         this.setState(newObj)
       })
-      .then(()=>console.log(this.state.categories))
   }
   updateChart = () => {
     let newState = {}
@@ -152,7 +153,6 @@ class ApplicationViews extends Component {
   }
 
   render() {
-    // console.log(this.props)
     return (
       <React.Fragment>
         <Container>
@@ -219,6 +219,7 @@ class ApplicationViews extends Component {
                     expenses={this.state.expenses}
                     categories={this.state.categories}
                     date={moment().format("YYYY-MM-DD")}
+                    thisMonth={thisMonth}
                     {...props}
                   />
                 )
@@ -242,6 +243,7 @@ class ApplicationViews extends Component {
                     expenses={this.state.expenses}
                     categories={this.state.categories}
                     date={moment().format("YYYY-MM-DD")}
+                    thisMonth={thisMonth}
                     {...props}
                   />
                 )
@@ -260,9 +262,9 @@ class ApplicationViews extends Component {
                   filtExpenses =>
                     filtExpenses.category === props.match.params.categoryName
                 )
-                console.log(category, filtered)
                 return (
                   <Expenses
+                    category={category}
                     expenses={filtered}
                     activeUser={this.props.activeUser}
                     sum={this.sum}
@@ -273,6 +275,7 @@ class ApplicationViews extends Component {
                     income={this.state.income}
                     categories={this.state.categories}
                     date={moment().format("YYYY-MM-DD")}
+                    thisMonth={thisMonth}
                     {...props}
                   />
                 )

@@ -1,13 +1,13 @@
 import React, { Component } from "react"
 import EntryForm from "../dashboard/EntryForm"
-import { Grid, Button } from "semantic-ui-react"
 import Menu from "../menu/Menu"
-import Totals from "../totals/Totals";
+import BudgetTotals from "./BudgetTotals"
+import { Grid, Button } from "semantic-ui-react"
 
 export default class Expenses extends Component {
   state = {
     date: "",
-    category: "",
+    category_id: "",
     name: "",
     amount: ""
   }
@@ -71,7 +71,7 @@ export default class Expenses extends Component {
   makeObj = () => {
     return {
       date: this.state.date,
-      category: this.state.category,
+      category_id: this.state.category_id,
       name: this.state.name,
       amount: this.state.amount,
       user_id: +sessionStorage.getItem("activeUser")
@@ -79,14 +79,16 @@ export default class Expenses extends Component {
   }
 
   render() {
+    console.log(this.props.categories)
     return (
       <React.Fragment>
-        <Totals {...this.props}/>
+        <BudgetTotals {...this.props}/>
         <Menu {...this.props} />
         <Grid columns={5} onClick={this.toggleClick}>
           <Grid.Row>
             <EntryForm {...this.props} />
           </Grid.Row>
+          {/* {this.props.expenses.filter().map(expense => ( */}
           {this.props.expenses.map(expense => (
             <Grid.Row key={expense.id}>
               <Grid.Column textAlign="center">
