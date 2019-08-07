@@ -6,8 +6,11 @@ import Nav from "./nav/Nav"
 
 export default class App extends Component {
   state = {
-    activeUser: null
+    activeUser: null,
+    renderTrigger: false
   }
+
+
 
   componentDidMount() {
     let newState = {}
@@ -25,6 +28,7 @@ export default class App extends Component {
   }
 
   render() {
+
     console.log("APP user", this.state.activeUser)
     if (this.isAuthenticated()) {
       //if there is an active user

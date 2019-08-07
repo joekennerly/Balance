@@ -5,12 +5,24 @@ export default class Chart extends Component {
   state = {
     chartData: this.props.chartData
   }
+  static getDerivedStateFromProps(props, current_state) {
+    if (current_state.chartData !== props.chartData)
+    {
+      return {
+        chartData: props.chartData,
+
+      }
+
+    }
+    return null
+}
 
   render() {
+    console.log("chart rendering", this.state)
     return (
       <div className="chart">
         <Pie
-          data={this.props.chartData}
+          data={this.state.chartData}
           options={{
             title: {
               display: true,
