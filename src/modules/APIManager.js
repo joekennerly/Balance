@@ -5,14 +5,14 @@ export default Object.create(null, {
     value: function(name) {
       return fetch(`${remoteURL}/${name}`)
         .then(e => e.json())
-        .then(converted => converted.reverse())
+        .then(converted => converted)
     }
   },
   getById: {
     value: function(name, id) {
       return fetch(`${remoteURL}/${name}/${id}`)
         .then(e => e.json())
-        .then(converted => converted.reverse())
+        .then(converted => converted)
     }
   },
   all: {
@@ -25,7 +25,7 @@ export default Object.create(null, {
     value: function (name) {
       return fetch(`${remoteURL}/${name}`)
         .then(e => e.json())
-        .then(converted => converted.reverse())
+        .then(converted => converted)
     }
   },
   post: {
@@ -55,11 +55,6 @@ export default Object.create(null, {
       return fetch(`${remoteURL}/${name}/${id}`, {
         method: "DELETE",
       }).then(data => data.json());
-    }
-  },
-  getLike: {
-    value (name, word) {
-      return fetch(`${remoteURL}/${name}?username_like=${word}`).then(data => data.json());
     }
   }
 })

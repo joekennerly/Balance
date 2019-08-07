@@ -33,6 +33,7 @@ export default class EntryForm extends Component {
   }
 
   render() {
+    // console.log(this.props.category)
     return (
       <React.Fragment>
         <Grid.Column>

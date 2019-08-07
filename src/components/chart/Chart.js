@@ -18,7 +18,6 @@ export default class Chart extends Component {
 }
 
   render() {
-    console.log("chart rendering", this.state)
     return (
       <div className="chart">
         <Pie
