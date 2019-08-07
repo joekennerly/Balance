@@ -12,7 +12,7 @@ export default class Totals extends Component {
           <h1>Income: ${totalIn}</h1>
         </Grid.Column>
         <Grid.Column textAlign="center">
-          <h1>Expense: ${totalEx}</h1>
+          <h1>Expenses: ${totalEx}</h1>
         </Grid.Column>
         <Grid.Column textAlign="right">
           <h1>Balance: ${totalBalance}</h1>

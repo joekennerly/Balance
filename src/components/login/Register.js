@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-// import Button from "../form/Button"
 import APIManager from "../../modules/APIManager"
 import {
   Button,
@@ -10,7 +9,7 @@ import {
   Segment
 } from "semantic-ui-react"
 
-export default class Login extends Component {
+export default class Register extends Component {
   state = {
     name: "",
     password: ""
@@ -48,7 +47,7 @@ export default class Login extends Component {
       >
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as="h2" color="teal" textAlign="center">
-            Log-in to your account
+            Create a new account
           </Header>
           <Form size="large">
             <Segment stacked>
@@ -71,12 +70,12 @@ export default class Login extends Component {
               />
 
               <Button onClick={this.submit} color="teal" fluid size="large">
-                Login
+                Register
               </Button>
             </Segment>
           </Form>
           <Message>
-            <a href="/register">Sign Up</a>
+            Already have an account? <a href="/login">Sign In</a>
           </Message>
         </Grid.Column>
       </Grid>

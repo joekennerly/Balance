@@ -4,6 +4,15 @@ import Chart from "../chart/Chart"
 import Categories from "../form/Categories"
 
 export default class Dashboard extends Component {
+  state = {
+    chartData: this.props.chartData
+  }
+
+  componentDidMount() {
+    console.log(
+      "chartData", this.props.chartData
+    )
+  }
   render() {
     return (
       <React.Fragment>
