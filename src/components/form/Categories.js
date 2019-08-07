@@ -116,7 +116,7 @@ export default class Categories extends Component {
           {this.props.categories.map(category => (
             <Grid.Row key={category.id}>
               <Grid.Column textAlign="center">
-                <div id={`name-${category.id}`}>{category.name}:</div>
+                <div id={`name-${category.id}`}>{category.name}</div>
                 <input
                   id={`edit-name-${category.id}`}
                   type="text"

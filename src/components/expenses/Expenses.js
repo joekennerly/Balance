@@ -37,14 +37,15 @@ export default class Expenses extends Component {
       if (event.target.id.includes("-")) {
         //grab the num from a two element array
         let id = +event.target.id.split("-")[1]
-        //hide text; add "toggled" class
+        //hide text
         event.target.classList.toggle("hide")
-        // add temporary class
+        // add temporary class to specify a previous toggled element
         event.target.classList.add("toggled")
         //when TEXT is clicked
         let editable = document.querySelector(`#edit-${event.target.id}`)
-        editable.classList.toggle("hide")
         //show edit form
+        editable.classList.toggle("hide")
+        // add temporary class
         editable.classList.add("show")
         //find the object with matching id from this.props
         let upObj = this.props.expenses.find(expense => expense.id === id)
@@ -55,6 +56,7 @@ export default class Expenses extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
+      //optionally, using .slice(1) after split could also work
       let hiddenId = event.target.id.split("-")
       let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
       hiddenText.classList.toggle("hide")
@@ -77,9 +79,6 @@ export default class Expenses extends Component {
   }
 
   render() {
-    // console.log(this.state)
-    // console.log(document.getElementsByClassName(".toggled"))
-    // console.log(document.getElementsByClassName(".show"))
     return (
       <React.Fragment>
         <Totals {...this.props}/>

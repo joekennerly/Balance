@@ -3,14 +3,14 @@ import { Link } from "react-router-dom"
 import { Menu } from "semantic-ui-react"
 
 export default class CategoryMenu extends Component {
-  state = { activeItem: "home" }
+  state = { activeItem: "all" }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
     const { activeItem } = this.state
     return (
-      <Menu tabular>
+      <Menu tabular size="large">
         <Menu.Item
           name="all"
           as={Link}
