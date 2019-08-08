@@ -4,6 +4,7 @@ import { Grid, Button, Input, Label } from "semantic-ui-react"
 export default class EntryForm extends Component {
   state = {
     date: "",
+    category_id:"",
     name: "",
     amount: ""
   }

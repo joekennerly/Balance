@@ -86,6 +86,7 @@ export default class Expenses extends Component {
     }
   }
   render() {
+    console.log(this.state)
     return (
       <React.Fragment>
         <BudgetTotals {...this.props} />
@@ -120,9 +121,10 @@ export default class Expenses extends Component {
                   id={`edit-category-${expense.id}`}
                   value={this.state.category_id}
                   className="hide"
-                  // onChange={this.handleSelect}
-                  onChange={(e) => this.setState({category_id : +e.target.value})}
-                  onSelect={(val) => this.setState({category_id : val})}
+                  onChange={e =>
+                    this.setState({ category_id: +e.target.value })
+                  }
+                  onSelect={val => this.setState({ category_id: val })}
                   onKeyPress={this.enterKey}
                 >
                   {this.props.categories.map(category => (
