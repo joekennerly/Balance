@@ -82,7 +82,7 @@ export default class Register extends Component {
                 fluid
                 icon="user"
                 iconPosition="left"
-                placeholder="E-mail address"
+                placeholder="Username"
                 onChange={this.handleFieldChange}
               />
               <Form.Input

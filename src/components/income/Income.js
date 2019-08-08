@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
-import { Grid, Button } from 'semantic-ui-react'
-import Totals from "../totals/Totals";
+import { Grid, Button } from "semantic-ui-react"
+import Totals from "../totals/Totals"
 
 export default class Income extends Component {
   state = {
@@ -18,7 +18,6 @@ export default class Income extends Component {
   toggleClick = event => {
     // if not an INPUT...
     if (event.target.tagName !== "INPUT") {
-
       //only previously toggled forms will have a "show/toggle" class
       let toggledForm = document.querySelector(".show")
       let toggledText = document.querySelector(".toggled")
@@ -78,10 +77,7 @@ export default class Income extends Component {
     return (
       <React.Fragment>
         <Totals {...this.props} />
-        <Grid
-          columns={4}
-          onClick={this.toggleClick}
-        >
+        <Grid columns={4} onClick={this.toggleClick}>
           <Grid.Row>
             <IncomeForm {...this.props} />
           </Grid.Row>
@@ -120,11 +116,7 @@ export default class Income extends Component {
                   onKeyPress={this.enterKey}
                 />
               </Grid.Column>
-              <Button
-                onClick={() =>
-                  this.props.deleteItem("income", inco.id)
-                }
-              >
+              <Button onClick={() => this.props.deleteItem("income", inco.id)}>
                 x
               </Button>
             </Grid.Row>

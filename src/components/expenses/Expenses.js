@@ -13,13 +13,20 @@ export default class Expenses extends Component {
   }
   //Save current value when changed
   handleKeyPress = event => {
+    console.log(event)
     const stateToChange = {}
     stateToChange[event.target.id.split("-")[1]] = event.target.value
     this.setState(stateToChange)
   }
+  handleSelect = event => {
+    console.log(event)
+    const stateToChange = {}
+    stateToChange[event.target.id] = event.target.value
+    this.setState(stateToChange)
+  }
   toggleClick = event => {
     // if not an INPUT...
-    if (event.target.tagName !== "INPUT") {
+    if (event.target.tagName !== "INPUT" && event.target.tagName !== "SELECT") {
       //only previously toggled forms will have a "show/toggle" class
       let toggledForm = document.querySelector(".show")
       let toggledText = document.querySelector(".toggled")
@@ -43,10 +50,11 @@ export default class Expenses extends Component {
         event.target.classList.add("toggled")
         //when TEXT is clicked
         let editable = document.querySelector(`#edit-${event.target.id}`)
-        //show edit form
-        editable.classList.toggle("hide")
-        // add temporary class
-        editable.classList.add("show")
+        if (editable) {
+          editable.classList.toggle("hide")
+          //show edit form
+          editable.classList.add("show")
+        }
         //find the object with matching id from this.props
         let upObj = this.props.expenses.find(expense => expense.id === id)
         //update state with current values
@@ -56,6 +64,7 @@ export default class Expenses extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
+      event.preventDefault()
       let hiddenId = event.target.id.split("-")
       let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
       hiddenText.classList.toggle("hide")
@@ -76,16 +85,17 @@ export default class Expenses extends Component {
       user_id: +sessionStorage.getItem("activeUser")
     }
   }
-
   render() {
+    console.log(this.state)
     return (
       <React.Fragment>
-        <BudgetTotals {...this.props}/>
+        <BudgetTotals {...this.props} />
         <Menu {...this.props} />
         <Grid columns={5} onClick={this.toggleClick}>
           <Grid.Row>
             <EntryForm {...this.props} />
           </Grid.Row>
+
           {this.props.expenses.map(expense => (
             <Grid.Row key={expense.id}>
               <Grid.Column textAlign="center">
@@ -100,15 +110,29 @@ export default class Expenses extends Component {
                 />
               </Grid.Column>
               <Grid.Column textAlign="center">
-                <div id={`category-${expense.id}`}>{this.props.categories.find(category => category.id === expense.category_id).name}</div>
-                <input
+                <div id={`category-${expense.id}`}>
+                  {
+                    this.props.categories.find(
+                      category => category.id === expense.category_id
+                    ).name
+                  }
+                </div>
+                <select
                   id={`edit-category-${expense.id}`}
-                  type="text"
-                  value={this.state.category}
+                  value={this.state.category_id}
                   className="hide"
-                  onChange={this.handleKeyPress}
+                  onChange={e =>
+                    this.setState({ category_id: +e.target.value })
+                  }
+                  onSelect={val => this.setState({ category_id: val })}
                   onKeyPress={this.enterKey}
-                />
+                >
+                  {this.props.categories.map(category => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </Grid.Column>
               <Grid.Column textAlign="center">
                 <div id={`name-${expense.id}`}>{expense.name}</div>
@@ -133,9 +157,7 @@ export default class Expenses extends Component {
                 />
               </Grid.Column>
               <Button
-                onClick={() =>
-                  this.props.deleteItem("expenses", expense.id)
-                }
+                onClick={() => this.props.deleteItem("expenses", expense.id)}
               >
                 x
               </Button>
