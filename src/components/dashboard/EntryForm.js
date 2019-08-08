@@ -4,19 +4,13 @@ import { Grid, Button, Input, Label } from "semantic-ui-react"
 export default class EntryForm extends Component {
   state = {
     date: "",
-    category: "",
     name: "",
     amount: "",
-    user_id: ""
   }
-  componentWillMount = () => this.setState({
-    user_id: this.props.activeUser
-  })
-  //Load current date and current category
+  //Load current date
   componentDidMount() {
     const stateToChange = {}
     stateToChange.date = this.props.date
-    stateToChange.category = document.querySelector("#category").value
     this.setState(stateToChange)
   }
   //Save current value when changed
@@ -25,11 +19,17 @@ export default class EntryForm extends Component {
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
   }
-  //Handle Submit
+  //creat obj to Submit
   handleClick = () => {
-    let obj = {}
-    obj.amount = this.state.amount.toFixed(2)
-    this.setState(obj)
+    let newObj = {
+      date: this.state.date,
+      category_id: +document.querySelector("#category").value,
+      name: this.state.name,
+      amount: this.state.amount,
+      user_id: +sessionStorage.getItem("activeUser")
+    }
+    console.log(newObj)
+    this.props.addItem("expenses", newObj)
   }
 
   render() {
@@ -49,14 +49,11 @@ export default class EntryForm extends Component {
           <Label htmlFor="category">Category</Label>
           <select
             id="category"
-            type="text"
-            placeholder="category"
-            value={this.props.category}
             onChange={this.handleFieldChange}
             className="ui dropdown"
           >
             {this.props.categories.map(category => (
-              <option key={category.id} value={category.name}>
+              <option key={category.id} value={category.id}>
                 {category.name}
               </option>
             ))}
@@ -69,7 +66,6 @@ export default class EntryForm extends Component {
             type="text"
             onChange={this.handleFieldChange}
             placeholder="name"
-            value={this.props.name}
           />
         </Grid.Column>
         <Grid.Column>
@@ -79,15 +75,9 @@ export default class EntryForm extends Component {
             type="text"
             onChange={this.handleFieldChange}
             placeholder="amount"
-            value={this.props.amount}
           />
         </Grid.Column>
-        <Button
-          className="teal"
-          onClick={() =>
-            this.props.addItem("expenses", this.state, "/expenses")
-          }
-        >
+        <Button className="teal" onClick={this.handleClick}>
           +
         </Button>
       </React.Fragment>

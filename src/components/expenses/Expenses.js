@@ -79,7 +79,7 @@ export default class Expenses extends Component {
   }
 
   render() {
-    console.log(this.props.categories)
+    // console.log(this.props.categories)
     return (
       <React.Fragment>
         <BudgetTotals {...this.props}/>
@@ -103,7 +103,7 @@ export default class Expenses extends Component {
                 />
               </Grid.Column>
               <Grid.Column textAlign="center">
-                <div id={`category-${expense.id}`}>{expense.category}</div>
+                <div id={`category-${expense.id}`}>{this.props.categories.find(category => category.id === expense.category_id).name}</div>
                 <input
                   id={`edit-category-${expense.id}`}
                   type="text"
