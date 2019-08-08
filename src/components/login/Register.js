@@ -20,8 +20,7 @@ export default class Register extends Component {
     this.setState(stateToChange)
   }
 
-  submit = event => {
-    console.log(event)
+  submit = () => {
     if (
       this.state.name === "" ||
       this.state.password === ""
@@ -31,13 +30,11 @@ export default class Register extends Component {
       fetch(`http://localhost:5002/users`)
         .then(res => res.json())
         .then(allUsers => {
-          console.log(allUsers)
           let filteredUsers = allUsers.filter(filterUsers => {
             return (
               filterUsers.name === this.state.name
             )
           })
-          console.log(filteredUsers)
           if (filteredUsers.length !== 0) window.alert("user already exists")
           else {
             //build and object of input values

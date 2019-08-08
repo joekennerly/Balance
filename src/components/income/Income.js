@@ -122,7 +122,7 @@ export default class Income extends Component {
               </Grid.Column>
               <Button
                 onClick={() =>
-                  this.props.deleteItem("income", inco.id, "/income")
+                  this.props.deleteItem("income", inco.id)
                 }
               >
                 x
