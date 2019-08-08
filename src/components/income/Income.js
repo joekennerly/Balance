@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
+import moment from 'moment';
 import { Grid, Button } from 'semantic-ui-react'
 import Totals from "../totals/Totals";
 
@@ -85,7 +86,7 @@ export default class Income extends Component {
           <Grid.Row>
             <IncomeForm {...this.props} />
           </Grid.Row>
-          {this.props.income.map(inco => (
+          {this.props.income.sort((a, b) => moment(b.date).unix() - moment(a.date).unix()).map(inco => (
             <Grid.Row key={inco.id} className="row card">
               <Grid.Column textAlign="center">
                 <div id={`date-${inco.id}`}>{inco.date}</div>
