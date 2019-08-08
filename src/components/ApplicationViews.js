@@ -24,7 +24,7 @@ class ApplicationViews extends Component {
     APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
       .then(expenses => (newState.expenses = expenses.filter(expense => expense.date.startsWith(thisMonth))))
       .then(() =>
-        APIManager.get(`income?user_id=${this.props.activeUser}`).then(
+        APIManager.get(`income?user_id=${sessionStorage.getItem("activeUser")}`).then(
           income => (newState.income = income.filter(income => income.date.startsWith(thisMonth)))
         )
       )
@@ -80,13 +80,11 @@ class ApplicationViews extends Component {
   isAuthenticated = () => sessionStorage.getItem("activeUser")
   deleteItem = (resource, id) => {
     let newObj = {}
-    return fetch(`http://localhost:5002/${resource}/${id}`, {
-      method: "DELETE"
-    })
-      .then(e => e.json())
+    return APIManager.delete(resource, id)
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-      )
+    )
+      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
@@ -97,13 +95,48 @@ class ApplicationViews extends Component {
     return APIManager.put(resource, id, editedObject)
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-      )
-      .then(item => {
-        newObj[resource] = item
+    )
+    .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
+      .then(items => {
+        newObj[resource] = items
         this.setState(newObj)
       })
   }
   addItem = (resource, item) => {
+    let newObj = {}
+    return APIManager.post(resource, item)
+      .then(() =>
+        APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
+    )
+    .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
+      .then(items => {
+        newObj[resource] = items
+        this.setState(newObj)
+      })
+  }
+  deleteCat = (resource, id) => {
+    let newObj = {}
+    return APIManager.delete(resource, id)
+      .then(() =>
+        APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
+      )
+      .then(items => {
+        newObj[resource] = items
+        this.setState(newObj)
+      })
+  }
+  updateCat = (resource, id, editedObject) => {
+    let newObj = {}
+    return APIManager.put(resource, id, editedObject)
+      .then(() =>
+        APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
+      )
+      .then(items => {
+        newObj[resource] = items
+        this.setState(newObj)
+      })
+  }
+  addCat = (resource, item) => {
     let newObj = {}
     return APIManager.post(resource, item)
       .then(() =>
@@ -187,15 +220,16 @@ class ApplicationViews extends Component {
                     activeUser={this.props.activeUser}
                     sum={this.sum}
                     diff={this.diff}
-                    addItem={this.addItem}
-                    deleteItem={this.deleteItem}
-                    updateItem={this.updateItem}
+                    addItem={this.addCat}
+                    deleteItem={this.deleteCat}
+                    updateItem={this.updateCat}
                     income={this.state.income}
                     expenses={this.state.expenses}
                     categories={this.state.categories}
                     date={moment()}
                     chartData={this.state.chartData}
                     updateChart={this.updateChart}
+                    thisMonth={thisMonth}
                     {...props}
                   />
                 )

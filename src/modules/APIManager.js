@@ -8,19 +8,6 @@ export default Object.create(null, {
         .then(converted => converted)
     }
   },
-  getById: {
-    value: function(name, id) {
-      return fetch(`${remoteURL}/${name}/${id}`)
-        .then(e => e.json())
-        .then(converted => converted)
-    }
-  },
-  all: {
-    value: function (name) {
-      return fetch(`${remoteURL}/${name}`)
-        .then(e => e.json())
-    }
-  },
   getAll: {
     value: function (name) {
       return fetch(`${remoteURL}/${name}`)
