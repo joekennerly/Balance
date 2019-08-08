@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import EntryForm from "../dashboard/EntryForm"
 import Menu from "../menu/Menu"
 import BudgetTotals from "./BudgetTotals"
-import moment from "moment"
 import { Grid, Button } from "semantic-ui-react"
 
 export default class Expenses extends Component {
@@ -96,7 +95,7 @@ export default class Expenses extends Component {
             <EntryForm {...this.props} />
           </Grid.Row>
 
-          {this.props.expenses.sort((a, b) => moment(b.date).unix() - moment(a.date).unix()).map(expense => (
+          {this.props.expenses.map(expense => (
             <Grid.Row key={expense.id}>
               <Grid.Column textAlign="center">
                 <div id={`date-${expense.id}`}>{expense.date}</div>

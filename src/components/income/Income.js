@@ -1,8 +1,7 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
-import moment from 'moment';
-import { Grid, Button } from 'semantic-ui-react'
-import Totals from "../totals/Totals";
+import { Grid, Button } from "semantic-ui-react"
+import Totals from "../totals/Totals"
 
 export default class Income extends Component {
   state = {
@@ -19,7 +18,6 @@ export default class Income extends Component {
   toggleClick = event => {
     // if not an INPUT...
     if (event.target.tagName !== "INPUT") {
-
       //only previously toggled forms will have a "show/toggle" class
       let toggledForm = document.querySelector(".show")
       let toggledText = document.querySelector(".toggled")
@@ -79,14 +77,11 @@ export default class Income extends Component {
     return (
       <React.Fragment>
         <Totals {...this.props} />
-        <Grid
-          columns={4}
-          onClick={this.toggleClick}
-        >
+        <Grid columns={4} onClick={this.toggleClick}>
           <Grid.Row>
             <IncomeForm {...this.props} />
           </Grid.Row>
-          {this.props.income.sort((a, b) => moment(b.date).unix() - moment(a.date).unix()).map(inco => (
+          {this.props.income.map(inco => (
             <Grid.Row key={inco.id} className="row card">
               <Grid.Column textAlign="center">
                 <div id={`date-${inco.id}`}>{inco.date}</div>
@@ -121,11 +116,7 @@ export default class Income extends Component {
                   onKeyPress={this.enterKey}
                 />
               </Grid.Column>
-              <Button
-                onClick={() =>
-                  this.props.deleteItem("income", inco.id)
-                }
-              >
+              <Button onClick={() => this.props.deleteItem("income", inco.id)}>
                 x
               </Button>
             </Grid.Row>

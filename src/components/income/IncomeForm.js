@@ -30,7 +30,22 @@ export default class EntryForm extends Component {
   handleClick = () => {
     let obj = {}
     obj.amount = this.state.amount.toFixed(2)
+    document.querySelector("#name").value = ""
+    document.querySelector("#amount").value = ""
     this.setState(obj)
+    this.props.addItem("income", this.state)
+  }
+
+  handleClick = () => {
+    let newObj = {
+      date: this.state.date,
+      name: this.state.name,
+      amount: this.state.amount,
+      user_id: +sessionStorage.getItem("activeUser")
+    }
+    document.querySelector("#name").value = ""
+    document.querySelector("#amount").value = ""
+    this.props.addItem("income", newObj)
   }
 
   render() {
@@ -67,7 +82,7 @@ export default class EntryForm extends Component {
         </Grid.Column>
         <Button
           className="teal"
-          onClick={() => this.props.addItem("income", this.state)}
+          onClick={this.handleClick}
         >
           +
         </Button>
