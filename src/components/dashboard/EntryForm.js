@@ -5,7 +5,7 @@ export default class EntryForm extends Component {
   state = {
     date: "",
     name: "",
-    amount: "",
+    amount: ""
   }
   //Load current date
   componentDidMount() {
@@ -28,12 +28,9 @@ export default class EntryForm extends Component {
       amount: this.state.amount,
       user_id: +sessionStorage.getItem("activeUser")
     }
-    console.log(newObj)
     this.props.addItem("expenses", newObj)
   }
-
   render() {
-    // console.log(this.props.category)
     return (
       <React.Fragment>
         <Grid.Column>

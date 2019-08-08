@@ -94,12 +94,12 @@ export default class Categories extends Component {
           <Grid.Row>
             <Modal
               trigger={
-                <Button onClick={this.handleOpen}>+ Add category</Button>
+                <Button onClick={this.handleOpen}>+ Add Monthly Budget</Button>
               }
               open={this.state.modalOpen}
               onClose={this.handleClose}
             >
-              <Modal.Header>Enter a new category</Modal.Header>
+              <Modal.Header>Enter a new Budget</Modal.Header>
               <Modal.Content>
                 <Input
                   autoFocus
@@ -112,7 +112,7 @@ export default class Categories extends Component {
                   placeholder="amount"
                   onChange={this.handleKeyPress}
                 />
-                <Button onClick={this.addAndClose}>+ Add Category</Button>
+                <Button onClick={this.addAndClose}>+ Add Budget</Button>
               </Modal.Content>
             </Modal>
           </Grid.Row>

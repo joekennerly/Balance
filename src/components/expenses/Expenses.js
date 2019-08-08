@@ -56,7 +56,6 @@ export default class Expenses extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
-      //optionally, using .slice(1) after split could also work
       let hiddenId = event.target.id.split("-")
       let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
       hiddenText.classList.toggle("hide")
@@ -79,7 +78,6 @@ export default class Expenses extends Component {
   }
 
   render() {
-    // console.log(this.props.categories)
     return (
       <React.Fragment>
         <BudgetTotals {...this.props}/>
@@ -88,7 +86,6 @@ export default class Expenses extends Component {
           <Grid.Row>
             <EntryForm {...this.props} />
           </Grid.Row>
-          {/* {this.props.expenses.filter().map(expense => ( */}
           {this.props.expenses.map(expense => (
             <Grid.Row key={expense.id}>
               <Grid.Column textAlign="center">
@@ -137,7 +134,7 @@ export default class Expenses extends Component {
               </Grid.Column>
               <Button
                 onClick={() =>
-                  this.props.deleteItem("expenses", expense.id, "/expenses")
+                  this.props.deleteItem("expenses", expense.id)
                 }
               >
                 x

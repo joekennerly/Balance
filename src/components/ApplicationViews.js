@@ -260,7 +260,7 @@ class ApplicationViews extends Component {
                 )
                 let filtered = this.state.expenses.filter(
                   filtExpenses =>
-                    filtExpenses.category === props.match.params.categoryName
+                    filtExpenses.category_id === category.id
                 )
                 return (
                   <Expenses
