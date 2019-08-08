@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-// import Button from "../form/Button"
 import APIManager from "../../modules/APIManager"
 import {
   Button,
@@ -56,7 +55,7 @@ export default class Login extends Component {
                 fluid
                 icon="user"
                 iconPosition="left"
-                placeholder="E-mail address"
+                placeholder="Username"
                 onChange={this.handleFieldChange}
               />
               <Form.Input
