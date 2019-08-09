@@ -31,7 +31,7 @@ export default class Nav extends Component {
             active={activeItem === "income"}
             onClick={this.handleItemClick}
           >
-            Income
+            +
           </Menu.Item>
 
           <Menu.Item
@@ -41,7 +41,7 @@ export default class Nav extends Component {
             active={activeItem === "expenses"}
             onClick={this.handleItemClick}
           >
-            Expenses
+            -
           </Menu.Item>
 
           <Menu.Menu position='right'>
