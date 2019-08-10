@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Route, Redirect } from "react-router-dom"
+import { Route, Redirect, Link } from "react-router-dom"
 import { withRouter } from "react-router"
 import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
@@ -200,8 +200,19 @@ class ApplicationViews extends Component {
     this.setState(newState)
   }
 
+  logout = () => {
+    this.props.setUser(null)
+    sessionStorage.clear()
+  }
+
   render() {
     const visible = this.state.visible
+
+    let totalIn = this.sum(this.state.income)
+    let totalCat = this.sum(this.state.categories)
+    let totalEx = this.sum(this.state.expenses)
+    let totalBalance = this.diff(totalIn, totalEx)
+    let budgetBalance = this.diff(totalIn, totalCat)
 
     return (
       <React.Fragment>
@@ -228,13 +239,8 @@ class ApplicationViews extends Component {
             } else return <Redirect to="/" />
           }}
         />
-        <Button.Group>
-          <Button disabled={visible} onClick={this.handleShowClick}>
-            <Icon name="bars"/>
-          </Button>
-        </Button.Group>
 
-        <Sidebar.Pushable as={Segment}>
+        <Sidebar.Pushable>
           <Sidebar
             as={Menu}
             animation="overlay"
@@ -246,17 +252,27 @@ class ApplicationViews extends Component {
             visible={visible}
             width="thin"
           >
-            <Menu.Item as="a">
+            <Menu.Item as={Link} to="/dashboard">
               <Icon name="pie chart" />
               Budget
+              {this.diff(
+                this.sum(this.state.income),
+                this.sum(this.state.expenses)
+              )}
+            </Menu.Item>
+            <Menu.Item as={Link} to="/income">
+              <Icon name="plus" />
+              Income
+              {this.sum(this.state.income)}
+            </Menu.Item>
+            <Menu.Item as={Link} to="/expenses">
+              <Icon name="minus" />
+              Expenses
+              {this.sum(this.state.expenses)}
             </Menu.Item>
             <Menu.Item as="a">
-              <Icon name="gamepad" />
-              Games
-            </Menu.Item>
-            <Menu.Item as="a">
-              <Icon name="camera" />
-              Channels
+              <Icon name="cog" />
+              Logout
             </Menu.Item>
           </Sidebar>
 
@@ -267,129 +283,143 @@ class ApplicationViews extends Component {
             inverted
             vertical
             visible={visible}
+            width="thin"
           >
             <Menu.Item as="a" header>
-              File Permissions
+              Budget Categories
             </Menu.Item>
-            <Menu.Item as="a">Share on Social</Menu.Item>
-            <Menu.Item as="a">Share by E-mail</Menu.Item>
-            <Menu.Item as="a">Edit Permissions</Menu.Item>
-            <Menu.Item as="a">Delete Permanently</Menu.Item>
+            {this.state.categories.map(category => (
+              <Menu.Item as="a" key={category.id} value={category.id}>
+                {category.name} ${category.amount}
+              </Menu.Item>
+            ))}
+
           </Sidebar>
 
           <Sidebar.Pusher>
             <Segment basic inverted>
+              <Button.Group>
+                <Button
+                  inverted
+                  size="huge"
+                  disabled={visible}
+                  onClick={this.handleShowClick}
+                >
+                  <Icon name="bars" />
+                  Menu
+                </Button>
+              </Button.Group>
 
-            <Route
-              exact
-              path="/dashboard"
-              render={props => {
-                if (this.isAuthenticated()) {
-                  return (
-                    <Dashboard
-                      activeUser={this.props.activeUser}
-                      sum={this.sum}
-                      diff={this.diff}
-                      addItem={this.addCat}
-                      deleteItem={this.deleteCat}
-                      updateItem={this.updateCat}
-                      income={this.state.income}
-                      expenses={this.state.expenses}
-                      categories={this.state.categories}
-                      date={moment()}
-                      chartData={this.state.chartData}
-                      updateChart={this.updateChart}
-                      thisMonth={thisMonth}
-                      {...props}
-                    />
-                  )
-                } else return <Redirect to="/login" />
-              }}
-            />
-            <Route
-              exact
-              path="/income"
-              render={props => {
-                if (this.isAuthenticated()) {
-                  return (
-                    <Income
-                      activeUser={this.props.activeUser}
-                      sum={this.sum}
-                      diff={this.diff}
-                      addItem={this.addItem}
-                      deleteItem={this.deleteItem}
-                      updateItem={this.updateItem}
-                      income={this.state.income}
-                      expenses={this.state.expenses}
-                      categories={this.state.categories}
-                      date={moment().format("YYYY-MM-DD")}
-                      thisMonth={thisMonth}
-                      {...props}
-                    />
-                  )
-                } else return <Redirect to="/login" />
-              }}
-            />
-            <Route
-              exact
-              path="/expenses"
-              render={props => {
-                if (this.isAuthenticated()) {
-                  return (
-                    <Expenses
-                      activeUser={this.props.activeUser}
-                      sum={this.sum}
-                      diff={this.diff}
-                      addItem={this.addItem}
-                      deleteItem={this.deleteItem}
-                      updateItem={this.updateItem}
-                      income={this.state.income}
-                      expenses={this.state.expenses}
-                      categories={this.state.categories}
-                      date={moment().format("YYYY-MM-DD")}
-                      thisMonth={thisMonth}
-                      {...props}
-                    />
-                  )
-                } else return <Redirect to="/login" />
-              }}
-            />
-            {/* dynamically route expense categories */}
-            <Route
-              path="/expenses/:categoryName"
-              render={props => {
-                if (this.isAuthenticated()) {
-                  let category = this.state.categories.find(
-                    category =>
-                      category.name === props.match.params.categoryName
-                  )
-                  if (!category) {
-                    category = { id: 404, name: "404 not found" }
-                  }
-                  let filtered = this.state.expenses.filter(
-                    filtExpenses => filtExpenses.category_id === category.id
-                  )
-                  return (
-                    <Expenses
-                      category={category}
-                      expenses={filtered}
-                      activeUser={this.props.activeUser}
-                      sum={this.sum}
-                      diff={this.diff}
-                      addItem={this.addItem}
-                      deleteItem={this.deleteItem}
-                      updateItem={this.updateItem}
-                      income={this.state.income}
-                      categories={this.state.categories}
-                      date={moment().format("YYYY-MM-DD")}
-                      thisMonth={thisMonth}
-                      {...props}
-                    />
-                  )
-                }
-              }}
+              <Route
+                exact
+                path="/dashboard"
+                render={props => {
+                  if (this.isAuthenticated()) {
+                    return (
+                      <Dashboard
+                        activeUser={this.props.activeUser}
+                        sum={this.sum}
+                        diff={this.diff}
+                        addItem={this.addCat}
+                        deleteItem={this.deleteCat}
+                        updateItem={this.updateCat}
+                        income={this.state.income}
+                        expenses={this.state.expenses}
+                        categories={this.state.categories}
+                        date={moment()}
+                        chartData={this.state.chartData}
+                        updateChart={this.updateChart}
+                        thisMonth={thisMonth}
+                        {...props}
+                      />
+                    )
+                  } else return <Redirect to="/login" />
+                }}
               />
-              </Segment>
+              <Route
+                exact
+                path="/income"
+                render={props => {
+                  if (this.isAuthenticated()) {
+                    return (
+                      <Income
+                        activeUser={this.props.activeUser}
+                        sum={this.sum}
+                        diff={this.diff}
+                        addItem={this.addItem}
+                        deleteItem={this.deleteItem}
+                        updateItem={this.updateItem}
+                        income={this.state.income}
+                        expenses={this.state.expenses}
+                        categories={this.state.categories}
+                        date={moment().format("YYYY-MM-DD")}
+                        thisMonth={thisMonth}
+                        {...props}
+                      />
+                    )
+                  } else return <Redirect to="/login" />
+                }}
+              />
+              <Route
+                exact
+                path="/expenses"
+                render={props => {
+                  if (this.isAuthenticated()) {
+                    return (
+                      <Expenses
+                        activeUser={this.props.activeUser}
+                        sum={this.sum}
+                        diff={this.diff}
+                        addItem={this.addItem}
+                        deleteItem={this.deleteItem}
+                        updateItem={this.updateItem}
+                        income={this.state.income}
+                        expenses={this.state.expenses}
+                        categories={this.state.categories}
+                        date={moment().format("YYYY-MM-DD")}
+                        thisMonth={thisMonth}
+                        {...props}
+                      />
+                    )
+                  } else return <Redirect to="/login" />
+                }}
+              />
+              {/* dynamically route expense categories */}
+              <Route
+                path="/expenses/:categoryName"
+                render={props => {
+                  if (this.isAuthenticated()) {
+                    let category = this.state.categories.find(
+                      category =>
+                        category.name === props.match.params.categoryName
+                    )
+                    if (!category) {
+                      category = { id: 404, name: "404 not found" }
+                    }
+                    let filtered = this.state.expenses.filter(
+                      filtExpenses => filtExpenses.category_id === category.id
+                    )
+                    return (
+                      <Expenses
+                        category={category}
+                        expenses={filtered}
+                        activeUser={this.props.activeUser}
+                        sum={this.sum}
+                        diff={this.diff}
+                        addItem={this.addItem}
+                        deleteItem={this.deleteItem}
+                        updateItem={this.updateItem}
+                        income={this.state.income}
+                        categories={this.state.categories}
+                        date={moment().format("YYYY-MM-DD")}
+                        thisMonth={thisMonth}
+                        {...props}
+                      />
+                    )
+                  }
+                }}
+              />
+            </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
 

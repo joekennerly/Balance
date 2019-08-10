@@ -16,13 +16,13 @@ export default class Totals extends Component {
     return (
       <Grid columns={3}>
         <Grid.Column textAlign="left">
-          <h1>Income: ${totalIn}</h1>
+          {/* <h1>Income: ${totalIn}</h1> */}
         </Grid.Column>
         <Grid.Column textAlign="center">
           <h1>Expenses: <span className="blue">${totalEx}</span>/${totalCat}</h1>
         </Grid.Column>
         <Grid.Column textAlign="right">
-          <h1>Balance: <span className="blue">${totalBalance}</span>/${budgetBalance}</h1>
+          {/* <h1>Balance: <span className="blue">${totalBalance}</span>/${budgetBalance}</h1> */}
         </Grid.Column>
       </Grid>
     )

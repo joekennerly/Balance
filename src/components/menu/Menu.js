@@ -10,7 +10,7 @@ export default class CategoryMenu extends Component {
   render() {
     const { activeItem } = this.state
     return (
-      <Menu tabular size="large">
+      <Menu inverted tabular size="large">
         <Menu.Item
           name="all"
           as={Link}
