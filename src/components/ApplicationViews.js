@@ -6,9 +6,8 @@ import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
 import Expenses from "./expenses/Expenses"
 import Income from "./income/Income"
-import Register from "./login/Register";
-import { Button, Container, Icon, Menu, Segment, Sidebar } from "semantic-ui-react"
-
+import Register from "./login/Register"
+import { Button, Icon, Menu, Segment, Sidebar } from "semantic-ui-react"
 
 let moment = require("moment")
 let thisMonth = moment().format("YYYY-MM")
@@ -18,7 +17,7 @@ class ApplicationViews extends Component {
     income: [],
     categories: [],
     chartData: {},
-    visable:false
+    visable: true
   }
 
   handleHideClick = () => this.setState({ visible: false })
@@ -28,51 +27,61 @@ class ApplicationViews extends Component {
     //Filtering by month on income and expenses
     let newState = {}
     APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
-      .then(expenses => (newState.expenses = expenses.filter(expense => expense.date.startsWith(thisMonth))))
+      .then(
+        expenses =>
+          (newState.expenses = expenses.filter(expense =>
+            expense.date.startsWith(thisMonth)
+          ))
+      )
       .then(() =>
-        APIManager.get(`income?user_id=${sessionStorage.getItem("activeUser")}`).then(
-          income => (newState.income = income.filter(income => income.date.startsWith(thisMonth)))
+        APIManager.get(
+          `income?user_id=${sessionStorage.getItem("activeUser")}`
+        ).then(
+          income =>
+            (newState.income = income.filter(income =>
+              income.date.startsWith(thisMonth)
+            ))
         )
       )
       .then(() =>
-        APIManager.get(`categories?user_id=${sessionStorage.getItem("activeUser")}`).then(
-          categories => {
-            newState.categories = categories
-            newState.chartData = {
-              labels: this.makeArray(categories, "name"),
-              datasets: [
-                {
-                  data: this.makeArray(categories, "amount"),
-                  backgroundColor: [
-                    "red",
-                    "orange",
-                    "yellow",
-                    "green",
-                    "blue",
-                    "indigo",
-                    "violet",
-                    "brown",
-                    "black",
-                    "gray",
-                    "white",
-                    "pink",
-                    "red",
-                    "orange",
-                    "yellow",
-                    "green",
-                    "blue",
-                    "indigo",
-                    "violet",
-                    "brown",
-                    "black",
-                    "gray",
-                    "white"
-                  ]
-                }
-              ]
-            }
+        APIManager.get(
+          `categories?user_id=${sessionStorage.getItem("activeUser")}`
+        ).then(categories => {
+          newState.categories = categories
+          newState.chartData = {
+            labels: this.makeArray(categories, "name"),
+            datasets: [
+              {
+                data: this.makeArray(categories, "amount"),
+                backgroundColor: [
+                  "red",
+                  "orange",
+                  "yellow",
+                  "green",
+                  "blue",
+                  "indigo",
+                  "violet",
+                  "brown",
+                  "black",
+                  "gray",
+                  "white",
+                  "pink",
+                  "red",
+                  "orange",
+                  "yellow",
+                  "green",
+                  "blue",
+                  "indigo",
+                  "violet",
+                  "brown",
+                  "black",
+                  "gray",
+                  "white"
+                ]
+              }
+            ]
           }
-        )
+        })
       )
       .then(() => this.setState(newState))
   }
@@ -89,7 +98,7 @@ class ApplicationViews extends Component {
     return APIManager.delete(resource, id)
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-    )
+      )
       .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
       .then(items => {
         newObj[resource] = items
@@ -101,8 +110,8 @@ class ApplicationViews extends Component {
     return APIManager.put(resource, id, editedObject)
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-    )
-    .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
+      )
+      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
@@ -113,8 +122,8 @@ class ApplicationViews extends Component {
     return APIManager.post(resource, item)
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-    )
-    .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
+      )
+      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
@@ -198,33 +207,30 @@ class ApplicationViews extends Component {
       <React.Fragment>
         {/* <Container> */}
 
-          <Route
-            exact
-            path="/"
-            render={props => {
-              return <Redirect to="/dashboard" />
-            }}
-          />
-          <Route
-            path="/register"
-            render={props => {
-              return <Register setUser={this.props.setUser} {...props}/>
-            }}
-          />
-          <Route
-            path="/login"
-            render={props => {
-              if (!this.isAuthenticated()) {
-                return <Login setUser={this.props.setUser} {...props} />
-              } else return <Redirect to="/" />
-            }}
-          />
-          <Button.Group>
+        <Route
+          exact
+          path="/"
+          render={props => {
+            return <Redirect to="/dashboard" />
+          }}
+        />
+        <Route
+          path="/register"
+          render={props => {
+            return <Register setUser={this.props.setUser} {...props} />
+          }}
+        />
+        <Route
+          path="/login"
+          render={props => {
+            if (!this.isAuthenticated()) {
+              return <Login setUser={this.props.setUser} {...props} />
+            } else return <Redirect to="/" />
+          }}
+        />
+        <Button.Group>
           <Button disabled={visible} onClick={this.handleShowClick}>
-            Show sidebars
-          </Button>
-          <Button disabled={!visible} onClick={this.handleHideClick}>
-            Hide sidebars
+            <Icon name="bars"/>
           </Button>
         </Button.Group>
 
@@ -241,8 +247,8 @@ class ApplicationViews extends Component {
             width="thin"
           >
             <Menu.Item as="a">
-              <Icon name="home" />
-              Home
+              <Icon name="pie chart" />
+              Budget
             </Menu.Item>
             <Menu.Item as="a">
               <Icon name="gamepad" />
@@ -272,117 +278,118 @@ class ApplicationViews extends Component {
           </Sidebar>
 
           <Sidebar.Pusher>
-              {/* <Segment basic>
-              </Segment> */}
-                      <Route
-            exact
-            path="/dashboard"
-            render={props => {
-              if (this.isAuthenticated()) {
-                return (
-                  <Dashboard
-                    activeUser={this.props.activeUser}
-                    sum={this.sum}
-                    diff={this.diff}
-                    addItem={this.addCat}
-                    deleteItem={this.deleteCat}
-                    updateItem={this.updateCat}
-                    income={this.state.income}
-                    expenses={this.state.expenses}
-                    categories={this.state.categories}
-                    date={moment()}
-                    chartData={this.state.chartData}
-                    updateChart={this.updateChart}
-                    thisMonth={thisMonth}
-                    {...props}
-                  />
-                )
-              } else return <Redirect to="/login" />
-            }}
-          />
-          <Route
-            exact
-            path="/income"
-            render={props => {
-              if (this.isAuthenticated()) {
-                return (
-                  <Income
-                    activeUser={this.props.activeUser}
-                    sum={this.sum}
-                    diff={this.diff}
-                    addItem={this.addItem}
-                    deleteItem={this.deleteItem}
-                    updateItem={this.updateItem}
-                    income={this.state.income}
-                    expenses={this.state.expenses}
-                    categories={this.state.categories}
-                    date={moment().format("YYYY-MM-DD")}
-                    thisMonth={thisMonth}
-                    {...props}
-                  />
-                )
-              } else return <Redirect to="/login" />
-            }}
-          />
-          <Route
-            exact
-            path="/expenses"
-            render={props => {
-              if (this.isAuthenticated()) {
-                return (
-                  <Expenses
-                    activeUser={this.props.activeUser}
-                    sum={this.sum}
-                    diff={this.diff}
-                    addItem={this.addItem}
-                    deleteItem={this.deleteItem}
-                    updateItem={this.updateItem}
-                    income={this.state.income}
-                    expenses={this.state.expenses}
-                    categories={this.state.categories}
-                    date={moment().format("YYYY-MM-DD")}
-                    thisMonth={thisMonth}
-                    {...props}
-                  />
-                )
-              } else return <Redirect to="/login" />
-            }}
-          />
-          {/* dynamically route expense categories */}
-          <Route
-            path="/expenses/:categoryName"
-            render={props => {
-              if (this.isAuthenticated()) {
-                let category = this.state.categories.find(
-                  category => category.name === props.match.params.categoryName
-                )
-                if (!category) {
-                  category = {id:404, name:"404 not found"}
+            <Segment basic inverted>
+
+            <Route
+              exact
+              path="/dashboard"
+              render={props => {
+                if (this.isAuthenticated()) {
+                  return (
+                    <Dashboard
+                      activeUser={this.props.activeUser}
+                      sum={this.sum}
+                      diff={this.diff}
+                      addItem={this.addCat}
+                      deleteItem={this.deleteCat}
+                      updateItem={this.updateCat}
+                      income={this.state.income}
+                      expenses={this.state.expenses}
+                      categories={this.state.categories}
+                      date={moment()}
+                      chartData={this.state.chartData}
+                      updateChart={this.updateChart}
+                      thisMonth={thisMonth}
+                      {...props}
+                    />
+                  )
+                } else return <Redirect to="/login" />
+              }}
+            />
+            <Route
+              exact
+              path="/income"
+              render={props => {
+                if (this.isAuthenticated()) {
+                  return (
+                    <Income
+                      activeUser={this.props.activeUser}
+                      sum={this.sum}
+                      diff={this.diff}
+                      addItem={this.addItem}
+                      deleteItem={this.deleteItem}
+                      updateItem={this.updateItem}
+                      income={this.state.income}
+                      expenses={this.state.expenses}
+                      categories={this.state.categories}
+                      date={moment().format("YYYY-MM-DD")}
+                      thisMonth={thisMonth}
+                      {...props}
+                    />
+                  )
+                } else return <Redirect to="/login" />
+              }}
+            />
+            <Route
+              exact
+              path="/expenses"
+              render={props => {
+                if (this.isAuthenticated()) {
+                  return (
+                    <Expenses
+                      activeUser={this.props.activeUser}
+                      sum={this.sum}
+                      diff={this.diff}
+                      addItem={this.addItem}
+                      deleteItem={this.deleteItem}
+                      updateItem={this.updateItem}
+                      income={this.state.income}
+                      expenses={this.state.expenses}
+                      categories={this.state.categories}
+                      date={moment().format("YYYY-MM-DD")}
+                      thisMonth={thisMonth}
+                      {...props}
+                    />
+                  )
+                } else return <Redirect to="/login" />
+              }}
+            />
+            {/* dynamically route expense categories */}
+            <Route
+              path="/expenses/:categoryName"
+              render={props => {
+                if (this.isAuthenticated()) {
+                  let category = this.state.categories.find(
+                    category =>
+                      category.name === props.match.params.categoryName
+                  )
+                  if (!category) {
+                    category = { id: 404, name: "404 not found" }
+                  }
+                  let filtered = this.state.expenses.filter(
+                    filtExpenses => filtExpenses.category_id === category.id
+                  )
+                  return (
+                    <Expenses
+                      category={category}
+                      expenses={filtered}
+                      activeUser={this.props.activeUser}
+                      sum={this.sum}
+                      diff={this.diff}
+                      addItem={this.addItem}
+                      deleteItem={this.deleteItem}
+                      updateItem={this.updateItem}
+                      income={this.state.income}
+                      categories={this.state.categories}
+                      date={moment().format("YYYY-MM-DD")}
+                      thisMonth={thisMonth}
+                      {...props}
+                    />
+                  )
                 }
-                let filtered = this.state.expenses.filter(
-                  filtExpenses =>
-                    filtExpenses.category_id === category.id
-                )
-                return (
-                  <Expenses
-                    category={category}
-                    expenses={filtered}
-                    activeUser={this.props.activeUser}
-                    sum={this.sum}
-                    diff={this.diff}
-                    addItem={this.addItem}
-                    deleteItem={this.deleteItem}
-                    updateItem={this.updateItem}
-                    income={this.state.income}
-                    categories={this.state.categories}
-                    date={moment().format("YYYY-MM-DD")}
-                    thisMonth={thisMonth}
-                    {...props}
-                  />
-                )
-              }
-            }}
-          />
+              }}
+              />
+              </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
 

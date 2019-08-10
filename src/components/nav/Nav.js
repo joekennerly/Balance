@@ -13,7 +13,7 @@ export default class Nav extends Component {
     const { activeItem } = this.state
     return (
       <header>
-        <Menu size="massive">
+        <Menu size="massive" inverted>
           <Menu.Item
             name="dashboard"
             as={Link}
