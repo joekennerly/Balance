@@ -5,14 +5,14 @@ export default Object.create(null, {
     value: function(name) {
       return fetch(`${remoteURL}/${name}`)
         .then(e => e.json())
-        .then(converted => converted)
+        // .then(converted => converted)
     }
   },
   getAll: {
     value: function (name) {
       return fetch(`${remoteURL}/${name}`)
         .then(e => e.json())
-        .then(converted => converted)
+        // .then(converted => converted)
     }
   },
   post: {

@@ -7,7 +7,8 @@ import Login from "./login/Login"
 import Expenses from "./expenses/Expenses"
 import Income from "./income/Income"
 import Register from "./login/Register";
-import { Container } from "semantic-ui-react"
+import { Button, Container, Icon, Menu, Segment, Sidebar } from "semantic-ui-react"
+
 
 let moment = require("moment")
 let thisMonth = moment().format("YYYY-MM")
@@ -16,8 +17,13 @@ class ApplicationViews extends Component {
     expenses: [],
     income: [],
     categories: [],
-    chartData: {}
+    chartData: {},
+    visable:false
   }
+
+  handleHideClick = () => this.setState({ visible: false })
+  handleShowClick = () => this.setState({ visible: true })
+  handleSidebarHide = () => this.setState({ visible: false })
   componentDidMount() {
     //Filtering by month on income and expenses
     let newState = {}
@@ -186,9 +192,12 @@ class ApplicationViews extends Component {
   }
 
   render() {
+    const visible = this.state.visible
+
     return (
       <React.Fragment>
-        <Container>
+        {/* <Container> */}
+
           <Route
             exact
             path="/"
@@ -210,7 +219,62 @@ class ApplicationViews extends Component {
               } else return <Redirect to="/" />
             }}
           />
-          <Route
+          <Button.Group>
+          <Button disabled={visible} onClick={this.handleShowClick}>
+            Show sidebars
+          </Button>
+          <Button disabled={!visible} onClick={this.handleHideClick}>
+            Hide sidebars
+          </Button>
+        </Button.Group>
+
+        <Sidebar.Pushable as={Segment}>
+          <Sidebar
+            as={Menu}
+            animation="overlay"
+            direction="left"
+            icon="labeled"
+            inverted
+            onHide={this.handleSidebarHide}
+            vertical
+            visible={visible}
+            width="thin"
+          >
+            <Menu.Item as="a">
+              <Icon name="home" />
+              Home
+            </Menu.Item>
+            <Menu.Item as="a">
+              <Icon name="gamepad" />
+              Games
+            </Menu.Item>
+            <Menu.Item as="a">
+              <Icon name="camera" />
+              Channels
+            </Menu.Item>
+          </Sidebar>
+
+          <Sidebar
+            as={Menu}
+            animation="overlay"
+            direction="right"
+            inverted
+            vertical
+            visible={visible}
+          >
+            <Menu.Item as="a" header>
+              File Permissions
+            </Menu.Item>
+            <Menu.Item as="a">Share on Social</Menu.Item>
+            <Menu.Item as="a">Share by E-mail</Menu.Item>
+            <Menu.Item as="a">Edit Permissions</Menu.Item>
+            <Menu.Item as="a">Delete Permanently</Menu.Item>
+          </Sidebar>
+
+          <Sidebar.Pusher>
+              {/* <Segment basic>
+              </Segment> */}
+                      <Route
             exact
             path="/dashboard"
             render={props => {
@@ -292,6 +356,9 @@ class ApplicationViews extends Component {
                 let category = this.state.categories.find(
                   category => category.name === props.match.params.categoryName
                 )
+                if (!category) {
+                  category = {id:404, name:"404 not found"}
+                }
                 let filtered = this.state.expenses.filter(
                   filtExpenses =>
                     filtExpenses.category_id === category.id
@@ -316,7 +383,10 @@ class ApplicationViews extends Component {
               }
             }}
           />
-        </Container>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
+
+        {/* </Container> */}
       </React.Fragment>
     )
   }

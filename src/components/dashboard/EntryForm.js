@@ -50,7 +50,6 @@ export default class EntryForm extends Component {
           <select
             id="category"
             onChange={this.handleFieldChange}
-            className="ui dropdown"
           >
             {this.props.categories.map(category => (
               <option key={category.id} value={category.id}>

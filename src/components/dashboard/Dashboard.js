@@ -5,6 +5,7 @@ import Categories from "../form/Categories"
 
 export default class Dashboard extends Component {
   render() {
+
     return (
       <React.Fragment>
         <Totals {...this.props} />
