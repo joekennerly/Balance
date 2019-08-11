@@ -23,13 +23,8 @@ export default class Chart extends Component {
         <Pie
           data={this.state.chartData}
           options={{
-            title: {
-              display: true,
-              text: "Budget Percentages",
-              fontSize: 18
-            },
             legend: {
-              display: true,
+              display: false,
               position: "bottom"
             }
           }}

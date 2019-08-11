@@ -188,7 +188,6 @@ class ApplicationViews extends Component {
   render() {
     return (
       <React.Fragment>
-        <Container>
           <Route
             exact
             path="/"
@@ -316,7 +315,6 @@ class ApplicationViews extends Component {
               }
             }}
           />
-        </Container>
       </React.Fragment>
     )
   }

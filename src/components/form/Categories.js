@@ -54,9 +54,13 @@ export default class Categories extends Component {
       event.target.classList.toggle("hide")
       event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("categories", eventId, this.makeObj()).then(()=>this.props.updateChart())
+      return this.props
+        .updateItem("categories", eventId, this.makeObj())
+        .then(() => this.props.updateChart())
+        .then(() => this.handleClose())
     }
   }
+
   // Functions to open and close the "add category" modal
   handleOpen = () => this.setState({ modalOpen: true })
   handleClose = () => this.setState({ modalOpen: false })
@@ -81,72 +85,80 @@ export default class Categories extends Component {
   }
   // ADD / Delete
   addAndClose = () => {
-    this.props.addItem("categories", this.makeObj())
-    .then(()=>this.props.updateChart())
-    .then(()=>this.handleClose())
+    if (this.state.name === "") {
+      return window.alert("please enter a name")
+    } else if (this.state.amount === "" || this.state.amount === NaN) {
+      return window.alert("please enter a number amount")
+    } else {
+      this.props
+        .addItem("categories", this.makeObj())
+        .then(() => this.props.updateChart())
+        .then(() => this.handleClose())
+    }
   }
-  del = e => this.props.deleteItem("categories", e.target.id.split("-")[1]).then(()=>this.props.updateChart())
+  del = e =>
+    this.props
+      .deleteItem("categories", e.target.id.split("-")[1])
+      .then(() => this.props.updateChart())
+      .then(() => this.handleClose())
 
   render() {
     return (
       <React.Fragment>
         <Grid columns={3} onClick={this.toggleClick}>
           <Grid.Row>
-            <Modal
-              trigger={
-                <Button onClick={this.handleOpen}>+ Add Monthly Budget</Button>
-              }
-              open={this.state.modalOpen}
-              onClose={this.handleClose}
-            >
-              <Modal.Header>Enter a new Budget</Modal.Header>
-              <Modal.Content>
-                <Input
-                  autoFocus
-                  id="name"
-                  placeholder="name"
-                  onChange={this.handleKeyPress}
-                />
-                <Input
-                  id="amount"
-                  placeholder="amount"
-                  onChange={this.handleKeyPress}
-                />
-                <Button onClick={this.addAndClose}>+ Add Budget</Button>
-              </Modal.Content>
-            </Modal>
+            <Grid.Column inverted>
+              <Input
+                autoFocus
+                id="name"
+                placeholder="name"
+                onChange={this.handleKeyPress}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Input
+                id="amount"
+                placeholder="amount"
+                onChange={this.handleKeyPress}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Button onClick={this.addAndClose}>+ Add Budget</Button>
+            </Grid.Column>
           </Grid.Row>
-          {this.props.categories.map(category => (
-            <Grid.Row key={category.id}>
-              <Grid.Column textAlign="center">
-                <div id={`name-${category.id}`}>{category.name}</div>
-                <input
-                  id={`edit-name-${category.id}`}
-                  type="text"
-                  value={this.state.name}
-                  className="hide"
-                  onChange={this.handleEdit}
-                  onKeyPress={this.enterKey}
-                />
-              </Grid.Column>
-              <Grid.Column textAlign="center">
-                <div id={`amount-${category.id}`}>${category.amount}</div>
-                <input
-                  id={`edit-amount-${category.id}`}
-                  type="text"
-                  value={this.state.amount}
-                  className="hide"
-                  onChange={this.handleEdit}
-                  onKeyPress={this.enterKey}
-                />
-              </Grid.Column>
-              <Grid.Column textAlign="center">
-                <Button id={`category-${category.id}`} onClick={this.del}>
-                  x
-                </Button>
-              </Grid.Column>
-            </Grid.Row>
-          ))}
+          <Grid.Row>
+            {this.props.categories.map(category => (
+              <Grid.Row key={category.id}>
+                <Grid.Column textAlign="center">
+                  <div id={`name-${category.id}`}>{category.name}</div>
+                  <input
+                    id={`edit-name-${category.id}`}
+                    type="text"
+                    value={this.state.name}
+                    className="hide"
+                    onChange={this.handleEdit}
+                    onKeyPress={this.enterKey}
+                  />
+                </Grid.Column>
+                <Grid.Column textAlign="center">
+                  <div id={`amount-${category.id}`}>${category.amount}</div>
+                  <input
+                    id={`edit-amount-${category.id}`}
+                    type="text"
+                    value={this.state.amount}
+                    className="hide"
+                    onChange={this.handleEdit}
+                    onKeyPress={this.enterKey}
+                  />
+                </Grid.Column>
+                <Grid.Column textAlign="center">
+                  <Button id={`category-${category.id}`} onClick={this.del}>
+                    x
+                  </Button>
+                </Grid.Column>
+              </Grid.Row>
+            ))}
+          </Grid.Row>
         </Grid>
       </React.Fragment>
     )
