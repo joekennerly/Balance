@@ -7,7 +7,6 @@ import Login from "./login/Login"
 import Expenses from "./expenses/Expenses"
 import Income from "./income/Income"
 import Register from "./login/Register";
-import { Container } from "semantic-ui-react"
 
 let moment = require("moment")
 let thisMonth = moment().format("YYYY-MM")

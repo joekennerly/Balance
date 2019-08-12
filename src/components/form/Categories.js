@@ -1,5 +1,14 @@
 import React, { Component } from "react"
-import { Button, Grid, Modal, Input } from "semantic-ui-react"
+import {
+  Button,
+  Grid,
+  Card,
+  Input,
+  Header,
+  Segment,
+  SegmentGroup
+} from "semantic-ui-react"
+import { S } from "xmlchars/xml/1.0/ed5"
 
 export default class Categories extends Component {
   state = {
@@ -15,6 +24,7 @@ export default class Categories extends Component {
       let toggledText = document.querySelector(".toggled")
       //if there is an element with "show/toggled" class...
       if (toggledForm) {
+        toggledForm.setAttribute("autoFocus", false)
         // toggle it back
         toggledForm.classList.toggle("hide")
         toggledText.classList.toggle("hide")
@@ -34,6 +44,7 @@ export default class Categories extends Component {
         //when TEXT is clicked
         let editable = document.querySelector(`#edit-${event.target.id}`)
         if (editable) {
+          editable.setAttribute("autoFocus", true)
           editable.classList.toggle("hide")
           //show edit form
           editable.classList.add("show")
@@ -47,6 +58,7 @@ export default class Categories extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
+
       let hiddenId = event.target.id.split("-")
       let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
       hiddenText.classList.toggle("hide")
@@ -87,7 +99,7 @@ export default class Categories extends Component {
   addAndClose = () => {
     if (this.state.name === "") {
       return window.alert("please enter a name")
-    } else if (this.state.amount === "" || this.state.amount === NaN) {
+    } else if ((this.state.amount = "")) {
       return window.alert("please enter a number amount")
     } else {
       this.props
@@ -105,61 +117,54 @@ export default class Categories extends Component {
   render() {
     return (
       <React.Fragment>
-        <Grid columns={3} onClick={this.toggleClick}>
-          <Grid.Row>
-            <Grid.Column inverted>
-              <Input
-                autoFocus
-                id="name"
-                placeholder="name"
-                onChange={this.handleKeyPress}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Input
-                id="amount"
-                placeholder="amount"
-                onChange={this.handleKeyPress}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Button onClick={this.addAndClose}>+ Add Budget</Button>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            {this.props.categories.map(category => (
-              <Grid.Row key={category.id}>
-                <Grid.Column textAlign="center">
-                  <div id={`name-${category.id}`}>{category.name}</div>
-                  <input
-                    id={`edit-name-${category.id}`}
-                    type="text"
-                    value={this.state.name}
-                    className="hide"
-                    onChange={this.handleEdit}
-                    onKeyPress={this.enterKey}
-                  />
-                </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <div id={`amount-${category.id}`}>${category.amount}</div>
-                  <input
-                    id={`edit-amount-${category.id}`}
-                    type="text"
-                    value={this.state.amount}
-                    className="hide"
-                    onChange={this.handleEdit}
-                    onKeyPress={this.enterKey}
-                  />
-                </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <Button id={`category-${category.id}`} onClick={this.del}>
-                    x
-                  </Button>
-                </Grid.Column>
-              </Grid.Row>
-            ))}
-          </Grid.Row>
-        </Grid>
+        <Segment onClick={this.toggleClick}>
+          <Input
+            autoFocus
+            id="name"
+            placeholder="name"
+            onChange={this.handleKeyPress}
+          />
+          <Input
+            id="amount"
+            type="number"
+            placeholder="amount"
+            onChange={this.handleKeyPress}
+          />
+          <Button onClick={this.addAndClose}>+ Add Budget</Button>
+          {this.props.categories.map(category => (
+            <Segment.Group horizontal fluid key={category.id}>
+              <Segment textAlign="center">
+                <Header id={`name-${category.id}`}>{category.name}</Header>
+                <input
+                  id={`edit-name-${category.id}`}
+                  type="text"
+                  value={this.state.name}
+                  className="hide"
+                  onChange={this.handleEdit}
+                  onKeyPress={this.enterKey}
+                />
+              </Segment>
+              <Segment textAlign="center">
+                <Header id={`amount-${category.id}`}>${category.amount}</Header>
+                <input
+                  id={`edit-amount-${category.id}`}
+                  type="number"
+                  value={this.state.amount}
+                  className="hide"
+                  onChange={this.handleEdit}
+                  onKeyPress={this.enterKey}
+                />
+              </Segment>
+              <Button
+                as={Segment}
+                id={`category-${category.id}`}
+                onClick={this.del}
+              >
+                x
+              </Button>
+            </Segment.Group>
+          ))}
+        </Segment>
       </React.Fragment>
     )
   }

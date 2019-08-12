@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Pie } from 'react-chartjs-2'
+import { Pie,Bar, Line } from 'react-chartjs-2'
 
 export default class Chart extends Component {
   state = {
@@ -19,7 +19,7 @@ export default class Chart extends Component {
 
   render() {
     return (
-      <div className="chart">
+      <React.Fragment>
         <Pie
           data={this.state.chartData}
           options={{
@@ -29,7 +29,7 @@ export default class Chart extends Component {
             }
           }}
         />
-      </div>
+      </React.Fragment>
     )
   }
 }

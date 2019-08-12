@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
-import { Grid, Button, Modal } from "semantic-ui-react"
+import { Grid, Button, Header, Segment } from "semantic-ui-react"
 import Totals from "../totals/Totals"
 
 export default class Income extends Component {
@@ -8,7 +8,6 @@ export default class Income extends Component {
     date: "",
     name: "",
     amount: "",
-    modalOpen: false
   }
   //Save current value when changed
   handleKeyPress = event => {
@@ -52,9 +51,6 @@ export default class Income extends Component {
       }
     }
   }
-  // Functions to open and close the "add category" modal
-  handleOpen = () => this.setState({ modalOpen: true })
-  handleClose = () => this.setState({ modalOpen: false })
   enterKey = event => {
     if (event.key === "Enter") {
       let hiddenId = event.target.id.split("-")
@@ -80,64 +76,58 @@ export default class Income extends Component {
   render() {
     return (
       <React.Fragment>
-        <Modal
-          trigger={
-            <Button onClick={this.handleOpen}>+ Add Monthly Income</Button>
-          }
-          open={this.state.modalOpen}
-          onClose={this.handleClose}
-        >
-          <Modal.Content>
-            <Totals {...this.props} />
-            <Grid columns={4} onClick={this.toggleClick}>
-              <Grid.Row>
-                <IncomeForm {...this.props} />
-              </Grid.Row>
-              {this.props.income.map(inco => (
-                <Grid.Row key={inco.id} className="row card">
-                  <Grid.Column textAlign="center">
-                    <div id={`date-${inco.id}`}>{inco.date}</div>
-                    <input
-                      id={`edit-date-${inco.id}`}
-                      type="date"
-                      value={this.state.date}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Grid.Column>
-                  <Grid.Column textAlign="center">
-                    <div id={`name-${inco.id}`}>{inco.name}</div>
-                    <input
-                      id={`edit-name-${inco.id}`}
-                      type="text"
-                      value={this.state.name}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Grid.Column>
-                  <Grid.Column textAlign="center">
-                    <div id={`amount-${inco.id}`}>{inco.amount}</div>
-                    <input
-                      id={`edit-amount-${inco.id}`}
-                      type="text"
-                      value={this.state.amount}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Grid.Column>
+        <Totals {...this.props} />
+
+        <Segment.Group horizontal fluid onClick={this.toggleClick}>
+          <Segment>Chart goes here</Segment>
+          <Segment>
+            {/* <Segment> */}
+              <IncomeForm {...this.props} />
+            {/* </Segment> */}
+            {this.props.income.map(inco => (
+              <Segment.Group horizontal key={inco.id}>
+                <Segment textAlign="center">
+                  <Header id={`date-${inco.id}`}>{inco.date}</Header>
+                  <input
+                    id={`edit-date-${inco.id}`}
+                    type="date"
+                    value={this.state.date}
+                    className="hide"
+                    onChange={this.handleKeyPress}
+                    onKeyPress={this.enterKey}
+                  />
+                </Segment>
+                <Segment textAlign="center">
+                  <Header id={`name-${inco.id}`}>{inco.name}</Header>
+                  <input
+                    id={`edit-name-${inco.id}`}
+                    type="text"
+                    value={this.state.name}
+                    className="hide"
+                    onChange={this.handleKeyPress}
+                    onKeyPress={this.enterKey}
+                  />
+                </Segment>
+                <Segment textAlign="center">
+                  <Header id={`amount-${inco.id}`}>{inco.amount}</Header>
+                  <input
+                    id={`edit-amount-${inco.id}`}
+                    type="text"
+                    value={this.state.amount}
+                    className="hide"
+                    onChange={this.handleKeyPress}
+                    onKeyPress={this.enterKey}
+                  />
+                </Segment>
                   <Button
                     onClick={() => this.props.deleteItem("income", inco.id)}
                   >
                     x
                   </Button>
-                </Grid.Row>
-              ))}
-            </Grid>
-          </Modal.Content>
-        </Modal>
+              </Segment.Group>
+            ))}
+          </Segment>
+        </Segment.Group>
       </React.Fragment>
     )
   }
