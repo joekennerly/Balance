@@ -1,11 +1,12 @@
 import React, { Component } from "react"
-import { Button, Grid, Modal, Input } from "semantic-ui-react"
+import EntryForm from "../dashboard/EntryForm"
+import { Button, Input, Header, Segment, Accordion } from "semantic-ui-react"
 
 export default class Categories extends Component {
   state = {
     name: "",
     amount: "",
-    modalOpen: false
+    activeIndex: 0
   }
   toggleClick = event => {
     // if not an INPUT...
@@ -15,6 +16,7 @@ export default class Categories extends Component {
       let toggledText = document.querySelector(".toggled")
       //if there is an element with "show/toggled" class...
       if (toggledForm) {
+        toggledForm.setAttribute("autoFocus", false)
         // toggle it back
         toggledForm.classList.toggle("hide")
         toggledText.classList.toggle("hide")
@@ -34,6 +36,7 @@ export default class Categories extends Component {
         //when TEXT is clicked
         let editable = document.querySelector(`#edit-${event.target.id}`)
         if (editable) {
+          editable.setAttribute("autoFocus", true)
           editable.classList.toggle("hide")
           //show edit form
           editable.classList.add("show")
@@ -54,12 +57,20 @@ export default class Categories extends Component {
       event.target.classList.toggle("hide")
       event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("categories", eventId, this.makeObj()).then(()=>this.props.updateChart())
+      return this.props
+        .updateItem("categories", eventId, this.makeObj())
+        .then(() => this.props.updateChart())
     }
   }
-  // Functions to open and close the "add category" modal
-  handleOpen = () => this.setState({ modalOpen: true })
-  handleClose = () => this.setState({ modalOpen: false })
+
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    this.setState({ activeIndex: newIndex })
+  }
+
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
@@ -81,74 +92,117 @@ export default class Categories extends Component {
   }
   // ADD / Delete
   addAndClose = () => {
-    this.props.addItem("categories", this.makeObj())
-    .then(()=>this.props.updateChart())
-    .then(()=>this.handleClose())
+    if (this.state.name === "") {
+      return window.alert("please enter a name")
+    } else if (this.state.amount === "") {
+      return window.alert("please enter an amount")
+    } else {
+      this.props
+        .addItem("categories", this.makeObj())
+        .then(() => this.props.updateChart())
+    }
   }
-  del = e => this.props.deleteItem("categories", e.target.id.split("-")[1]).then(()=>this.props.updateChart())
+  del = e =>
+    this.props
+      .deleteItem("categories", e.target.id.split("-")[1])
+      .then(() => this.props.updateChart())
 
   render() {
+    console.log(this.props.expenses.filter(exp => exp.category_id === 22))
+
     return (
-      <React.Fragment>
-        <Grid columns={3} onClick={this.toggleClick}>
-          <Grid.Row>
-            <Modal
-              trigger={
-                <Button onClick={this.handleOpen}>+ Add Monthly Budget</Button>
-              }
-              open={this.state.modalOpen}
-              onClose={this.handleClose}
-            >
-              <Modal.Header>Enter a new Budget</Modal.Header>
-              <Modal.Content>
-                <Input
-                  autoFocus
-                  id="name"
-                  placeholder="name"
-                  onChange={this.handleKeyPress}
-                />
-                <Input
-                  id="amount"
-                  placeholder="amount"
-                  onChange={this.handleKeyPress}
-                />
-                <Button onClick={this.addAndClose}>+ Add Budget</Button>
-              </Modal.Content>
-            </Modal>
-          </Grid.Row>
+      <Segment onClick={this.toggleClick}>
+        <Segment>
+          <Header>
+            Budget Remainder:{" "}
+            {this.props.diff(
+              this.props.sum(this.props.income),
+              this.props.sum(this.props.categories)
+            )}
+          </Header>
+        </Segment>
+
+        <EntryForm {...this.props} />
+
+        <Accordion>
           {this.props.categories.map(category => (
-            <Grid.Row key={category.id}>
-              <Grid.Column textAlign="center">
-                <div id={`name-${category.id}`}>{category.name}</div>
-                <input
-                  id={`edit-name-${category.id}`}
-                  type="text"
-                  value={this.state.name}
-                  className="hide"
-                  onChange={this.handleEdit}
-                  onKeyPress={this.enterKey}
-                />
-              </Grid.Column>
-              <Grid.Column textAlign="center">
-                <div id={`amount-${category.id}`}>${category.amount}</div>
-                <input
-                  id={`edit-amount-${category.id}`}
-                  type="text"
-                  value={this.state.amount}
-                  className="hide"
-                  onChange={this.handleEdit}
-                  onKeyPress={this.enterKey}
-                />
-              </Grid.Column>
-              <Grid.Column textAlign="center">
-                <Button id={`category-${category.id}`} onClick={this.del}>
-                  x
-                </Button>
-              </Grid.Column>
-            </Grid.Row>
+            <Segment inverted key={category.id}>
+              <Accordion.Title
+                active={this.state.activeIndex === category.id}
+                index={category.id}
+                onClick={this.handleClick}
+              >
+                <Segment.Group horizontal>
+                  <Segment textAlign="center">
+                    <Header id={`name-${category.id}`}>{category.name}</Header>
+                    <input
+                      id={`edit-name-${category.id}`}
+                      type="text"
+                      value={this.state.name}
+                      className="hide"
+                      onChange={this.handleEdit}
+                      onKeyPress={this.enterKey}
+                    />
+                  </Segment>
+                  <Segment textAlign="center">
+                    <Header id={`amount-${category.id}`}>
+                      $
+                      {this.props.sum(
+                        this.props.expenses.filter(
+                          exp => exp.category_id === category.id
+                        )
+                      )}
+                      /${category.amount}
+                    </Header>
+                    <input
+                      id={`edit-amount-${category.id}`}
+                      type="number"
+                      value={this.state.amount}
+                      className="hide"
+                      onChange={this.handleEdit}
+                      onKeyPress={this.enterKey}
+                    />
+                  </Segment>
+                  <Button
+                    as={Segment}
+                    id={`category-${category.id}`}
+                    onClick={this.del}
+                  >
+                    x
+                  </Button>
+                </Segment.Group>
+              </Accordion.Title>
+              <Accordion.Content
+                active={this.state.activeIndex === category.id}
+              >
+                {this.props.expenses
+                  .filter(expenses => expenses.category_id === category.id)
+                  .map(expense => (
+                    <Segment.Group horizontal key={expense.id}>
+                      <Segment>{expense.date}</Segment>
+                      <Segment>{expense.name}</Segment>
+                      <Segment>{expense.amount}</Segment>
+                      <Button as={Segment}>x</Button>
+                    </Segment.Group>
+                  ))}
+              </Accordion.Content>
+            </Segment>
           ))}
-        </Grid>
-      </React.Fragment>
+        </Accordion>
+        <Input
+          autoFocus
+          id="name"
+          placeholder="name"
+          onChange={this.handleKeyPress}
+        />
+        <Input
+          id="amount"
+          type="number"
+          placeholder="amount"
+          onChange={this.handleKeyPress}
+        />
+        <Button onClick={this.addAndClose}>+ Add Budget</Button>
+      </Segment>
     )
   }
 }

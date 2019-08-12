@@ -12,36 +12,13 @@ export default class Nav extends Component {
   render() {
     const { activeItem } = this.state
     return (
-      <header>
-        <Menu size="massive">
+        <Menu inverted size="massive"  >
           <Menu.Item
             name="dashboard"
-            as={Link}
-            to="/dashboard"
             active={activeItem === "dashboard"}
             onClick={this.handleItemClick}
           >
             <Icon name="balance scale"/>
-          </Menu.Item>
-
-          <Menu.Item
-            name="income"
-            as={Link}
-            to="/income"
-            active={activeItem === "income"}
-            onClick={this.handleItemClick}
-          >
-            Income
-          </Menu.Item>
-
-          <Menu.Item
-            name="expenses"
-            as={Link}
-            to="/expenses"
-            active={activeItem === "expenses"}
-            onClick={this.handleItemClick}
-          >
-            Expenses
           </Menu.Item>
 
           <Menu.Menu position='right'>
@@ -54,7 +31,6 @@ export default class Nav extends Component {
             />
           </Menu.Menu>
         </Menu>
-      </header>
     )
   }
 }

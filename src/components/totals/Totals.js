@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Grid } from "semantic-ui-react"
+import { Segment, Header } from "semantic-ui-react"
 
 export default class Totals extends Component {
   render() {
@@ -9,17 +9,17 @@ export default class Totals extends Component {
     let totalBalance = this.props.diff(totalIn, totalEx)
     let budgetBalance = this.props.diff(totalIn, totalCat)
     return (
-      <Grid columns={3}>
-        <Grid.Column textAlign="left">
-          <h1>Income: ${totalIn}</h1>
-        </Grid.Column>
-        <Grid.Column textAlign="center">
-          <h1>Expenses: <span className="blue">${totalEx}</span>/${totalCat}</h1>
-        </Grid.Column>
-        <Grid.Column textAlign="right">
-          <h1>Balance: <span className="blue">${totalBalance}</span>/${budgetBalance}</h1>
-        </Grid.Column>
-      </Grid>
+      <Segment.Group horizontal>
+        <Segment>
+          <Header size="huge" textAlign="center">Income: ${totalIn}</Header>
+        </Segment>
+        <Segment>
+          <Header size="huge" textAlign="center">Expenses: <span className="blue">${totalEx}</span>/${totalCat}</Header>
+        </Segment>
+        <Segment>
+          <Header size="huge" textAlign="center">Balance: <span className="blue">${totalBalance}</span>/${budgetBalance}</Header>
+        </Segment>
+      </Segment.Group>
     )
   }
 }

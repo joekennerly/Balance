@@ -1,40 +1,33 @@
-import React, { Component } from 'react'
-import { Pie } from 'react-chartjs-2'
+import React, { Component } from "react"
+import { Pie } from "react-chartjs-2"
+import { Segment } from "semantic-ui-react";
 
 export default class Chart extends Component {
   state = {
     chartData: this.props.chartData
   }
   static getDerivedStateFromProps(props, current_state) {
-    if (current_state.chartData !== props.chartData)
-    {
+    if (current_state.chartData !== props.chartData) {
       return {
-        chartData: props.chartData,
-
+        chartData: props.chartData
       }
-
     }
     return null
-}
+  }
 
   render() {
     return (
-      <div className="chart">
+      <Segment>
         <Pie
           data={this.state.chartData}
           options={{
-            title: {
-              display: true,
-              text: "Budget Percentages",
-              fontSize: 18
-            },
             legend: {
               display: true,
               position: "bottom"
             }
           }}
         />
-      </div>
+      </Segment>
     )
   }
 }

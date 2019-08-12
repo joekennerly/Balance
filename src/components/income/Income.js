@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
-import { Grid, Button } from "semantic-ui-react"
-import Totals from "../totals/Totals"
+import { Button, Header, Segment } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -60,7 +59,9 @@ export default class Income extends Component {
       event.target.classList.toggle("hide")
       event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("income", eventId, this.makeObj())
+      this.props
+        .updateItem("income", eventId, this.makeObj())
+        .then(() => this.props.updateChart())
     }
   }
   //Factory function
@@ -75,16 +76,27 @@ export default class Income extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <Totals {...this.props} />
-        <Grid columns={4} onClick={this.toggleClick}>
-          <Grid.Row>
-            <IncomeForm {...this.props} />
-          </Grid.Row>
+      <Segment.Group
+        as={Segment}
+        inverted
+        horizontal
+        onClick={this.toggleClick}
+      >
+        <Segment inverted>
+          <Segment>
+            <Header>
+              Current Balance:{" "}
+              {this.props.diff(
+                this.props.sum(this.props.income),
+                this.props.sum(this.props.expenses)
+              )}
+            </Header>
+          </Segment>
+          <IncomeForm {...this.props} />
           {this.props.income.map(inco => (
-            <Grid.Row key={inco.id} className="row card">
-              <Grid.Column textAlign="center">
-                <div id={`date-${inco.id}`}>{inco.date}</div>
+            <Segment.Group horizontal key={inco.id}>
+              <Segment textAlign="center">
+                <Header id={`date-${inco.id}`}>{inco.date}</Header>
                 <input
                   id={`edit-date-${inco.id}`}
                   type="date"
@@ -93,9 +105,9 @@ export default class Income extends Component {
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
-              </Grid.Column>
-              <Grid.Column textAlign="center">
-                <div id={`name-${inco.id}`}>{inco.name}</div>
+              </Segment>
+              <Segment textAlign="center">
+                <Header id={`name-${inco.id}`}>{inco.name}</Header>
                 <input
                   id={`edit-name-${inco.id}`}
                   type="text"
@@ -104,9 +116,9 @@ export default class Income extends Component {
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
-              </Grid.Column>
-              <Grid.Column textAlign="center">
-                <div id={`amount-${inco.id}`}>{inco.amount}</div>
+              </Segment>
+              <Segment textAlign="center">
+                <Header id={`amount-${inco.id}`}>{inco.amount}</Header>
                 <input
                   id={`edit-amount-${inco.id}`}
                   type="text"
@@ -115,14 +127,20 @@ export default class Income extends Component {
                   onChange={this.handleKeyPress}
                   onKeyPress={this.enterKey}
                 />
-              </Grid.Column>
-              <Button onClick={() => this.props.deleteItem("income", inco.id)}>
+              </Segment>
+              <Button
+                onClick={() =>
+                  this.props
+                    .deleteItem("income", inco.id)
+                    .then(() => this.props.updateChart())
+                }
+              >
                 x
               </Button>
-            </Grid.Row>
+            </Segment.Group>
           ))}
-        </Grid>
-      </React.Fragment>
+        </Segment>
+      </Segment.Group>
     )
   }
 }

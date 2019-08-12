@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Grid, Button, Input, Label } from "semantic-ui-react"
+import { Grid, Button, Input } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
   state = {
@@ -32,12 +32,12 @@ export default class EntryForm extends Component {
     document.querySelector("#name").value = ""
     document.querySelector("#amount").value = ""
     this.props.addItem("expenses", newObj)
+    this.props.updateChart()
   }
   render() {
     return (
       <React.Fragment>
         <Grid.Column>
-          <Label htmlFor="date">Date</Label>
           <Input
             id="date"
             type="date"
@@ -46,7 +46,6 @@ export default class EntryForm extends Component {
           />
         </Grid.Column>
         <Grid.Column>
-          <Label htmlFor="category">Category</Label>
           <select
             id="category"
             onChange={this.handleFieldChange}
@@ -60,7 +59,6 @@ export default class EntryForm extends Component {
           </select>
         </Grid.Column>
         <Grid.Column>
-          <Label htmlFor="name">Name</Label>
           <Input
             id="name"
             type="text"
@@ -69,7 +67,6 @@ export default class EntryForm extends Component {
           />
         </Grid.Column>
         <Grid.Column>
-          <Label htmlFor="amount">Amount</Label>
           <Input
             id="amount"
             type="text"
@@ -77,7 +74,7 @@ export default class EntryForm extends Component {
             placeholder="amount"
           />
         </Grid.Column>
-        <Button className="teal" onClick={this.handleClick}>
+        <Button primary onClick={this.handleClick}>
           +
         </Button>
       </React.Fragment>
