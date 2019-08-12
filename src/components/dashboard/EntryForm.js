@@ -32,6 +32,7 @@ export default class EntryForm extends Component {
     document.querySelector("#name").value = ""
     document.querySelector("#amount").value = ""
     this.props.addItem("expenses", newObj)
+    this.props.updateChart()
   }
   render() {
     return (
@@ -73,7 +74,7 @@ export default class EntryForm extends Component {
             placeholder="amount"
           />
         </Grid.Column>
-        <Button className="teal" onClick={this.handleClick}>
+        <Button primary onClick={this.handleClick}>
           +
         </Button>
       </React.Fragment>

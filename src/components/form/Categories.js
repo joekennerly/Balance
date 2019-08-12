@@ -1,11 +1,6 @@
 import React, { Component } from "react"
-import {
-  Button,
-  Input,
-  Header,
-  Segment,
-  Accordion
-} from "semantic-ui-react"
+import EntryForm from "../dashboard/EntryForm"
+import { Button, Input, Header, Segment, Accordion } from "semantic-ui-react"
 
 export default class Categories extends Component {
   state = {
@@ -99,11 +94,9 @@ export default class Categories extends Component {
   addAndClose = () => {
     if (this.state.name === "") {
       return window.alert("please enter a name")
-    }
-    else if (this.state.amount === "") {
+    } else if (this.state.amount === "") {
       return window.alert("please enter an amount")
-    }
-    else {
+    } else {
       this.props
         .addItem("categories", this.makeObj())
         .then(() => this.props.updateChart())
@@ -115,97 +108,101 @@ export default class Categories extends Component {
       .then(() => this.props.updateChart())
 
   render() {
-    console.log(this.props.expenses.filter(exp=> exp.category_id === 22))
+    console.log(this.props.expenses.filter(exp => exp.category_id === 22))
 
     return (
-      <React.Fragment>
-        <Segment onClick={this.toggleClick}>
-          <Segment>
-            <Header>Current Income:</Header>
-          </Segment>
+      <Segment onClick={this.toggleClick}>
+        <Segment>
+          <Header>
+            Budget Remainder:{" "}
+            {this.props.diff(
+              this.props.sum(this.props.income),
+              this.props.sum(this.props.categories)
+            )}
+          </Header>
+        </Segment>
 
+        <EntryForm {...this.props} />
 
-
-          <Accordion>
-            {this.props.categories.map(category => (
-              <div key={category.id}>
-                <Accordion.Title
-                  active={this.state.activeIndex === category.id}
-                  index={category.id}
-                  onClick={this.handleClick}
-                >
-                  <Segment.Group horizontal>
-                    <Segment textAlign="center">
-                      <Header id={`name-${category.id}`}>
-                        {category.name}
-                      </Header>
-                      <input
-                        id={`edit-name-${category.id}`}
-                        type="text"
-                        value={this.state.name}
-                        className="hide"
-                        onChange={this.handleEdit}
-                        onKeyPress={this.enterKey}
-                      />
-                    </Segment>
-                    <Segment textAlign="center">
-                      <Header id={`amount-${category.id}`}>
-                        ${category.amount}
-                      </Header>
-                      <input
-                        id={`edit-amount-${category.id}`}
-                        type="number"
-                        value={this.state.amount}
-                        className="hide"
-                        onChange={this.handleEdit}
-                        onKeyPress={this.enterKey}
-                      />
-                    </Segment>
-                    <Button
-                      as={Segment}
-                      id={`category-${category.id}`}
-                      onClick={this.del}
-                    >
-                      x
-                    </Button>
-                  </Segment.Group>
-                </Accordion.Title>
-                <Accordion.Content
-                  active={this.state.activeIndex === category.id}
-                >
-                  {this.props.expenses.filter(expenses=>expenses.category_id === category.id).map(expense => (
+        <Accordion>
+          {this.props.categories.map(category => (
+            <Segment inverted key={category.id}>
+              <Accordion.Title
+                active={this.state.activeIndex === category.id}
+                index={category.id}
+                onClick={this.handleClick}
+              >
+                <Segment.Group horizontal>
+                  <Segment textAlign="center">
+                    <Header id={`name-${category.id}`}>{category.name}</Header>
+                    <input
+                      id={`edit-name-${category.id}`}
+                      type="text"
+                      value={this.state.name}
+                      className="hide"
+                      onChange={this.handleEdit}
+                      onKeyPress={this.enterKey}
+                    />
+                  </Segment>
+                  <Segment textAlign="center">
+                    <Header id={`amount-${category.id}`}>
+                      $
+                      {this.props.sum(
+                        this.props.expenses.filter(
+                          exp => exp.category_id === category.id
+                        )
+                      )}
+                      /${category.amount}
+                    </Header>
+                    <input
+                      id={`edit-amount-${category.id}`}
+                      type="number"
+                      value={this.state.amount}
+                      className="hide"
+                      onChange={this.handleEdit}
+                      onKeyPress={this.enterKey}
+                    />
+                  </Segment>
+                  <Button
+                    as={Segment}
+                    id={`category-${category.id}`}
+                    onClick={this.del}
+                  >
+                    x
+                  </Button>
+                </Segment.Group>
+              </Accordion.Title>
+              <Accordion.Content
+                active={this.state.activeIndex === category.id}
+              >
+                {this.props.expenses
+                  .filter(expenses => expenses.category_id === category.id)
+                  .map(expense => (
                     <Segment.Group horizontal key={expense.id}>
-                      <Segment>
-                        {expense.date}
-                      </Segment>
-                      <Segment>
-                        {expense.name}
-                      </Segment>
-                      <Segment>
-                        {expense.amount}
-                      </Segment>
+                      <Segment>{expense.date}</Segment>
+                      <Segment>{expense.name}</Segment>
+                      <Segment>{expense.amount}</Segment>
                       <Button as={Segment}>x</Button>
                     </Segment.Group>
-                    ))}
-                </Accordion.Content>
-              </div>
-            ))}
-          </Accordion>
-          <Input
-            autoFocus
-            id="name"
-            placeholder="name"
-            onChange={this.handleKeyPress}
-          />
-          <Input
-            id="amount"
-            type="number"
-            placeholder="amount"
-            onChange={this.handleKeyPress}
-          />
+                  ))}
+              </Accordion.Content>
+            </Segment>
+          ))}
+        </Accordion>
+        <Input
+          autoFocus
+          id="name"
+          placeholder="name"
+          onChange={this.handleKeyPress}
+        />
+        <Input
+          id="amount"
+          type="number"
+          placeholder="amount"
+          onChange={this.handleKeyPress}
+        />
         <Button onClick={this.addAndClose}>+ Add Budget</Button>
-        </Segment>
-      </React.Fragment>
+      </Segment>
     )
   }
 }

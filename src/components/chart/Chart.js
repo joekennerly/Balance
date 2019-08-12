@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Pie } from "react-chartjs-2"
+import { Segment } from "semantic-ui-react";
 
 export default class Chart extends Component {
   state = {
@@ -16,7 +17,7 @@ export default class Chart extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Segment>
         <Pie
           data={this.state.chartData}
           options={{
@@ -26,7 +27,7 @@ export default class Chart extends Component {
             }
           }}
         />
-      </React.Fragment>
+      </Segment>
     )
   }
 }

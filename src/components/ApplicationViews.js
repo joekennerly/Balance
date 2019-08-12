@@ -12,22 +12,6 @@ let moment = require("moment")
 let thisMonth = moment().format("YYYY-MM")
 
 let colorArray = [
-  "springgreen",
-  "lightpink",
-  "lightsalmon",
-  "moccasin",
-  "lightblue",
-  "lightpink",
-  "lightsalmon",
-  "moccasin",
-  "lightblue",
-  "lightpink",
-  "lightsalmon",
-  "moccasin",
-  "lightblue",
-  "lightpink",
-  "lightsalmon",
-  "moccasin",
   "lightblue"
 ]
 class ApplicationViews extends Component {

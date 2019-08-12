@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Chart from "../chart/Chart"
 import Categories from "../form/Categories"
-import Totals from "../totals/Totals"
+// import Totals from "../totals/Totals"
 import Income from "../income/Income"
 import { Segment, Sidebar, Menu, Button } from "semantic-ui-react"
 
@@ -16,15 +16,16 @@ export default class Dashboard extends Component {
     const { visible } = this.state
     return (
       <React.Fragment>
-        <Totals {...this.props} />
+        {/* <Totals {...this.props} /> */}
         <Button.Group>
           <Button disabled={visible} onClick={this.handleShowClick}>
             Show Income
           </Button>
         </Button.Group>
-        <Segment.Group horizontal>
+        <Segment.Group as={Segment} inverted horizontal>
           <Sidebar.Pushable as={Segment}>
             <Sidebar
+              inverted
               as={Menu}
               animation="push"
               icon="labeled"
@@ -37,7 +38,7 @@ export default class Dashboard extends Component {
             </Sidebar>
 
             <Sidebar.Pusher>
-              <Segment.Group horizontal>
+              <Segment.Group as={Segment} inverted horizontal>
                 <Segment>
                   <Chart chartData={this.props.chartData} />
                 </Segment>

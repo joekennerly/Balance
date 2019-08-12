@@ -12,8 +12,7 @@ export default class Nav extends Component {
   render() {
     const { activeItem } = this.state
     return (
-      <header>
-        <Menu size="massive"  >
+        <Menu inverted size="massive"  >
           <Menu.Item
             name="dashboard"
             active={activeItem === "dashboard"}
@@ -32,7 +31,6 @@ export default class Nav extends Component {
             />
           </Menu.Menu>
         </Menu>
-      </header>
     )
   }
 }

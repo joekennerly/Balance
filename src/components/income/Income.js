@@ -76,62 +76,71 @@ export default class Income extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <Segment.Group horizontal onClick={this.toggleClick}>
+      <Segment.Group
+        as={Segment}
+        inverted
+        horizontal
+        onClick={this.toggleClick}
+      >
+        <Segment inverted>
           <Segment>
-          <Segment>
-            <Header>Current Balance:</Header>
+            <Header>
+              Current Balance:{" "}
+              {this.props.diff(
+                this.props.sum(this.props.income),
+                this.props.sum(this.props.expenses)
+              )}
+            </Header>
           </Segment>
-            <IncomeForm {...this.props} />
-            {this.props.income.map(inco => (
-              <Segment.Group horizontal key={inco.id}>
-                <Segment textAlign="center">
-                  <Header id={`date-${inco.id}`}>{inco.date}</Header>
-                  <input
-                    id={`edit-date-${inco.id}`}
-                    type="date"
-                    value={this.state.date}
-                    className="hide"
-                    onChange={this.handleKeyPress}
-                    onKeyPress={this.enterKey}
-                  />
-                </Segment>
-                <Segment textAlign="center">
-                  <Header id={`name-${inco.id}`}>{inco.name}</Header>
-                  <input
-                    id={`edit-name-${inco.id}`}
-                    type="text"
-                    value={this.state.name}
-                    className="hide"
-                    onChange={this.handleKeyPress}
-                    onKeyPress={this.enterKey}
-                  />
-                </Segment>
-                <Segment textAlign="center">
-                  <Header id={`amount-${inco.id}`}>{inco.amount}</Header>
-                  <input
-                    id={`edit-amount-${inco.id}`}
-                    type="text"
-                    value={this.state.amount}
-                    className="hide"
-                    onChange={this.handleKeyPress}
-                    onKeyPress={this.enterKey}
-                  />
-                </Segment>
-                <Button
-                  onClick={() =>
-                    this.props
-                      .deleteItem("income", inco.id)
-                      .then(() => this.props.updateChart())
-                  }
-                >
-                  x
-                </Button>
-              </Segment.Group>
-            ))}
-          </Segment>
-        </Segment.Group>
-      </React.Fragment>
+          <IncomeForm {...this.props} />
+          {this.props.income.map(inco => (
+            <Segment.Group horizontal key={inco.id}>
+              <Segment textAlign="center">
+                <Header id={`date-${inco.id}`}>{inco.date}</Header>
+                <input
+                  id={`edit-date-${inco.id}`}
+                  type="date"
+                  value={this.state.date}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </Segment>
+              <Segment textAlign="center">
+                <Header id={`name-${inco.id}`}>{inco.name}</Header>
+                <input
+                  id={`edit-name-${inco.id}`}
+                  type="text"
+                  value={this.state.name}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </Segment>
+              <Segment textAlign="center">
+                <Header id={`amount-${inco.id}`}>{inco.amount}</Header>
+                <input
+                  id={`edit-amount-${inco.id}`}
+                  type="text"
+                  value={this.state.amount}
+                  className="hide"
+                  onChange={this.handleKeyPress}
+                  onKeyPress={this.enterKey}
+                />
+              </Segment>
+              <Button
+                onClick={() =>
+                  this.props
+                    .deleteItem("income", inco.id)
+                    .then(() => this.props.updateChart())
+                }
+              >
+                x
+              </Button>
+            </Segment.Group>
+          ))}
+        </Segment>
+      </Segment.Group>
     )
   }
 }
