@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Grid, Button, Input, Label, Segment } from "semantic-ui-react"
+import { Button, Input, Segment } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
   state = {

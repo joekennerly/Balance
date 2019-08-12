@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import Chart from "../chart/Chart"
 import Categories from "../form/Categories"
 import Totals from "../totals/Totals"
-import { Menu, Sidebar, Segment } from "semantic-ui-react"
+import { Segment } from "semantic-ui-react"
 
 export default class Dashboard extends Component {
   render() {

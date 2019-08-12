@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
-import { Grid, Button, Header, Segment } from "semantic-ui-react"
+import { Button, Header, Segment } from "semantic-ui-react"
 import Totals from "../totals/Totals"
 
 export default class Income extends Component {

@@ -1,8 +1,7 @@
 import React, { Component } from "react"
 import EntryForm from "../dashboard/EntryForm"
-import Menu from "../menu/Menu"
 import BudgetTotals from "./BudgetTotals"
-import { Grid, Button, Modal, Segment } from "semantic-ui-react"
+import { Grid, Button, Segment } from "semantic-ui-react"
 
 export default class Expenses extends Component {
   state = {

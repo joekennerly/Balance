@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Grid,Header, Segment } from "semantic-ui-react"
+import { Header, Segment } from "semantic-ui-react"
 
 export default class Totals extends Component {
   render() {
@@ -11,8 +11,8 @@ export default class Totals extends Component {
     }
     let totalIn = this.props.sum(this.props.income)
     let totalEx = this.props.sum(this.props.expenses)
-    let totalBalance = this.props.diff(totalIn, totalEx)
-    let budgetBalance = this.props.diff(totalIn, totalCat)
+    // let totalBalance = this.props.diff(totalIn, totalEx)
+    // let budgetBalance = this.props.diff(totalIn, totalCat)
     return (
       <Segment.Group horizontal>
         <Segment textAlign="center">

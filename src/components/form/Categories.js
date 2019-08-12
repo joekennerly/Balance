@@ -1,14 +1,10 @@
 import React, { Component } from "react"
 import {
   Button,
-  Grid,
-  Card,
   Input,
   Header,
   Segment,
-  SegmentGroup
 } from "semantic-ui-react"
-import { S } from "xmlchars/xml/1.0/ed5"
 
 export default class Categories extends Component {
   state = {
@@ -99,8 +95,8 @@ export default class Categories extends Component {
   addAndClose = () => {
     if (this.state.name === "") {
       return window.alert("please enter a name")
-    } else if ((this.state.amount = "")) {
-      return window.alert("please enter a number amount")
+    } else if (this.state.amount === "") {
+      return window.alert("please enter an amount")
     } else {
       this.props
         .addItem("categories", this.makeObj())
@@ -132,7 +128,7 @@ export default class Categories extends Component {
           />
           <Button onClick={this.addAndClose}>+ Add Budget</Button>
           {this.props.categories.map(category => (
-            <Segment.Group horizontal fluid key={category.id}>
+            <Segment.Group horizontal key={category.id}>
               <Segment textAlign="center">
                 <Header id={`name-${category.id}`}>{category.name}</Header>
                 <input
