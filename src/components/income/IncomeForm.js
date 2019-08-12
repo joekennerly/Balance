@@ -29,15 +29,6 @@ export default class EntryForm extends Component {
   }
 
   handleClick = () => {
-    let obj = {}
-    obj.amount = this.state.amount.toFixed(2)
-    document.querySelector("#name").value = ""
-    document.querySelector("#amount").value = ""
-    this.setState(obj)
-    this.props.addItem("income", this.state)
-  }
-
-  handleClick = () => {
     let newObj = {
       date: this.state.date,
       name: this.state.name,
@@ -46,7 +37,7 @@ export default class EntryForm extends Component {
     }
     document.querySelector("#name").value = ""
     document.querySelector("#amount").value = ""
-    this.props.addItem("income", newObj)
+    this.props.addItem("income", newObj).then(()=>this.props.updateChart())
   }
 
   render() {

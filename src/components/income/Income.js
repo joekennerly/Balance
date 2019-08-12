@@ -1,13 +1,12 @@
 import React, { Component } from "react"
 import IncomeForm from "./IncomeForm"
 import { Button, Header, Segment } from "semantic-ui-react"
-import Totals from "../totals/Totals"
 
 export default class Income extends Component {
   state = {
     date: "",
     name: "",
-    amount: "",
+    amount: ""
   }
   //Save current value when changed
   handleKeyPress = event => {
@@ -60,7 +59,9 @@ export default class Income extends Component {
       event.target.classList.toggle("hide")
       event.target.classList.remove("show")
       let eventId = +event.target.id.split("-")[2]
-      return this.props.updateItem("income", eventId, this.makeObj())
+      this.props
+        .updateItem("income", eventId, this.makeObj())
+        .then(() => this.props.updateChart())
     }
   }
   //Factory function
@@ -76,14 +77,12 @@ export default class Income extends Component {
   render() {
     return (
       <React.Fragment>
-        <Totals {...this.props} />
-
-        <Segment.Group horizontal fluid onClick={this.toggleClick}>
-          <Segment>Chart goes here</Segment>
+        <Segment.Group horizontal onClick={this.toggleClick}>
           <Segment>
-            {/* <Segment> */}
-              <IncomeForm {...this.props} />
-            {/* </Segment> */}
+          <Segment>
+            <Header>Current Balance:</Header>
+          </Segment>
+            <IncomeForm {...this.props} />
             {this.props.income.map(inco => (
               <Segment.Group horizontal key={inco.id}>
                 <Segment textAlign="center">
@@ -119,11 +118,15 @@ export default class Income extends Component {
                     onKeyPress={this.enterKey}
                   />
                 </Segment>
-                  <Button
-                    onClick={() => this.props.deleteItem("income", inco.id)}
-                  >
-                    x
-                  </Button>
+                <Button
+                  onClick={() =>
+                    this.props
+                      .deleteItem("income", inco.id)
+                      .then(() => this.props.updateChart())
+                  }
+                >
+                  x
+                </Button>
               </Segment.Group>
             ))}
           </Segment>

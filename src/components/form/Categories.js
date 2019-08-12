@@ -4,13 +4,14 @@ import {
   Input,
   Header,
   Segment,
+  Accordion
 } from "semantic-ui-react"
 
 export default class Categories extends Component {
   state = {
     name: "",
     amount: "",
-    modalOpen: false
+    activeIndex: 0
   }
   toggleClick = event => {
     // if not an INPUT...
@@ -54,7 +55,6 @@ export default class Categories extends Component {
   }
   enterKey = event => {
     if (event.key === "Enter") {
-
       let hiddenId = event.target.id.split("-")
       let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
       hiddenText.classList.toggle("hide")
@@ -65,13 +65,17 @@ export default class Categories extends Component {
       return this.props
         .updateItem("categories", eventId, this.makeObj())
         .then(() => this.props.updateChart())
-        .then(() => this.handleClose())
     }
   }
 
-  // Functions to open and close the "add category" modal
-  handleOpen = () => this.setState({ modalOpen: true })
-  handleClose = () => this.setState({ modalOpen: false })
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    this.setState({ activeIndex: newIndex })
+  }
+
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
@@ -95,25 +99,98 @@ export default class Categories extends Component {
   addAndClose = () => {
     if (this.state.name === "") {
       return window.alert("please enter a name")
-    } else if (this.state.amount === "") {
+    }
+    else if (this.state.amount === "") {
       return window.alert("please enter an amount")
-    } else {
+    }
+    else {
       this.props
         .addItem("categories", this.makeObj())
         .then(() => this.props.updateChart())
-        .then(() => this.handleClose())
     }
   }
   del = e =>
     this.props
       .deleteItem("categories", e.target.id.split("-")[1])
       .then(() => this.props.updateChart())
-      .then(() => this.handleClose())
 
   render() {
+    console.log(this.props.expenses.filter(exp=> exp.category_id === 22))
+
     return (
       <React.Fragment>
         <Segment onClick={this.toggleClick}>
+          <Segment>
+            <Header>Current Income:</Header>
+          </Segment>
+
+
+
+          <Accordion>
+            {this.props.categories.map(category => (
+              <div key={category.id}>
+                <Accordion.Title
+                  active={this.state.activeIndex === category.id}
+                  index={category.id}
+                  onClick={this.handleClick}
+                >
+                  <Segment.Group horizontal>
+                    <Segment textAlign="center">
+                      <Header id={`name-${category.id}`}>
+                        {category.name}
+                      </Header>
+                      <input
+                        id={`edit-name-${category.id}`}
+                        type="text"
+                        value={this.state.name}
+                        className="hide"
+                        onChange={this.handleEdit}
+                        onKeyPress={this.enterKey}
+                      />
+                    </Segment>
+                    <Segment textAlign="center">
+                      <Header id={`amount-${category.id}`}>
+                        ${category.amount}
+                      </Header>
+                      <input
+                        id={`edit-amount-${category.id}`}
+                        type="number"
+                        value={this.state.amount}
+                        className="hide"
+                        onChange={this.handleEdit}
+                        onKeyPress={this.enterKey}
+                      />
+                    </Segment>
+                    <Button
+                      as={Segment}
+                      id={`category-${category.id}`}
+                      onClick={this.del}
+                    >
+                      x
+                    </Button>
+                  </Segment.Group>
+                </Accordion.Title>
+                <Accordion.Content
+                  active={this.state.activeIndex === category.id}
+                >
+                  {this.props.expenses.filter(expenses=>expenses.category_id === category.id).map(expense => (
+                    <Segment.Group horizontal key={expense.id}>
+                      <Segment>
+                        {expense.date}
+                      </Segment>
+                      <Segment>
+                        {expense.name}
+                      </Segment>
+                      <Segment>
+                        {expense.amount}
+                      </Segment>
+                      <Button as={Segment}>x</Button>
+                    </Segment.Group>
+                    ))}
+                </Accordion.Content>
+              </div>
+            ))}
+          </Accordion>
           <Input
             autoFocus
             id="name"
@@ -126,40 +203,7 @@ export default class Categories extends Component {
             placeholder="amount"
             onChange={this.handleKeyPress}
           />
-          <Button onClick={this.addAndClose}>+ Add Budget</Button>
-          {this.props.categories.map(category => (
-            <Segment.Group horizontal key={category.id}>
-              <Segment textAlign="center">
-                <Header id={`name-${category.id}`}>{category.name}</Header>
-                <input
-                  id={`edit-name-${category.id}`}
-                  type="text"
-                  value={this.state.name}
-                  className="hide"
-                  onChange={this.handleEdit}
-                  onKeyPress={this.enterKey}
-                />
-              </Segment>
-              <Segment textAlign="center">
-                <Header id={`amount-${category.id}`}>${category.amount}</Header>
-                <input
-                  id={`edit-amount-${category.id}`}
-                  type="number"
-                  value={this.state.amount}
-                  className="hide"
-                  onChange={this.handleEdit}
-                  onKeyPress={this.enterKey}
-                />
-              </Segment>
-              <Button
-                as={Segment}
-                id={`category-${category.id}`}
-                onClick={this.del}
-              >
-                x
-              </Button>
-            </Segment.Group>
-          ))}
+        <Button onClick={this.addAndClose}>+ Add Budget</Button>
         </Segment>
       </React.Fragment>
     )
