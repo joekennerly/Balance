@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Segment, Header } from "semantic-ui-react"
+import { Segment, Header, Table } from "semantic-ui-react"
 
 export default class Totals extends Component {
   render() {
@@ -9,17 +9,29 @@ export default class Totals extends Component {
     let totalBalance = this.props.diff(totalIn, totalEx)
     let budgetBalance = this.props.diff(totalIn, totalCat)
     return (
-      <Segment.Group horizontal>
-        <Segment>
-          <Header size="huge" textAlign="center">Income: ${totalIn}</Header>
-        </Segment>
-        <Segment>
-          <Header size="huge" textAlign="center">Expenses: <span className="blue">${totalEx}</span>/${totalCat}</Header>
-        </Segment>
-        <Segment>
-          <Header size="huge" textAlign="center">Balance: <span className="blue">${totalBalance}</span>/${budgetBalance}</Header>
-        </Segment>
-      </Segment.Group>
+      <Table inverted celled>
+
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>
+              <Header size="huge" inverted textAlign="center">
+                Income: ${totalIn}
+              </Header>
+            </Table.HeaderCell>
+            <Table.HeaderCell>
+              <Header size="huge" inverted textAlign="center">
+                Balance: <span className="blue">${totalBalance}</span>
+              </Header>
+            </Table.HeaderCell>
+            <Table.HeaderCell>
+              <Header size="huge" inverted textAlign="center">
+                Expenses: <span className="blue">${totalEx}</span>
+              </Header>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+      </Table>
     )
   }
 }

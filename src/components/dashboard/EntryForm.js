@@ -1,10 +1,10 @@
 import React, { Component } from "react"
-import { Grid, Button, Input } from "semantic-ui-react"
+import { Dropdown, Segment, Button, Input, Form } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
   state = {
     date: "",
-    category_id:"",
+    category_id: "",
     name: "",
     amount: ""
   }
@@ -36,48 +36,46 @@ export default class EntryForm extends Component {
   }
   render() {
     return (
-      <React.Fragment>
-        <Grid.Column>
-          <Input
+      <Form>
+        <Form.Group width="equal">
+          <Form.Input
+            fluid
             id="date"
             type="date"
             value={this.props.date}
             onChange={this.handleFieldChange}
           />
-        </Grid.Column>
-        <Grid.Column>
-          <select
+          <Dropdown
+            compact
+            selection
+            text="Category"
             id="category"
             onChange={this.handleFieldChange}
-            className="ui dropdown"
-          >
+          />
+          <Dropdown.Menu>
             {this.props.categories.map(category => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
+              <Dropdown.Item key={category.id} value={category.id} text={category.name}/>
             ))}
-          </select>
-        </Grid.Column>
-        <Grid.Column>
-          <Input
+          </Dropdown.Menu>
+          <Form.Input
+            fluid
             id="name"
             type="text"
             onChange={this.handleFieldChange}
             placeholder="name"
           />
-        </Grid.Column>
-        <Grid.Column>
-          <Input
+          <Form.Input
+            fluid
             id="amount"
             type="text"
             onChange={this.handleFieldChange}
             placeholder="amount"
           />
-        </Grid.Column>
+        </Form.Group>
         <Button primary onClick={this.handleClick}>
           +
         </Button>
-      </React.Fragment>
+      </Form>
     )
   }
 }

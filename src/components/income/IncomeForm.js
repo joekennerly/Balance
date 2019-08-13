@@ -43,14 +43,14 @@ export default class EntryForm extends Component {
   render() {
     return (
       <Segment.Group horizontal>
-        <Input size="big"
+        <Input
           as={Segment}
           id="date"
           type="date"
           value={this.props.date}
           onChange={this.handleFieldChange}
         />
-        <Input size="big"
+        <Input
           as={Segment}
           id="name"
           type="text"
@@ -58,7 +58,7 @@ export default class EntryForm extends Component {
           placeholder="name"
           value={this.props.name}
         />
-        <Input size="big"
+        <Input
           as={Segment}
           id="amount"
           type="text"

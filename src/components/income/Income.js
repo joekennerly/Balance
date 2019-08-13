@@ -84,8 +84,8 @@ export default class Income extends Component {
       >
         <Segment inverted>
           <Segment>
-            <Header>
-              Current Balance:{" "}
+            <Header size="huge">
+              Monthly Income:
               {this.props.diff(
                 this.props.sum(this.props.income),
                 this.props.sum(this.props.expenses)

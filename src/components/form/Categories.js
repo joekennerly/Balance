@@ -113,12 +113,9 @@ export default class Categories extends Component {
     return (
       <Segment onClick={this.toggleClick}>
         <Segment>
-          <Header>
-            Budget Remainder:{" "}
-            {this.props.diff(
-              this.props.sum(this.props.income),
-              this.props.sum(this.props.categories)
-            )}
+          <Header size="huge">
+            Total Monthly Budget:{" "}
+            {this.props.sum(this.props.categories)}
           </Header>
         </Segment>
 
@@ -132,9 +129,9 @@ export default class Categories extends Component {
                 index={category.id}
                 onClick={this.handleClick}
               >
-                <Segment.Group horizontal>
+                <Segment.Group as={Segment} horizontal>
                   <Segment textAlign="center">
-                    <Header id={`name-${category.id}`}>{category.name}</Header>
+                    <Header size="large" id={`name-${category.id}`}>{category.name}</Header>
                     <input
                       id={`edit-name-${category.id}`}
                       type="text"
@@ -145,7 +142,7 @@ export default class Categories extends Component {
                     />
                   </Segment>
                   <Segment textAlign="center">
-                    <Header id={`amount-${category.id}`}>
+                    <Header size="large" id={`amount-${category.id}`}>
                       $
                       {this.props.sum(
                         this.props.expenses.filter(
@@ -168,7 +165,7 @@ export default class Categories extends Component {
                     id={`category-${category.id}`}
                     onClick={this.del}
                   >
-                    x
+                    <Header>x</Header>
                   </Button>
                 </Segment.Group>
               </Accordion.Title>
