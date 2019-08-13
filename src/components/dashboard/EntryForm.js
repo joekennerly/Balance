@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Dropdown, Segment, Button, Input, Form } from "semantic-ui-react"
+import { Dropdown, Button, Form } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
   state = {
@@ -47,7 +47,6 @@ export default class EntryForm extends Component {
           />
           <Dropdown
             compact
-            selection
             text="Category"
             id="category"
             onChange={this.handleFieldChange}

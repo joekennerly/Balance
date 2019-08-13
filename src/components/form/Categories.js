@@ -108,8 +108,6 @@ export default class Categories extends Component {
       .then(() => this.props.updateChart())
 
   render() {
-    console.log(this.props.expenses.filter(exp => exp.category_id === 22))
-
     return (
       <Segment onClick={this.toggleClick}>
         <Segment>

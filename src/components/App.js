@@ -3,7 +3,6 @@ import ApplicationViews from "./ApplicationViews"
 import Nav from "./nav/Nav"
 // import Login from "./login/Login"
 
-
 export default class App extends Component {
   state = {
     activeUser: null,
