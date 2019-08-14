@@ -52,7 +52,7 @@ export default class App extends Component {
             }
             `}
           </style>
-          <Nav setUser={this.setUser} />
+          <Nav activeUser={this.state.activeUser} setUser={this.setUser} />
           <ApplicationViews
             activeUser={this.state.activeUser}
             setUser={this.setUser}
