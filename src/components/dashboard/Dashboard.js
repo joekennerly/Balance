@@ -7,38 +7,42 @@ import { Segment, Sidebar, Icon, Menu, Button } from "semantic-ui-react"
 
 export default class Dashboard extends Component {
   state = {
-    visible: false
+    menu: false
   }
-  handleHideClick = () => this.setState({ visible: false })
-  handleShowClick = () => this.setState({ visible: true })
-  handleSidebarHide = () => this.setState({ visible: false })
+  handleHideClick = () => this.setState({ menu: false })
+  handleShowClick = () => this.setState({ menu: true })
+  handleSidebarHide = () => this.setState({ menu: false })
   render() {
-    const visible = this.state.visible
+    const visible = this.state.menu
     return (
       <React.Fragment>
         <Totals {...this.props} />
-        <Segment.Group as={Segment}inverted horizontal>
+        <Segment.Group as={Segment} inverted horizontal>
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               inverted
               as={Menu}
+              direction="right"
               animation="push"
               icon="labeled"
               onHide={this.handleSidebarHide}
               vertical
               visible={visible}
               width="very wide"
-            >
-              <Income {...this.props} />
-            </Sidebar>
+            />
 
             <Sidebar.Pusher>
               <Segment.Group as={Segment} inverted horizontal>
-                <Button disabled={visible} as={Segment} onClick={this.handleShowClick}>
-                    <Icon  size="large" inverted name="plus" />
-                  </Button>
-                  <Chart chartData={this.props.chartData} />
                 <Categories {...this.props} />
+                <Chart chartData={this.props.chartData} />
+                <Income {...this.props} />
+                <Button
+                  disabled={visible}
+                  as={Segment}
+                  onClick={this.handleShowClick}
+                >
+                  <Icon size="large" inverted name="plus" />
+                </Button>
               </Segment.Group>
             </Sidebar.Pusher>
           </Sidebar.Pushable>

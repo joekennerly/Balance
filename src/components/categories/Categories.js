@@ -1,13 +1,10 @@
 import React, { Component } from "react"
 import {
   Button,
-  Input,
   Header,
   Segment,
-  Accordion,
-  Card,
   Table,
-  Label
+  Icon
 } from "semantic-ui-react"
 
 export default class Categories extends Component {
@@ -110,15 +107,8 @@ export default class Categories extends Component {
         .then(() => this.props.updateChart())
     }
   }
-  del = e => {
-    console.log(e.target.id)
-    // console.log(this.props.expenses.filter(exp => exp.category_id === e.target.id.split("-")[1]))
-    /*
-    this.props
-      .deleteItem("categories", e.target.id.split("-")[1])
-      .then(() => this.props.expenses.filter(exp => exp.category_id === e.target.id.split("-")[1]))
-      .then(() => this.props.updateChart())
-      */
+  del = id => {
+    this.props.deleteItem("categories", id).then(() => this.props.updateChart())
   }
   render() {
     return (
@@ -131,8 +121,9 @@ export default class Categories extends Component {
               this.props.sum(this.props.expenses)
             )}
           </Header>
+            <Icon name="plus circle"/>
         </Segment>
-        <Input
+        {/* <Input
           autoFocus
           id="name"
           placeholder="name"
@@ -144,7 +135,7 @@ export default class Categories extends Component {
           placeholder="amount"
           onChange={this.handleKeyPress}
         />
-        <Button onClick={this.addAndClose}>+ Add Budget</Button>
+        <Button onClick={this.addAndClose}>+ Add Budget</Button> */}
 
         {this.props.categories.map(category => (
           <Table inverted key={category.id}>
@@ -166,43 +157,48 @@ export default class Categories extends Component {
                     /${category.amount}
                   </Header>
                 </Table.HeaderCell>
+                <Table.HeaderCell />
                 <Table.HeaderCell>
-                  <Label color="black" ribbon="right">
-                    <Button id={`category-${category.id}`} onClick={this.del}>x</Button>
-                  </Label>
+                    <Button
+                    positive
+                    circular
+                      size="tiny"
+                      id={`category-${category.id}`}
+                      onClick={() => this.del(category.id)}
+                    />
+                    <Button
+                    negative
+                    circular
+                      size="tiny"
+                      id={`category-${category.id}`}
+                      onClick={() => this.del(category.id)}
+                    />
+
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
-              <Table.Row>
-                <Table.Cell />
-              </Table.Row>
+              {this.props.expenses
+                .filter(expenses => expenses.category_id === category.id)
+                .map(expense => (
+                  <Table.Row key={expense.id}>
+                    <Table.Cell>
+                      ${expense.amount}
+                    </Table.Cell>
+                    <Table.Cell>
+                      - {expense.name}
+                    </Table.Cell>
+                    <Table.Cell>
+                        {expense.date}
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Button basic circular positive size="mini"></Button>
+                        <Button basic circular negative size="mini"></Button>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
             </Table.Body>
-
-            <Accordion.Title
-              active={this.state.activeIndex === category.id}
-              index={category.id}
-              onClick={this.handleClick}
-            >
-            </Accordion.Title>
-            <Accordion.Content active={this.state.activeIndex === category.id}>
-              <Card.Group>
-                {this.props.expenses
-                  .filter(expenses => expenses.category_id === category.id)
-                  .map(expense => (
-                    <Card fluid key={expense.id}>
-                      <Card.Content>
-                        <Card.Header>
-                          ${expense.amount} - {expense.name}
-                          <Button floated="right">x</Button>
-                        </Card.Header>
-                        <Card.Meta>{expense.date}</Card.Meta>
-                      </Card.Content>
-                    </Card>
-                  ))}
-              </Card.Group>
-            </Accordion.Content>
           </Table>
         ))}
       </Segment>
