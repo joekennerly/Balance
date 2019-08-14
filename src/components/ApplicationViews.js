@@ -4,19 +4,23 @@ import { withRouter } from "react-router"
 import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
-import Expenses from "./expenses/Expenses"
-import Income from "./income/Income"
 import Register from "./login/Register"
 
 let moment = require("moment")
 let thisMonth = moment().format("YYYY-MM")
 
 let colorArray = [
-  "deepskyblue",
-  "#FFC5B2",
-  "#B4E1FC",
-  "#B0FDD6",
-  "#FFDCB2",
+  "springgreen",
+  "#170101",
+  "#0D1701",
+  "#060117",
+  "#011317",
+  "#011708",
+  "#170B01",
+  "#161701",
+  "#080117",
+  "#170101",
+
 ]
 class ApplicationViews extends Component {
   state = {
@@ -54,7 +58,7 @@ class ApplicationViews extends Component {
             this.diff(this.sum(newState.income), this.sum(newState.expenses))
           ]
           newState.chartData = {
-            labels: ["REMAINDER"].concat(this.makeArray(categories, "name")),
+            labels: ["Current Balance"].concat(this.makeArray(categories, "name")),
             datasets: [
               {
                 data: currentDiff.concat(this.makeArray(categories, "amount")),
@@ -67,13 +71,20 @@ class ApplicationViews extends Component {
       .then(() => this.setState(newState))
   }
   makeArray = (arr, prop) => arr.map(el => el[prop])
+
+  // REFACTOR sum can be a reduce method
+  // sum = arrayOfEntries => arrayOfEntries.reduce((current, next) => current + next)
+
   sum = entryArray => {
     let total = 0
     entryArray.forEach(entry => (total += +entry.amount))
     return total.toFixed(2)
   }
+
   diff = (inTotal, exTotal) => (inTotal - exTotal).toFixed(2)
+
   isAuthenticated = () => sessionStorage.getItem("activeUser")
+
   deleteItem = (resource, id) => {
     let newObj = {}
     return APIManager.delete(resource, id)
@@ -149,7 +160,7 @@ class ApplicationViews extends Component {
       this.diff(this.sum(this.state.income), this.sum(this.state.expenses))
     ]
     newState.chartData = {
-      labels: ["REMAINDER"].concat(
+      labels: ["Current Balance"].concat(
         this.makeArray(this.state.categories, "name")
       ),
       datasets: [
@@ -170,23 +181,15 @@ class ApplicationViews extends Component {
         <Route
           exact
           path="/"
-          render={props => {
-            return <Redirect to="/dashboard" />
-          }}
+          render={props => <Redirect to="/dashboard" />}
         />
         <Route
           path="/register"
-          render={props => {
-            return <Register setUser={this.props.setUser} {...props} />
-          }}
+          render={props => <Register setUser={this.props.setUser} {...props} />}
         />
         <Route
           path="/login"
-          render={props => {
-            if (!this.isAuthenticated()) {
-              return <Login setUser={this.props.setUser} {...props} />
-            } else return <Redirect to="/" />
-          }}
+          render={props => <Login setUser={this.props.setUser} {...props} />}
         />
         <Route
           exact
@@ -212,85 +215,6 @@ class ApplicationViews extends Component {
                 />
               )
             } else return <Redirect to="/login" />
-          }}
-        />
-        <Route
-          exact
-          path="/income"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return (
-                <Income
-                  activeUser={this.props.activeUser}
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  expenses={this.state.expenses}
-                  categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
-                  thisMonth={thisMonth}
-                  {...props}
-                />
-              )
-            } else return <Redirect to="/login" />
-          }}
-        />
-        <Route
-          exact
-          path="/expenses"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return (
-                <Expenses
-                  activeUser={this.props.activeUser}
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  expenses={this.state.expenses}
-                  categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
-                  thisMonth={thisMonth}
-                  {...props}
-                />
-              )
-            } else return <Redirect to="/login" />
-          }}
-        />
-        {/* dynamically route expense categories */}
-        <Route
-          path="/expenses/:categoryName"
-          render={props => {
-            if (this.isAuthenticated()) {
-              let category = this.state.categories.find(
-                category => category.name === props.match.params.categoryName
-              )
-              let filtered = this.state.expenses.filter(
-                filtExpenses => filtExpenses.category_id === category.id
-              )
-              return (
-                <Expenses
-                  category={category}
-                  expenses={filtered}
-                  activeUser={this.props.activeUser}
-                  sum={this.sum}
-                  diff={this.diff}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  updateItem={this.updateItem}
-                  income={this.state.income}
-                  categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
-                  thisMonth={thisMonth}
-                  {...props}
-                />
-              )
-            }
           }}
         />
       </React.Fragment>

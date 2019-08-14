@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Dropdown, Button, Form } from "semantic-ui-react"
+import { Dropdown, Button, Form, Segment } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
   state = {
@@ -37,7 +37,7 @@ export default class EntryForm extends Component {
   render() {
     return (
       <Form>
-        <Form.Group width="equal">
+        <Form.Group widths="equal">
           <Form.Input
             fluid
             id="date"
@@ -45,17 +45,6 @@ export default class EntryForm extends Component {
             value={this.props.date}
             onChange={this.handleFieldChange}
           />
-          <Dropdown
-            compact
-            text="Category"
-            id="category"
-            onChange={this.handleFieldChange}
-          />
-          <Dropdown.Menu>
-            {this.props.categories.map(category => (
-              <Dropdown.Item key={category.id} value={category.id} text={category.name}/>
-            ))}
-          </Dropdown.Menu>
           <Form.Input
             fluid
             id="name"
@@ -71,6 +60,23 @@ export default class EntryForm extends Component {
             placeholder="amount"
           />
         </Form.Group>
+        <Dropdown
+          // compact
+          selection
+          text=""
+          id="category"
+          onChange={this.handleFieldChange}
+        >
+          <Dropdown.Menu>
+            {this.props.categories.map(category => (
+              <Dropdown.Item
+                key={category.id}
+                value={category.id}
+                text={category.name}
+              />
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
         <Button primary onClick={this.handleClick}>
           +
         </Button>

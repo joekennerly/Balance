@@ -83,7 +83,7 @@ export default class Income extends Component {
         onClick={this.toggleClick}
       >
         <Segment inverted>
-          <Segment>
+          <Segment inverted>
             <Header size="huge">
               Monthly Income:
               {this.props.diff(

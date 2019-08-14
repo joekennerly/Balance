@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import ApplicationViews from "./ApplicationViews"
 import Nav from "./nav/Nav"
-// import Login from "./login/Login"
 
 export default class App extends Component {
   state = {
@@ -44,7 +43,6 @@ export default class App extends Component {
       // there is no active user
       return (
         <React.Fragment>
-          {/* <Login /> */}
           <ApplicationViews
             activeUser={this.state.activeUser}
             setUser={this.setUser}

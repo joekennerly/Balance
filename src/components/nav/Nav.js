@@ -14,7 +14,7 @@ export default class Nav extends Component {
   }
 
   timer = setInterval(() => {
-    this.setState({ now: m().format("M/D/YY h:m:ss A") })
+    this.setState({ now: m().format("dddd, MMMM D - h:mm:ss A") })
   }, 1000)
 
   render() {
@@ -22,17 +22,17 @@ export default class Nav extends Component {
     const { activeItem } = this.state
     return (
       <React.Fragment>
-        <Menu inverted size="massive">
+        <Menu inverted>
           <Menu.Item
             name="dashboard"
             active={activeItem === "dashboard"}
             onClick={this.handleItemClick}
           >
-            <Icon name="balance scale" />
+            <Icon name="cog" />
           </Menu.Item>
 
           <Menu.Menu position="right">
-            <Menu.Item>Today is: {this.state.now}</Menu.Item>
+            <Menu.Item>{this.state.now}</Menu.Item>
             <Menu.Item
               name="logout"
               as={Link}

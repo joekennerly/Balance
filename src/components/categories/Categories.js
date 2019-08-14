@@ -1,6 +1,14 @@
 import React, { Component } from "react"
-import EntryForm from "../dashboard/EntryForm"
-import { Button, Input, Header, Segment, Accordion } from "semantic-ui-react"
+import {
+  Button,
+  Input,
+  Header,
+  Segment,
+  Accordion,
+  Card,
+  Table,
+  Label
+} from "semantic-ui-react"
 
 export default class Categories extends Component {
   state = {
@@ -102,88 +110,28 @@ export default class Categories extends Component {
         .then(() => this.props.updateChart())
     }
   }
-  del = e =>
+  del = e => {
+    console.log(e.target.id)
+    // console.log(this.props.expenses.filter(exp => exp.category_id === e.target.id.split("-")[1]))
+    /*
     this.props
       .deleteItem("categories", e.target.id.split("-")[1])
+      .then(() => this.props.expenses.filter(exp => exp.category_id === e.target.id.split("-")[1]))
       .then(() => this.props.updateChart())
-
+      */
+  }
   render() {
     return (
-      <Segment onClick={this.toggleClick}>
-        <Segment>
-          <Header size="huge">
-            Total Monthly Budget:{" "}
-            {this.props.sum(this.props.categories)}
+      <Segment>
+        <Segment inverted>
+          <Header inverted size="huge">
+            Current Balance:{" "}
+            {this.props.diff(
+              this.props.sum(this.props.income),
+              this.props.sum(this.props.expenses)
+            )}
           </Header>
         </Segment>
-
-        <EntryForm {...this.props} />
-
-        <Accordion>
-          {this.props.categories.map(category => (
-            <Segment inverted key={category.id}>
-              <Accordion.Title
-                active={this.state.activeIndex === category.id}
-                index={category.id}
-                onClick={this.handleClick}
-              >
-                <Segment.Group as={Segment} horizontal>
-                  <Segment textAlign="center">
-                    <Header size="large" id={`name-${category.id}`}>{category.name}</Header>
-                    <input
-                      id={`edit-name-${category.id}`}
-                      type="text"
-                      value={this.state.name}
-                      className="hide"
-                      onChange={this.handleEdit}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Segment>
-                  <Segment textAlign="center">
-                    <Header size="large" id={`amount-${category.id}`}>
-                      $
-                      {this.props.sum(
-                        this.props.expenses.filter(
-                          exp => exp.category_id === category.id
-                        )
-                      )}
-                      /${category.amount}
-                    </Header>
-                    <input
-                      id={`edit-amount-${category.id}`}
-                      type="number"
-                      value={this.state.amount}
-                      className="hide"
-                      onChange={this.handleEdit}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Segment>
-                  <Button
-                    as={Segment}
-                    id={`category-${category.id}`}
-                    onClick={this.del}
-                  >
-                    <Header>x</Header>
-                  </Button>
-                </Segment.Group>
-              </Accordion.Title>
-              <Accordion.Content
-                active={this.state.activeIndex === category.id}
-              >
-                {this.props.expenses
-                  .filter(expenses => expenses.category_id === category.id)
-                  .map(expense => (
-                    <Segment.Group horizontal key={expense.id}>
-                      <Segment>{expense.date}</Segment>
-                      <Segment>{expense.name}</Segment>
-                      <Segment>{expense.amount}</Segment>
-                      <Button as={Segment}>x</Button>
-                    </Segment.Group>
-                  ))}
-              </Accordion.Content>
-            </Segment>
-          ))}
-        </Accordion>
         <Input
           autoFocus
           id="name"
@@ -197,6 +145,66 @@ export default class Categories extends Component {
           onChange={this.handleKeyPress}
         />
         <Button onClick={this.addAndClose}>+ Add Budget</Button>
+
+        {this.props.categories.map(category => (
+          <Table inverted key={category.id}>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>
+                  <Header size="large" inverted id={`name-${category.id}`}>
+                    {category.name}
+                  </Header>
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  <Header size="large" inverted id={`amount-${category.id}`}>
+                    $
+                    {this.props.sum(
+                      this.props.expenses.filter(
+                        exp => exp.category_id === category.id
+                      )
+                    )}
+                    /${category.amount}
+                  </Header>
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  <Label color="black" ribbon="right">
+                    <Button id={`category-${category.id}`} onClick={this.del}>x</Button>
+                  </Label>
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell />
+              </Table.Row>
+            </Table.Body>
+
+            <Accordion.Title
+              active={this.state.activeIndex === category.id}
+              index={category.id}
+              onClick={this.handleClick}
+            >
+            </Accordion.Title>
+            <Accordion.Content active={this.state.activeIndex === category.id}>
+              <Card.Group>
+                {this.props.expenses
+                  .filter(expenses => expenses.category_id === category.id)
+                  .map(expense => (
+                    <Card fluid key={expense.id}>
+                      <Card.Content>
+                        <Card.Header>
+                          ${expense.amount} - {expense.name}
+                          <Button floated="right">x</Button>
+                        </Card.Header>
+                        <Card.Meta>{expense.date}</Card.Meta>
+                      </Card.Content>
+                    </Card>
+                  ))}
+              </Card.Group>
+            </Accordion.Content>
+          </Table>
+        ))}
       </Segment>
     )
   }

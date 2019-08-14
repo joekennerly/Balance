@@ -10,6 +10,7 @@ export default class Totals extends Component {
     // let totalCat = this.props.sum(this.props.categories)
     // let budgetBalance = this.props.diff(totalIn, totalCat)
     return (
+      <header>
       <Table inverted celled textAlign="center">
 
         <Table.Header>
@@ -54,7 +55,8 @@ export default class Totals extends Component {
           </Table.Row>
         </Table.Body>
 
-      </Table>
+        </Table>
+        </header>
     )
   }
 }

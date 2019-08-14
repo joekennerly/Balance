@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Chart from "../chart/Chart"
-import Categories from "../form/Categories"
+import Categories from "../categories/Categories"
 import Totals from "../totals/Totals"
 import Income from "../income/Income"
 import { Segment, Sidebar, Icon, Menu, Button } from "semantic-ui-react"
