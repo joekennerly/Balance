@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import { Menu } from "semantic-ui-react"
+import { Menu, Dropdown, Input } from "semantic-ui-react"
 
 export default class Nav extends Component {
   logout = () => {
@@ -12,13 +12,9 @@ export default class Nav extends Component {
     return (
       <React.Fragment>
         <Menu inverted>
+
           <Menu.Menu position="right">
-            <Menu.Item
-              name="logout"
-              as={Link}
-              to="/"
-              onClick={this.logout}
-            />
+            <Menu.Item name="logout" as={Link} to="/" onClick={this.logout} />
           </Menu.Menu>
         </Menu>
       </React.Fragment>

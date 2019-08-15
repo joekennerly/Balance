@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Header, Table } from "semantic-ui-react"
+import { Header, Table, Icon, Dropdown, Input } from "semantic-ui-react"
 let m = require("moment")
 
 export default class Totals extends Component {
@@ -14,108 +14,53 @@ export default class Totals extends Component {
     let totalCat = this.props.sum(this.props.categories)
     // let budgetBalance = this.props.diff(totalIn, totalCat)
     return (
-      <header>
-        {/* <Input
-          size="small"
-          autoFocus
-          id="name"
-          placeholder="name"
-          onChange={this.handleKeyPress}
-        />
-
-        <Input
-          size="small"
-          id="amount"
-          type="number"
-          placeholder="amount"
-          onChange={this.handleKeyPress}
-        />
-        <Button onClick={this.addAndClose} ribbon="right">
-          + Add Budget
-        </Button> */}
-        <Table inverted celled textAlign="center">
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell />
-              <Table.HeaderCell>{m().format("MMMM")}</Table.HeaderCell>
-              <Table.HeaderCell>
-                {m()
-                  .add(1, "month")
-                  .format("MMMM")}
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                {m()
-                  .add(2, "month")
-                  .format("MMMM")}
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                {m()
-                  .add(3, "month")
-                  .format("MMMM")}
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                {m()
-                  .add(4, "month")
-                  .format("MMMM")}
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                {m()
-                  .add(5, "month")
-                  .format("MMMM")}
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Header inverted>Total</Header>
-              </Table.Cell>
-              <Table.Cell>
-                <Header inverted>${totalBalance}</Header>
-              </Table.Cell>
-              <Table.Cell>
-                <Header inverted>${totalBalance - totalCat}</Header>
-              </Table.Cell>
-              <Table.Cell>
-                <Header inverted>${totalBalance - totalCat * 2}</Header>
-              </Table.Cell>
-              <Table.Cell>
-                <Header inverted>${totalBalance - totalCat * 3}</Header>
-              </Table.Cell>
-              <Table.Cell>
-                <Header inverted>${totalBalance - totalCat * 4}</Header>
-              </Table.Cell>
-              <Table.Cell>
-                <Header inverted>${totalBalance - totalCat * 5}</Header>
-              </Table.Cell>
-            </Table.Row>
-            {this.props.categories.map(category => (
-              <Table.Row key={category.id}>
-                <Table.Cell>{category.name}</Table.Cell>
-                <Table.Cell>
-                  <span className="blue">$-{category.amount}</span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="blue">$-{category.amount}</span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="blue">$-{category.amount}</span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="blue">$-{category.amount}</span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="blue">$-{category.amount}</span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="blue">$-{category.amount}</span>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-      </header>
+      <Table inverted celled textAlign="center">
+        <Table.Header>
+          <Table.Row>
+            <Table.Cell>
+              <Header size="huge" inverted>
+                ${totalCat}
+              </Header>
+            </Table.Cell>
+            <Table.Cell>
+              <Header size="huge" inverted>
+                <Dropdown item icon="chevron down" direction="right" simple>
+                  <Dropdown.Menu>
+                    <Header>Add Budget</Header>
+                    <Input icon="file outline" />
+                    <Input type="number" icon="usd" />
+                    <Input type="date" icon="calendar alternate outline" />
+                    <Dropdown.Item>Create</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Header>
+            </Table.Cell>
+            <Table.Cell>
+              <Header size="huge" inverted>
+                ${totalBalance}
+              </Header>
+            </Table.Cell>
+            <Table.Cell>
+              <Header size="huge" inverted>
+              <Dropdown item icon="chevron up" simple>
+                <Dropdown.Menu>
+                    <Header>Add Income</Header>
+                  <Input icon="folder open outline" />
+                  <Input type="number" icon="usd" />
+                  <Input type="date" icon="calendar alternate outline" />
+                  <Dropdown.Item>Create</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              </Header>
+            </Table.Cell>
+            <Table.Cell>
+              <Header size="huge" inverted>
+                ${totalIn}
+              </Header>
+            </Table.Cell>
+          </Table.Row>
+        </Table.Header>
+      </Table>
     )
   }
 }

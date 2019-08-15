@@ -5,101 +5,16 @@ import {
   Segment,
   Table,
   Icon,
-  Dropdown
+  Input,
+  Dropdown,
+  Menu
 } from "semantic-ui-react"
-
-const languageOptions = [
-  { key: 'Arabic', text: 'Arabic', value: 'Arabic' },
-  { key: 'Chinese', text: 'Chinese', value: 'Chinese' },
-  { key: 'Danish', text: 'Danish', value: 'Danish' },
-  { key: 'Dutch', text: 'Dutch', value: 'Dutch' },
-  { key: 'English', text: 'English', value: 'English' },
-  { key: 'French', text: 'French', value: 'French' },
-  { key: 'German', text: 'German', value: 'German' },
-  { key: 'Greek', text: 'Greek', value: 'Greek' },
-  { key: 'Hungarian', text: 'Hungarian', value: 'Hungarian' },
-  { key: 'Italian', text: 'Italian', value: 'Italian' },
-  { key: 'Japanese', text: 'Japanese', value: 'Japanese' },
-  { key: 'Korean', text: 'Korean', value: 'Korean' },
-  { key: 'Lithuanian', text: 'Lithuanian', value: 'Lithuanian' },
-  { key: 'Persian', text: 'Persian', value: 'Persian' },
-  { key: 'Polish', text: 'Polish', value: 'Polish' },
-  { key: 'Portuguese', text: 'Portuguese', value: 'Portuguese' },
-  { key: 'Russian', text: 'Russian', value: 'Russian' },
-  { key: 'Spanish', text: 'Spanish', value: 'Spanish' },
-  { key: 'Swedish', text: 'Swedish', value: 'Swedish' },
-  { key: 'Turkish', text: 'Turkish', value: 'Turkish' },
-  { key: 'Vietnamese', text: 'Vietnamese', value: 'Vietnamese' },
-]
 
 export default class Categories extends Component {
   state = {
     name: "",
     amount: ""
   }
-  toggleClick = event => {
-    // if not an INPUT...
-    if (event.target.tagName !== "INPUT") {
-      //only previously toggled forms will have a "show/toggle" class
-      let toggledForm = document.querySelector(".show")
-      let toggledText = document.querySelector(".toggled")
-      //if there is an element with "show/toggled" class...
-      if (toggledForm) {
-        toggledForm.setAttribute("autoFocus", false)
-        // toggle it back
-        toggledForm.classList.toggle("hide")
-        toggledText.classList.toggle("hide")
-        // and remove temporary class
-        toggledForm.classList.remove("show")
-        toggledText.classList.remove("toggled")
-      }
-
-      //selectable elements will include "-"
-      if (event.target.id.includes("-")) {
-        //grab the num from a two element array
-        let id = +event.target.id.split("-")[1]
-        //hide text; add "toggled" class
-        event.target.classList.toggle("hide")
-        // add temporary class
-        event.target.classList.add("toggled")
-        //when TEXT is clicked
-        let editable = document.querySelector(`#edit-${event.target.id}`)
-        if (editable) {
-          editable.setAttribute("autoFocus", true)
-          editable.classList.toggle("hide")
-          //show edit form
-          editable.classList.add("show")
-        }
-        //find the object with matching id from this.props
-        let upObj = this.props.categories.find(category => category.id === id)
-        //update state with current values
-        this.setState(upObj)
-      }
-    }
-  }
-  enterKey = event => {
-    if (event.key === "Enter") {
-      let hiddenId = event.target.id.split("-")
-      let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
-      hiddenText.classList.toggle("hide")
-      hiddenText.classList.remove("toggled")
-      event.target.classList.toggle("hide")
-      event.target.classList.remove("show")
-      let eventId = +event.target.id.split("-")[2]
-      return this.props
-        .updateItem("categories", eventId, this.makeObj())
-        .then(() => this.props.updateChart())
-    }
-  }
-
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
-
-    this.setState({ activeIndex: newIndex })
-  }
-
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
@@ -137,24 +52,6 @@ export default class Categories extends Component {
   render() {
     return (
       <Segment>
-        <Segment inverted>
-          <Header inverted size="huge">
-            <Icon name="triangle down"/>{" "}
-            {
-              this.props.sum(this.props.expenses)
-            }
-          </Header>
-          <Dropdown
-            button
-            className="icon"
-            floating
-            labeled
-            icon="plus circle"
-            options={languageOptions}
-            text="Add Budget"
-          />
-        </Segment>
-
         {this.props.categories.map(category => (
           <Table inverted key={category.id}>
             <Table.Header>

@@ -1,5 +1,14 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Icon } from "semantic-ui-react"
+import {
+  Button,
+  Menu,
+  Header,
+  Segment,
+  Table,
+  Icon,
+  Dropdown,
+  Input
+} from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -81,15 +90,7 @@ export default class Income extends Component {
         horizontal
         onClick={this.toggleClick}
       >
-        <Segment inverted>
-          <Segment inverted>
-            <Header size="huge">
-              <Icon name="triangle up" />
-              {
-                this.props.sum(this.props.income)
-              }
-            </Header>
-          </Segment>
+        <Segment inverted textAlign="right">
           {this.props.income.map(inco => (
             <Table inverted key={inco.id}>
               <Table.Body>
@@ -121,7 +122,9 @@ export default class Income extends Component {
                     />
                   </Table.Cell>
                   <Table.Cell textAlign="center">
-                    <Header inverted id={`amount-${inco.id}`}>{inco.amount}</Header>
+                    <Header inverted id={`amount-${inco.id}`}>
+                      {inco.amount}
+                    </Header>
                     <input
                       id={`edit-amount-${inco.id}`}
                       type="text"
