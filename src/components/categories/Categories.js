@@ -1,11 +1,5 @@
 import React, { Component } from "react"
-import {
-  Button,
-  Header,
-  Segment,
-  Table,
-  Icon
-} from "semantic-ui-react"
+import { Button, Header, Segment, Table, Icon } from "semantic-ui-react"
 
 export default class Categories extends Component {
   state = {
@@ -121,7 +115,7 @@ export default class Categories extends Component {
               this.props.sum(this.props.expenses)
             )}
           </Header>
-            <Icon name="plus circle"/>
+          <Icon name="plus circle" />
         </Segment>
         {/* <Input
           autoFocus
@@ -159,21 +153,20 @@ export default class Categories extends Component {
                 </Table.HeaderCell>
                 <Table.HeaderCell />
                 <Table.HeaderCell>
-                    <Button
+                  <Button
                     positive
                     circular
-                      size="tiny"
-                      id={`category-${category.id}`}
-                      onClick={() => this.del(category.id)}
-                    />
-                    <Button
+                    size="tiny"
+                    id={`category-${category.id}`}
+                    onClick={() => this.del(category.id)}
+                  />
+                  <Button
                     negative
                     circular
-                      size="tiny"
-                      id={`category-${category.id}`}
-                      onClick={() => this.del(category.id)}
-                    />
-
+                    size="tiny"
+                    id={`category-${category.id}`}
+                    onClick={() => this.del(category.id)}
+                  />
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -183,18 +176,12 @@ export default class Categories extends Component {
                 .filter(expenses => expenses.category_id === category.id)
                 .map(expense => (
                   <Table.Row key={expense.id}>
+                    <Table.Cell>${expense.amount}</Table.Cell>
+                    <Table.Cell>- {expense.name}</Table.Cell>
+                    <Table.Cell>{expense.date}</Table.Cell>
                     <Table.Cell>
-                      ${expense.amount}
-                    </Table.Cell>
-                    <Table.Cell>
-                      - {expense.name}
-                    </Table.Cell>
-                    <Table.Cell>
-                        {expense.date}
-                    </Table.Cell>
-                    <Table.Cell>
-                        <Button basic circular positive size="mini"></Button>
-                        <Button basic circular negative size="mini"></Button>
+                      <Button basic circular positive size="mini" />
+                      <Button basic circular negative size="mini" />
                     </Table.Cell>
                   </Table.Row>
                 ))}
