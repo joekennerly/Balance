@@ -1,6 +1,5 @@
 import React, { Component } from "react"
-import EntryForm from "../dashboard/EntryForm"
-import { Button, Input, Header, Segment, Accordion } from "semantic-ui-react"
+import { Button, Header, Segment, Table, Icon } from "semantic-ui-react"
 
 export default class Categories extends Component {
   state = {
@@ -102,94 +101,23 @@ export default class Categories extends Component {
         .then(() => this.props.updateChart())
     }
   }
-  del = e =>
-    this.props
-      .deleteItem("categories", e.target.id.split("-")[1])
-      .then(() => this.props.updateChart())
-
+  del = id => {
+    this.props.deleteItem("categories", id).then(() => this.props.updateChart())
+  }
   render() {
-    console.log(this.props.expenses.filter(exp => exp.category_id === 22))
-
     return (
-      <Segment onClick={this.toggleClick}>
-        <Segment>
-          <Header>
-            Budget Remainder:{" "}
+      <Segment>
+        <Segment inverted>
+          <Header inverted size="huge">
+            Current Balance:{" "}
             {this.props.diff(
               this.props.sum(this.props.income),
-              this.props.sum(this.props.categories)
+              this.props.sum(this.props.expenses)
             )}
           </Header>
+          <Icon name="plus circle" />
         </Segment>
-
-        <EntryForm {...this.props} />
-
-        <Accordion>
-          {this.props.categories.map(category => (
-            <Segment inverted key={category.id}>
-              <Accordion.Title
-                active={this.state.activeIndex === category.id}
-                index={category.id}
-                onClick={this.handleClick}
-              >
-                <Segment.Group horizontal>
-                  <Segment textAlign="center">
-                    <Header id={`name-${category.id}`}>{category.name}</Header>
-                    <input
-                      id={`edit-name-${category.id}`}
-                      type="text"
-                      value={this.state.name}
-                      className="hide"
-                      onChange={this.handleEdit}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Segment>
-                  <Segment textAlign="center">
-                    <Header id={`amount-${category.id}`}>
-                      $
-                      {this.props.sum(
-                        this.props.expenses.filter(
-                          exp => exp.category_id === category.id
-                        )
-                      )}
-                      /${category.amount}
-                    </Header>
-                    <input
-                      id={`edit-amount-${category.id}`}
-                      type="number"
-                      value={this.state.amount}
-                      className="hide"
-                      onChange={this.handleEdit}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Segment>
-                  <Button
-                    as={Segment}
-                    id={`category-${category.id}`}
-                    onClick={this.del}
-                  >
-                    x
-                  </Button>
-                </Segment.Group>
-              </Accordion.Title>
-              <Accordion.Content
-                active={this.state.activeIndex === category.id}
-              >
-                {this.props.expenses
-                  .filter(expenses => expenses.category_id === category.id)
-                  .map(expense => (
-                    <Segment.Group horizontal key={expense.id}>
-                      <Segment>{expense.date}</Segment>
-                      <Segment>{expense.name}</Segment>
-                      <Segment>{expense.amount}</Segment>
-                      <Button as={Segment}>x</Button>
-                    </Segment.Group>
-                  ))}
-              </Accordion.Content>
-            </Segment>
-          ))}
-        </Accordion>
-        <Input
+        {/* <Input
           autoFocus
           id="name"
           placeholder="name"
@@ -201,7 +129,65 @@ export default class Categories extends Component {
           placeholder="amount"
           onChange={this.handleKeyPress}
         />
-        <Button onClick={this.addAndClose}>+ Add Budget</Button>
+        <Button onClick={this.addAndClose}>+ Add Budget</Button> */}
+
+        {this.props.categories.map(category => (
+          <Table inverted key={category.id}>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>
+                  <Header size="large" inverted id={`name-${category.id}`}>
+                    {category.name}
+                  </Header>
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  <Header size="large" inverted id={`amount-${category.id}`}>
+                    $
+                    {this.props.sum(
+                      this.props.expenses.filter(
+                        exp => exp.category_id === category.id
+                      )
+                    )}
+                    /${category.amount}
+                  </Header>
+                </Table.HeaderCell>
+                <Table.HeaderCell />
+                <Table.HeaderCell>
+                  <Button
+                    positive
+                    circular
+                    size="tiny"
+                    id={`category-${category.id}`}
+                    onClick={() => this.del(category.id)}
+                  />
+                  <Button
+                    negative
+                    circular
+                    size="tiny"
+                    id={`category-${category.id}`}
+                    onClick={() => this.del(category.id)}
+                  />
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {this.props.expenses
+                .filter(expenses => expenses.category_id === category.id)
+                .map(expense => (
+                  <Table.Row key={expense.id}>
+                    <Table.Cell>${expense.amount}</Table.Cell>
+                    <Table.Cell>- {expense.name}</Table.Cell>
+                    <Table.Cell>{expense.date}</Table.Cell>
+                    <Table.Cell>
+                      <Button basic circular positive size="mini" />
+                      <Button basic circular negative size="mini" />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+            </Table.Body>
+          </Table>
+        ))}
       </Segment>
     )
   }

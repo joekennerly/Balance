@@ -15,6 +15,7 @@ export default class Expenses extends Component {
   // Functions to open and close the "add category" modal
   handleOpen = () => this.setState({ modalOpen: true })
   handleClose = () => this.setState({ modalOpen: false })
+
   //Save current value when changed
   handleKeyPress = event => {
     console.log(event)

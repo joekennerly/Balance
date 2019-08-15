@@ -1,10 +1,10 @@
 import React, { Component } from "react"
-import { Grid, Button, Input } from "semantic-ui-react"
+import { Dropdown, Button, Form, Segment } from "semantic-ui-react"
 
 export default class EntryForm extends Component {
   state = {
     date: "",
-    category_id:"",
+    category_id: "",
     name: "",
     amount: ""
   }
@@ -36,48 +36,51 @@ export default class EntryForm extends Component {
   }
   render() {
     return (
-      <React.Fragment>
-        <Grid.Column>
-          <Input
+      <Form>
+        <Form.Group widths="equal">
+          <Form.Input
+            fluid
             id="date"
             type="date"
             value={this.props.date}
             onChange={this.handleFieldChange}
           />
-        </Grid.Column>
-        <Grid.Column>
-          <select
-            id="category"
-            onChange={this.handleFieldChange}
-            className="ui dropdown"
-          >
-            {this.props.categories.map(category => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </Grid.Column>
-        <Grid.Column>
-          <Input
+          <Form.Input
+            fluid
             id="name"
             type="text"
             onChange={this.handleFieldChange}
             placeholder="name"
           />
-        </Grid.Column>
-        <Grid.Column>
-          <Input
+          <Form.Input
+            fluid
             id="amount"
             type="text"
             onChange={this.handleFieldChange}
             placeholder="amount"
           />
-        </Grid.Column>
+        </Form.Group>
+        <Dropdown
+          // compact
+          selection
+          text=""
+          id="category"
+          onChange={this.handleFieldChange}
+        >
+          <Dropdown.Menu>
+            {this.props.categories.map(category => (
+              <Dropdown.Item
+                key={category.id}
+                value={category.id}
+                text={category.name}
+              />
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
         <Button primary onClick={this.handleClick}>
           +
         </Button>
-      </React.Fragment>
+      </Form>
     )
   }
 }

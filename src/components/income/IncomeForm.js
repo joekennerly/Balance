@@ -43,23 +43,20 @@ export default class EntryForm extends Component {
   render() {
     return (
       <Segment.Group horizontal>
-        <Input size="big"
-          as={Segment}
+        <Input
           id="date"
           type="date"
           value={this.props.date}
           onChange={this.handleFieldChange}
         />
-        <Input size="big"
-          as={Segment}
+        <Input
           id="name"
           type="text"
           onChange={this.handleFieldChange}
           placeholder="name"
           value={this.props.name}
         />
-        <Input size="big"
-          as={Segment}
+        <Input
           id="amount"
           type="text"
           onChange={this.handleFieldChange}
