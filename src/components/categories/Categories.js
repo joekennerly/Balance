@@ -1,11 +1,41 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Icon } from "semantic-ui-react"
+import {
+  Button,
+  Header,
+  Segment,
+  Table,
+  Icon,
+  Dropdown
+} from "semantic-ui-react"
+
+const languageOptions = [
+  { key: 'Arabic', text: 'Arabic', value: 'Arabic' },
+  { key: 'Chinese', text: 'Chinese', value: 'Chinese' },
+  { key: 'Danish', text: 'Danish', value: 'Danish' },
+  { key: 'Dutch', text: 'Dutch', value: 'Dutch' },
+  { key: 'English', text: 'English', value: 'English' },
+  { key: 'French', text: 'French', value: 'French' },
+  { key: 'German', text: 'German', value: 'German' },
+  { key: 'Greek', text: 'Greek', value: 'Greek' },
+  { key: 'Hungarian', text: 'Hungarian', value: 'Hungarian' },
+  { key: 'Italian', text: 'Italian', value: 'Italian' },
+  { key: 'Japanese', text: 'Japanese', value: 'Japanese' },
+  { key: 'Korean', text: 'Korean', value: 'Korean' },
+  { key: 'Lithuanian', text: 'Lithuanian', value: 'Lithuanian' },
+  { key: 'Persian', text: 'Persian', value: 'Persian' },
+  { key: 'Polish', text: 'Polish', value: 'Polish' },
+  { key: 'Portuguese', text: 'Portuguese', value: 'Portuguese' },
+  { key: 'Russian', text: 'Russian', value: 'Russian' },
+  { key: 'Spanish', text: 'Spanish', value: 'Spanish' },
+  { key: 'Swedish', text: 'Swedish', value: 'Swedish' },
+  { key: 'Turkish', text: 'Turkish', value: 'Turkish' },
+  { key: 'Vietnamese', text: 'Vietnamese', value: 'Vietnamese' },
+]
 
 export default class Categories extends Component {
   state = {
     name: "",
-    amount: "",
-    activeIndex: 0
+    amount: ""
   }
   toggleClick = event => {
     // if not an INPUT...
@@ -109,27 +139,21 @@ export default class Categories extends Component {
       <Segment>
         <Segment inverted>
           <Header inverted size="huge">
-            Current Balance:{" "}
-            {this.props.diff(
-              this.props.sum(this.props.income),
+            <Icon name="triangle down"/>{" "}
+            {
               this.props.sum(this.props.expenses)
-            )}
+            }
           </Header>
-          <Icon name="plus circle" />
+          <Dropdown
+            button
+            className="icon"
+            floating
+            labeled
+            icon="plus circle"
+            options={languageOptions}
+            text="Add Budget"
+          />
         </Segment>
-        {/* <Input
-          autoFocus
-          id="name"
-          placeholder="name"
-          onChange={this.handleKeyPress}
-        />
-        <Input
-          id="amount"
-          type="number"
-          placeholder="amount"
-          onChange={this.handleKeyPress}
-        />
-        <Button onClick={this.addAndClose}>+ Add Budget</Button> */}
 
         {this.props.categories.map(category => (
           <Table inverted key={category.id}>

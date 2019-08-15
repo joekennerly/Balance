@@ -1,6 +1,5 @@
 import React, { Component } from "react"
-import IncomeForm from "./IncomeForm"
-import { Button, Header, Segment, Table } from "semantic-ui-react"
+import { Button, Header, Segment, Table, Icon } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -85,14 +84,12 @@ export default class Income extends Component {
         <Segment inverted>
           <Segment inverted>
             <Header size="huge">
-              Monthly Income:
-              {this.props.diff(
-                this.props.sum(this.props.income),
-                this.props.sum(this.props.expenses)
-              )}
+              <Icon name="triangle up" />
+              {
+                this.props.sum(this.props.income)
+              }
             </Header>
           </Segment>
-          {/* <IncomeForm {...this.props} /> */}
           {this.props.income.map(inco => (
             <Table inverted key={inco.id}>
               <Table.Body>

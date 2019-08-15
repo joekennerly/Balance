@@ -12,7 +12,7 @@ export default class Dashboard extends Component {
         <Totals {...this.props} />
         <Segment.Group as={Segment} inverted horizontal>
           <Categories {...this.props} />
-          <Chart chartData={this.props.chartData} />
+          <Chart {...this.props} />
           <Income {...this.props} />
         </Segment.Group>
       </React.Fragment>
