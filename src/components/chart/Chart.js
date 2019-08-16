@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Pie } from "react-chartjs-2"
-import { Segment } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react"
 
 export default class Chart extends Component {
   state = {
@@ -16,8 +16,9 @@ export default class Chart extends Component {
   }
 
   render() {
+    console.log(this.props.sum(this.props.categories))
     return (
-      <Segment>
+      <Segment textAlign="center" inverted>
         <Pie
           data={this.state.chartData}
           options={{

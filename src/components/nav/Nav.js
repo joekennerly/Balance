@@ -12,13 +12,9 @@ export default class Nav extends Component {
     return (
       <React.Fragment>
         <Menu inverted>
+
           <Menu.Menu position="right">
-            <Menu.Item
-              name="logout"
-              as={Link}
-              to="/"
-              onClick={this.logout}
-            />
+            <Menu.Item name="logout" as={Link} to="/" onClick={this.logout} />
           </Menu.Menu>
         </Menu>
       </React.Fragment>

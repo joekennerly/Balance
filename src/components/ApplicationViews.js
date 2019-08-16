@@ -11,15 +11,7 @@ let thisMonth = moment().format("YYYY-MM")
 
 let colorArray = [
   "springgreen",
-  "#170101",
-  "#0D1701",
-  "#060117",
-  "#011317",
-  "#011708",
-  "#170B01",
-  "#161701",
-  "#080117",
-  "#170101",
+
 
 ]
 class ApplicationViews extends Component {
@@ -180,8 +172,8 @@ class ApplicationViews extends Component {
       <React.Fragment>
         <Route
           exact
-          path="/"
-          render={props => <Redirect to="/dashboard" />}
+          path="/dashboard"
+          render={props => <Redirect to="/" />}
         />
         <Route
           path="/register"
@@ -193,7 +185,7 @@ class ApplicationViews extends Component {
         />
         <Route
           exact
-          path="/dashboard"
+          path="/"
           render={props => {
             if (this.isAuthenticated()) {
               return (
