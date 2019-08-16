@@ -86,59 +86,61 @@ export default class Income extends Component {
             <Table inverted key={inco.id}>
               <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell textAlign="center">
-                      <Header size="large" inverted id={`name-${inco.id}`}>
-                        {inco.name}
-                      </Header>
-                      <input
-                        id={`edit-name-${inco.id}`}
-                        type="text"
-                        value={this.state.name}
-                        className="hide"
-                        onChange={this.handleKeyPress}
-                        onKeyPress={this.enterKey}
-                      />
-                    </Table.HeaderCell>
-                    <Table.HeaderCell textAlign="center">
-                      <Header size="large" inverted id={`amount-${inco.id}`}>
-                        {inco.amount}
-                      </Header>
-                      <input
-                        id={`edit-amount-${inco.id}`}
-                        type="text"
-                        value={this.state.amount}
-                        className="hide"
-                        onChange={this.handleKeyPress}
-                        onKeyPress={this.enterKey}
-                      />
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                      <Icon
-                        as={Button}
-                        circular
-                        negative
-                        size="mini"
-                        name="times"
-                        onClick={() =>
-                          this.props
-                            .deleteItem("income", inco.id)
-                            .then(() => this.props.updateChart())
-                        }
-                      />
-                    </Table.HeaderCell>
+                  <Table.HeaderCell textAlign="center">
+                    <Header size="large" inverted id={`name-${inco.id}`}>
+                      {inco.name}
+                    </Header>
+                    <input
+                      id={`edit-name-${inco.id}`}
+                      type="text"
+                      value={this.state.name}
+                      className="hide"
+                      onChange={this.handleKeyPress}
+                      onKeyPress={this.enterKey}
+                    />
+                  </Table.HeaderCell>
+                  <Table.HeaderCell textAlign="center">
+                    <Header size="large" inverted id={`amount-${inco.id}`}>
+                      {inco.amount}
+                    </Header>
+                    <input
+                      id={`edit-amount-${inco.id}`}
+                      type="text"
+                      value={this.state.amount}
+                      className="hide"
+                      onChange={this.handleKeyPress}
+                      onKeyPress={this.enterKey}
+                    />
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <Icon
+                      as={Button}
+                      circular
+                      negative
+                      size="mini"
+                      name="times"
+                      onClick={() =>
+                        this.props
+                          .deleteItem("income", inco.id)
+                          .then(() => this.props.updateChart())
+                      }
+                    />
+                  </Table.HeaderCell>
+                </Table.Row>
+                <Table.Row id={`date-${inco.id}`}>
+                  <Table.Cell>
+                    {inco.date}
+                    <input
+                      id={`edit-date-${inco.id}`}
+                      type="date"
+                      value={this.state.date}
+                      className="hide"
+                      onChange={this.handleKeyPress}
+                      onKeyPress={this.enterKey}
+                    />
+                  </Table.Cell>
                 </Table.Row>
               </Table.Header>
-              <div size="tiny" inverted id={`date-${inco.id}`}>
-                {inco.date}
-              </div>
-              <input
-                id={`edit-date-${inco.id}`}
-                type="date"
-                value={this.state.date}
-                className="hide"
-                onChange={this.handleKeyPress}
-                onKeyPress={this.enterKey}
-              />
             </Table>
           ))}
         </Segment>

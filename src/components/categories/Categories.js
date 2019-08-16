@@ -6,7 +6,8 @@ import {
   Table,
   Dropdown,
   Input,
-  Icon
+  Icon,
+  Modal
 } from "semantic-ui-react"
 
 export default class Categories extends Component {
@@ -50,9 +51,27 @@ export default class Categories extends Component {
     }
   }
   del = (resource, id) => {
-    this.props.deleteItem(resource, id).then(() => this.props.updateChart())
+    this.props.deleteItem(resource, id)
+      .then(() => this.props.updateChart())
   }
-  setCategory = categoryId => this.setState({ category_id: categoryId })
+
+  setCategory = categoryId => {
+    let upObj = this.props.categories.find(cat => cat.id === categoryId)
+    this.setState(upObj)
+  }
+
+  update = (resource, id) => {
+    console.log(resource, id)
+    this.props
+      .updateItem("categories", id, {
+        date: this.state.date,
+        name: this.state.name,
+        amount: this.state.amount,
+        user_id: +sessionStorage.getItem("activeUser")
+      })
+      .then(() => this.props.updateChart())
+  }
+
   render() {
     console.log(this.state)
     return (
@@ -78,18 +97,46 @@ export default class Categories extends Component {
                   </Header>
                 </Table.HeaderCell>
                 <Table.HeaderCell>
-                  <Dropdown item icon="ellipsis vertical" simple onClick={()=>this.setCategory(category.id)}>
+
+                  <Modal trigger={<Button id={`edit-${category.id}`} onClick={() => this.setCategory(category.id)}>Edit</Button>} size='mini'>
+                    <Header icon='edit' content={`Edit ${this.state.name}...`} />
+                    <Modal.Content>
+                      <Input
+                        fluid
+                        id="name"
+                        icon="file outline"
+                        value={this.state.name}
+                        onChange={this.handleKeyPress}
+                      />
+                      <Input
+                        fluid
+                        id="amount"
+                        type="number"
+                        icon="usd"
+                        value={this.state.amount}
+                        onChange={this.handleKeyPress}
+                      />
+                      <Input
+                        fluid
+                        id="date"
+                        type="date"
+                        icon="calendar alternate outline"
+                        value={this.state.date}
+                        onChange={this.handleKeyPress}
+                      />
+                    </Modal.Content>
+                    <Modal.Actions>
+                      <Button basic color="green" onClick={(event) => this.update("categories", category.id)}>
+                        Change
+                      </Button>
+                    </Modal.Actions>
+                  </Modal>
+                  <Dropdown item icon="ellipsis vertical" simple onClick={() => this.setCategory(category.id)}>
                     <Dropdown.Menu>
-                      <Header>
+                      <Dropdown.Item>
+                      </Dropdown.Item>
+                      <Header size="huge">
                         Add expense for {category.name}
-                        <Button
-                          floated="right"
-                          negative
-                          circular
-                          size="tiny"
-                          id={`category-${category.id}`}
-                          onClick={() => this.del("categories", category.id)}
-                        />
                       </Header>
                       <Input
                         id="name"
@@ -108,9 +155,17 @@ export default class Categories extends Component {
                         icon="calendar alternate outline"
                         onChange={this.handleKeyPress}
                       />
-                      <Button fluid onClick={() => this.add("expenses")}>
+                      <Button size="large" fluid onClick={() => this.add("expenses")}>
                         Create
                       </Button>
+                      <Button
+                        negative
+                        fluid
+                        size="tiny"
+                        content="delete"
+                        id={`category-${category.id}`}
+                        onClick={() => this.del("categories", category.id)}
+                      />
                     </Dropdown.Menu>
                   </Dropdown>
                 </Table.HeaderCell>
@@ -125,7 +180,7 @@ export default class Categories extends Component {
                     <Table.Cell>${expense.amount}</Table.Cell>
                     <Table.Cell>{expense.name}</Table.Cell>
                     <Table.Cell>
-                      <Icon as={Button} circular negative size="mini" name="times" onClick={() => this.del("expenses", expense.id)}/>
+                      <Icon as={Button} circular negative size="mini" name="times" onClick={() => this.del("expenses", expense.id)} />
                     </Table.Cell>
                   </Table.Row>
                 ))}

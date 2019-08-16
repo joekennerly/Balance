@@ -11,7 +11,14 @@ let thisMonth = moment().format("YYYY-MM")
 
 let colorArray = [
   "springgreen",
-
+  "#313131",
+  "#313131",
+  "#313131",
+  "#313131",
+  "#313131",
+  "#313131",
+  "#313131",
+  "#313131",
 
 ]
 class ApplicationViews extends Component {
