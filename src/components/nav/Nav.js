@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import { Menu, Dropdown, Input } from "semantic-ui-react"
+import { Menu } from "semantic-ui-react"
 
 export default class Nav extends Component {
   logout = () => {

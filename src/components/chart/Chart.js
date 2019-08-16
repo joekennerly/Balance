@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Pie } from "react-chartjs-2"
-import { Segment, Header, Icon, Dropdown, Input } from "semantic-ui-react"
+import { Segment } from "semantic-ui-react"
 
 export default class Chart extends Component {
   state = {

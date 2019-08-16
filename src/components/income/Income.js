@@ -1,14 +1,5 @@
 import React, { Component } from "react"
-import {
-  Button,
-  Menu,
-  Header,
-  Segment,
-  Table,
-  Icon,
-  Dropdown,
-  Input
-} from "semantic-ui-react"
+import { Button, Header, Segment, Table, Icon } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -93,62 +84,61 @@ export default class Income extends Component {
         <Segment inverted textAlign="right">
           {this.props.income.map(inco => (
             <Table inverted key={inco.id}>
-              <Table.Body>
+              <Table.Header>
                 <Table.Row>
-                  <Table.Cell textAlign="center">
-                    <Header inverted id={`date-${inco.id}`}>
-                      {inco.date}
-                    </Header>
-                    <input
-                      id={`edit-date-${inco.id}`}
-                      type="date"
-                      value={this.state.date}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Header inverted id={`name-${inco.id}`}>
-                      {inco.name}
-                    </Header>
-                    <input
-                      id={`edit-name-${inco.id}`}
-                      type="text"
-                      value={this.state.name}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Header inverted id={`amount-${inco.id}`}>
-                      {inco.amount}
-                    </Header>
-                    <input
-                      id={`edit-amount-${inco.id}`}
-                      type="text"
-                      value={this.state.amount}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Button
-                      basic
-                      negative
-                      circular
-                      size="tiny"
-                      onClick={() =>
-                        this.props
-                          .deleteItem("income", inco.id)
-                          .then(() => this.props.updateChart())
-                      }
-                    />
-                  </Table.Cell>
+                    <Table.HeaderCell textAlign="center">
+                      <Header size="large" inverted id={`name-${inco.id}`}>
+                        {inco.name}
+                      </Header>
+                      <input
+                        id={`edit-name-${inco.id}`}
+                        type="text"
+                        value={this.state.name}
+                        className="hide"
+                        onChange={this.handleKeyPress}
+                        onKeyPress={this.enterKey}
+                      />
+                    </Table.HeaderCell>
+                    <Table.HeaderCell textAlign="center">
+                      <Header size="large" inverted id={`amount-${inco.id}`}>
+                        {inco.amount}
+                      </Header>
+                      <input
+                        id={`edit-amount-${inco.id}`}
+                        type="text"
+                        value={this.state.amount}
+                        className="hide"
+                        onChange={this.handleKeyPress}
+                        onKeyPress={this.enterKey}
+                      />
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                      <Icon
+                        as={Button}
+                        circular
+                        negative
+                        size="mini"
+                        name="times"
+                        onClick={() =>
+                          this.props
+                            .deleteItem("income", inco.id)
+                            .then(() => this.props.updateChart())
+                        }
+                      />
+                    </Table.HeaderCell>
                 </Table.Row>
-              </Table.Body>
+              </Table.Header>
+              <div size="tiny" inverted id={`date-${inco.id}`}>
+                {inco.date}
+              </div>
+              <input
+                id={`edit-date-${inco.id}`}
+                type="date"
+                value={this.state.date}
+                className="hide"
+                onChange={this.handleKeyPress}
+                onKeyPress={this.enterKey}
+              />
             </Table>
           ))}
         </Segment>
