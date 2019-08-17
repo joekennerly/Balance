@@ -39,7 +39,7 @@ export default class Totals extends Component {
     let totalEx = this.props.sum(this.props.expenses)
     let totalBalance = this.props.diff(totalIn, totalEx)
     let totalCat = this.props.sum(this.props.categories)
-    // let budgetBalance = this.props.diff(totalIn, totalCat)
+    let budgetBalance = this.props.diff(totalIn, totalCat)
     return (
       <Table inverted celled textAlign="center">
         <Table.Header>
@@ -49,37 +49,13 @@ export default class Totals extends Component {
                 ${totalCat}
               </Header>
             </Table.Cell>
+            
             <Table.Cell>
               <Header size="huge" inverted>
-                <Dropdown item icon="chevron down" direction="right" simple>
-                  <Dropdown.Menu>
-                    <Header>Add Budget</Header>
-                    <Input id="name" icon="file outline" onChange={this.handleKeyPress}/>
-                    <Input id="amount" type="number" icon="usd" onChange={this.handleKeyPress}/>
-                    <Input id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress}/>
-                    <Button fluid onClick={()=>this.add("categories")}>Create</Button>
-                  </Dropdown.Menu>
-                </Dropdown>
+                ${budgetBalance}
               </Header>
             </Table.Cell>
-            <Table.Cell>
-              <Header size="huge" inverted>
-                ${totalBalance}
-              </Header>
-            </Table.Cell>
-            <Table.Cell>
-              <Header size="huge" inverted>
-              <Dropdown item icon="chevron up" simple>
-                <Dropdown.Menu>
-                    <Header>Add Income</Header>
-                    <Input id="name" icon="file outline" onChange={this.handleKeyPress}/>
-                    <Input id="amount" type="number" icon="usd" onChange={this.handleKeyPress}/>
-                    <Input id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress}/>
-                    <Button fluid onClick={()=>this.add("income")}>Create</Button>
-                </Dropdown.Menu>
-              </Dropdown>
-              </Header>
-            </Table.Cell>
+            
             <Table.Cell>
               <Header size="huge" inverted>
                 ${totalIn}

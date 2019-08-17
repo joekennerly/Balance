@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Icon, Modal, Input } from "semantic-ui-react"
+import { Button, Header, Segment, Table, Dropdown, Icon, Modal, Input } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -42,12 +42,22 @@ export default class Income extends Component {
 
   render() {
     return (
-      <Segment.Group
-        as={Segment}
-        inverted
-        horizontal
-        onClick={this.toggleClick}
-      >
+      <React.Fragment>
+
+        <Segment>
+
+          <Header size="huge" inverted>
+            <Dropdown item icon="chevron up" simple>
+              <Dropdown.Menu>
+                <Header>Add Income</Header>
+                <Input id="name" icon="file outline" onChange={this.handleKeyPress} />
+                <Input id="amount" type="number" icon="usd" onChange={this.handleKeyPress} />
+                <Input id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress} />
+                <Button fluid onClick={() => this.add("income")}>Create</Button>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Header>
+        </Segment>
         <Segment inverted textAlign="right">
           {this.props.income.map(inco => (
             <Table inverted key={inco.id}>
@@ -116,7 +126,7 @@ export default class Income extends Component {
             </Table>
           ))}
         </Segment>
-      </Segment.Group>
+      </React.Fragment>
     )
   }
 }

@@ -86,6 +86,17 @@ export default class Categories extends Component {
   render() {
     return (
       <Segment>
+          <Header size="huge" inverted>
+            <Dropdown item icon="chevron down" direction="right" simple>
+              <Dropdown.Menu>
+                <Header>Add Budget</Header>
+                <Input id="name" icon="file outline" onChange={this.handleKeyPress} />
+                <Input id="amount" type="number" icon="usd" onChange={this.handleKeyPress} />
+                <Input id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress} />
+                <Button fluid onClick={() => this.add("categories")}>Create</Button>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Header>
         {this.props.categories.map(category => (
           <Table inverted key={category.id}>
             <Table.Header>
