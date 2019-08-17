@@ -23,11 +23,6 @@ export default class Categories extends Component {
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
   }
-  handleEdit = event => {
-    const stateToChange = {}
-    stateToChange[event.target.id.split("-")[1]] = event.target.value
-    this.setState(stateToChange)
-  }
   //Factory function
   makeObj = () => {
     return {
@@ -54,17 +49,39 @@ export default class Categories extends Component {
     this.props.deleteItem(resource, id)
       .then(() => this.props.updateChart())
   }
+  delCat = (resource, id) => {
+    // Loop over expenses with categoryID
+    // Delete each expense
+    // Delete Category
+    this.props.deleteItem(resource, id)
+      .then(() => this.props.updateChart())
+  }
 
   setCategory = categoryId => {
-    let upObj = this.props.categories.find(cat => cat.id === categoryId)
+    this.setState({category_id: categoryId})
+  }
+  setExpense = id => {
+    let upObj = this.props.expenses.find(exp => exp.id === id)
     this.setState(upObj)
   }
 
   update = (resource, id) => {
     console.log(resource, id)
     this.props
-      .updateItem("categories", id, {
+      .updateItem(resource, id, {
         date: this.state.date,
+        name: this.state.name,
+        amount: this.state.amount,
+        user_id: +sessionStorage.getItem("activeUser")
+      })
+      .then(() => this.props.updateChart())
+  }
+  updateExp = (resource, id) => {
+    console.log(resource, id)
+    this.props
+      .updateItem(resource, id, {
+        date: this.state.date,
+        category_id: this.state.category_id,
         name: this.state.name,
         amount: this.state.amount,
         user_id: +sessionStorage.getItem("activeUser")
@@ -131,7 +148,7 @@ export default class Categories extends Component {
                       </Button>
                     </Modal.Actions>
                   </Modal>
-                  <Dropdown item icon="ellipsis vertical" simple onClick={() => this.setCategory(category.id)}>
+                  <Dropdown id={`options-${category.id}`} item icon="ellipsis vertical" simple onClick={() => this.setCategory(category.id)}>
                     <Dropdown.Menu>
                       <Dropdown.Item>
                       </Dropdown.Item>
@@ -180,6 +197,39 @@ export default class Categories extends Component {
                     <Table.Cell>${expense.amount}</Table.Cell>
                     <Table.Cell>{expense.name}</Table.Cell>
                     <Table.Cell>
+                      <Modal trigger={<Button id={`edit-${expense.id}`} onClick={() => this.setCategory(category.id)}>Edit</Button>} size='mini'>
+                        <Header icon='edit' content={`Edit ${this.state.name}...`} />
+                        <Modal.Content>
+                          <Input
+                            fluid
+                            id="name"
+                            icon="file outline"
+                            value={this.state.name}
+                            onChange={this.handleKeyPress}
+                          />
+                          <Input
+                            fluid
+                            id="amount"
+                            type="number"
+                            icon="usd"
+                            value={this.state.amount}
+                            onChange={this.handleKeyPress}
+                          />
+                          <Input
+                            fluid
+                            id="date"
+                            type="date"
+                            icon="calendar alternate outline"
+                            value={this.state.date}
+                            onChange={this.handleKeyPress}
+                          />
+                        </Modal.Content>
+                        <Modal.Actions>
+                          <Button basic color="green" onClick={(event) => this.updateExp("expenses", expense.id)}>
+                            Change
+                      </Button>
+                        </Modal.Actions>
+                      </Modal>
                       <Icon as={Button} circular negative size="mini" name="times" onClick={() => this.del("expenses", expense.id)} />
                     </Table.Cell>
                   </Table.Row>

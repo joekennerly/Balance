@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Icon } from "semantic-ui-react"
+import { Button, Header, Segment, Table, Icon, Modal, Input } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -10,59 +10,10 @@ export default class Income extends Component {
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
-    stateToChange[event.target.id.split("-")[1]] = event.target.value
+    stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
   }
-  toggleClick = event => {
-    // if not an INPUT...
-    if (event.target.tagName !== "INPUT") {
-      //only previously toggled forms will have a "show/toggle" class
-      let toggledForm = document.querySelector(".show")
-      let toggledText = document.querySelector(".toggled")
-      //if there is an element with "show/toggled" class...
-      if (toggledForm) {
-        // toggle it back
-        toggledForm.classList.toggle("hide")
-        toggledText.classList.toggle("hide")
-        // and remove temporary class
-        toggledForm.classList.remove("show")
-        toggledText.classList.remove("toggled")
-      }
 
-      //selectable elements will include "-"
-      if (event.target.id.includes("-")) {
-        //grab the num from a two element array
-        let id = +event.target.id.split("-")[1]
-        //hide text; add "toggled" class
-        event.target.classList.toggle("hide")
-        // add temporary class
-        event.target.classList.add("toggled")
-        //when TEXT is clicked
-        let editable = document.getElementById(`edit-${event.target.id}`)
-        editable.classList.toggle("hide")
-        //show edit form; show class is just a marker
-        editable.classList.add("show")
-        //find the object with matching id from this.props
-        let upObj = this.props.income.find(inco => inco.id === id)
-        //update state with current values
-        this.setState(upObj)
-      }
-    }
-  }
-  enterKey = event => {
-    if (event.key === "Enter") {
-      let hiddenId = event.target.id.split("-")
-      let hiddenText = document.querySelector(`#${hiddenId[1]}-${hiddenId[2]}`)
-      hiddenText.classList.toggle("hide")
-      hiddenText.classList.remove("toggled")
-      event.target.classList.toggle("hide")
-      event.target.classList.remove("show")
-      let eventId = +event.target.id.split("-")[2]
-      this.props
-        .updateItem("income", eventId, this.makeObj())
-        .then(() => this.props.updateChart())
-    }
-  }
   //Factory function
   makeObj = () => {
     return {
@@ -71,6 +22,22 @@ export default class Income extends Component {
       amount: this.state.amount,
       user_id: +sessionStorage.getItem("activeUser")
     }
+  }
+  setIncome = id => {
+    let upObj = this.props.income.find(inc => inc.id === id)
+    this.setState(upObj)
+  }
+
+  update = (resource, id) => {
+    console.log(resource, id)
+    this.props
+      .updateItem(resource, id, {
+        date: this.state.date,
+        name: this.state.name,
+        amount: this.state.amount,
+        user_id: +sessionStorage.getItem("activeUser")
+      })
+      .then(() => this.props.updateChart())
   }
 
   render() {
@@ -113,12 +80,44 @@ export default class Income extends Component {
                     />
                   </Table.HeaderCell>
                   <Table.HeaderCell>
+                    <Modal trigger={<Button id={`edit-${inco.id}`} onClick={() => this.setIncome(inco.id)}>Edit</Button>} size='mini'>
+                      <Header icon='edit' content={`Edit ${this.state.name}...`} />
+                      <Modal.Content>
+                        <Input
+                          fluid
+                          id="name"
+                          icon="file outline"
+                          value={this.state.name}
+                          onChange={this.handleKeyPress}
+                        />
+                        <Input
+                          fluid
+                          id="amount"
+                          type="number"
+                          icon="usd"
+                          value={this.state.amount}
+                          onChange={this.handleKeyPress}
+                        />
+                        <Input
+                          fluid
+                          id="date"
+                          type="date"
+                          icon="calendar alternate outline"
+                          value={this.state.date}
+                          onChange={this.handleKeyPress}
+                        />
+                      </Modal.Content>
+                      <Modal.Actions>
+                        <Button basic color="green" onClick={(event) => this.update("income", inco.id)}>
+                          Change
+                      </Button>
+                      </Modal.Actions>
+                    </Modal>
                     <Icon
                       as={Button}
                       circular
                       negative
                       size="mini"
-                      name="times"
                       onClick={() =>
                         this.props
                           .deleteItem("income", inco.id)
