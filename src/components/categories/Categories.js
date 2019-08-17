@@ -87,7 +87,7 @@ export default class Categories extends Component {
     return (
       <Segment>
           <Header size="huge" inverted>
-            <Dropdown item icon="chevron down" direction="right" simple>
+            <Dropdown item icon="chevron down" simple>
               <Dropdown.Menu>
                 <Header>Add Budget</Header>
                 <Input id="name" icon="file outline" onChange={this.handleKeyPress} />
@@ -108,13 +108,13 @@ export default class Categories extends Component {
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                   <Header size="large" inverted id={`amount-${category.id}`}>
-                    $
+                    {/* $
                     {this.props.sum(
                       this.props.expenses.filter(
                         exp => exp.category_id === category.id
                       )
-                    )}
-                    /${category.amount}
+                    )} */}
+                    ${category.amount}
                   </Header>
                 </Table.HeaderCell>
                 <Table.HeaderCell>
@@ -163,7 +163,7 @@ export default class Categories extends Component {
                       </Button>
                     </Modal.Actions>
                   </Modal>
-                  <Dropdown id={`options-${category.id}`} as={Button} positive icon="plus" simple onClick={() => this.setCategory(category.id)}>
+                  {/* <Dropdown id={`options-${category.id}`} as={Button} positive icon="plus" simple onClick={() => this.setCategory(category.id)}>
                     <Dropdown.Menu>
                       <Header size="huge">
                         Add expense for {category.name}
@@ -189,7 +189,7 @@ export default class Categories extends Component {
                         Create
                       </Button>
                     </Dropdown.Menu>
-                  </Dropdown>
+                  </Dropdown> */}
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>

@@ -99,16 +99,28 @@ class ApplicationViews extends Component {
   }
   deleteCat = (id) => {
     let newObj = {}
-    let ids = []
-    let catExpenses = this.state.expenses.filter(expense => expense.category_id === id)
-    catExpenses.forEach(exp => ids.push(APIManager.delete("expenses", exp.id)))
-    APIManager.getAll("expenses")
-      .then(response => newObj.expenses = response)
-      .then(APIManager.delete("categories", id))
-      .then(APIManager.getAll("categories"))
-      .then(response => newObj.categories = response)
-      .then(() => this.setState(newObj))
+    return APIManager.delete("categories", id)
+      .then(() =>
+        APIManager.getAll(`categories?user_id=${this.props.activeUser}`)
+      )
+      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
+      .then(items => {
+        newObj["categories"] = items
+        this.setState(newObj)
+      })
   }
+  // deleteCat = (id) => {
+  //   let newObj = {}
+  //   let ids = []
+  //   let catExpenses = this.state.expenses.filter(expense => expense.category_id === id)
+  //   catExpenses.forEach(exp => ids.push(APIManager.delete("expenses", exp.id)))
+  //   APIManager.getAll("expenses")
+  //     .then(response => newObj.expenses = response)
+  //     .then(APIManager.delete("categories", id))
+  //     .then(APIManager.getAll("categories"))
+  //     .then(response => newObj.categories = response)
+  //     .then(() => this.setState(newObj))
+  // }
   updateItem = (resource, id, editedObject) => {
     let newObj = {}
     return APIManager.put(resource, id, editedObject)
@@ -177,6 +189,7 @@ class ApplicationViews extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <React.Fragment>
         <Route
