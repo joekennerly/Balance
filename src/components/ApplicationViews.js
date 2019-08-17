@@ -98,12 +98,16 @@ class ApplicationViews extends Component {
       })
   }
   deleteCat = (id) => {
-    // let newObj = {}
+    let newObj = {}
     let ids = []
     let catExpenses = this.state.expenses.filter(expense => expense.category_id === id)
-    catExpenses.forEach(exp=>ids.push(APIManager.delete("expenses",exp.id)))
-    APIManager.getAll("expenses").then((res)=>this.setState({expenses: res}))
-
+    catExpenses.forEach(exp => ids.push(APIManager.delete("expenses", exp.id)))
+    APIManager.getAll("expenses")
+      .then(response => newObj.expenses = response)
+      .then(APIManager.delete("categories", id))
+      .then(APIManager.getAll("categories"))
+      .then(response => newObj.categories = response)
+      .then(() => this.setState(newObj))
   }
   updateItem = (resource, id, editedObject) => {
     let newObj = {}
