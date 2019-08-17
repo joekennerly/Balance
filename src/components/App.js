@@ -30,7 +30,6 @@ export default class App extends Component {
       //if there is an active user
       return (
         <Container fluid>
-          {/* Heads up! We apply there some custom styling, you usually will not need it. */}
           <style>
             {`
               html, body {

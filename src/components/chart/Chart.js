@@ -16,7 +16,6 @@ export default class Chart extends Component {
   }
 
   render() {
-    console.log(this.props.sum(this.props.categories))
     return (
       <Segment textAlign="center" inverted>
         <Pie
