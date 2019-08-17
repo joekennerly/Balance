@@ -21,6 +21,7 @@ let colorArray = [
   "#313131",
 
 ]
+
 class ApplicationViews extends Component {
   state = {
     expenses: [],
@@ -31,7 +32,7 @@ class ApplicationViews extends Component {
   componentDidMount() {
     //Filtering by month on income and expenses
     let newState = {}
-    APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
+    return APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
       .then(
         expenses =>
           (newState.expenses = expenses.filter(expense =>
@@ -96,6 +97,14 @@ class ApplicationViews extends Component {
         this.setState(newObj)
       })
   }
+  deleteCat = (id) => {
+    // let newObj = {}
+    let ids = []
+    let catExpenses = this.state.expenses.filter(expense => expense.category_id === id)
+    catExpenses.forEach(exp=>ids.push(APIManager.delete("expenses",exp.id)))
+    APIManager.getAll("expenses").then((res)=>this.setState({expenses: res}))
+
+  }
   updateItem = (resource, id, editedObject) => {
     let newObj = {}
     return APIManager.put(resource, id, editedObject)
@@ -115,17 +124,6 @@ class ApplicationViews extends Component {
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
       )
       .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
-      .then(items => {
-        newObj[resource] = items
-        this.setState(newObj)
-      })
-  }
-  deleteCat = (resource, id) => {
-    let newObj = {}
-    return APIManager.delete(resource, id)
-      .then(() =>
-        APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-      )
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
@@ -201,7 +199,8 @@ class ApplicationViews extends Component {
                   sum={this.sum}
                   diff={this.diff}
                   addItem={this.addCat}
-                  deleteItem={this.deleteCat}
+                  deleteCat={this.deleteCat}
+                  deleteItem={this.deleteItem}
                   updateItem={this.updateCat}
                   income={this.state.income}
                   expenses={this.state.expenses}

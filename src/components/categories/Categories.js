@@ -49,19 +49,13 @@ export default class Categories extends Component {
     this.props.deleteItem(resource, id)
       .then(() => this.props.updateChart())
   }
-  delCat = (resource, id) => {
-    // Loop over expenses with categoryID
-    // Delete each expense
-    // Delete Category
-    this.props.deleteItem(resource, id)
-      .then(() => this.props.updateChart())
-  }
-
   setCategory = categoryId => {
-    this.setState({category_id: categoryId})
+    let upObj = this.props.categories.find(cat => cat.id === categoryId)
+    upObj.category_id = categoryId
+    this.setState(upObj)
   }
   setExpense = id => {
-    let upObj = this.props.expenses.find(exp => exp.id === id)
+    let upObj = this.props.expenses.find(exp => exp.category_id === id)
     this.setState(upObj)
   }
 
@@ -90,7 +84,6 @@ export default class Categories extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Segment>
         {this.props.categories.map(category => (
@@ -115,7 +108,7 @@ export default class Categories extends Component {
                 </Table.HeaderCell>
                 <Table.HeaderCell>
 
-                  <Modal trigger={<Button id={`edit-${category.id}`} onClick={() => this.setCategory(category.id)}>Edit</Button>} size='mini'>
+                  <Modal trigger={<Button id={`edit-${category.id}`} size="small" onClick={() => this.setCategory(category.id)}>Edit</Button>}>
                     <Header icon='edit' content={`Edit ${this.state.name}...`} />
                     <Modal.Content>
                       <Input
@@ -143,15 +136,24 @@ export default class Categories extends Component {
                       />
                     </Modal.Content>
                     <Modal.Actions>
-                      <Button basic color="green" onClick={(event) => this.update("categories", category.id)}>
+                      <Button basic color="green" onClick={() => this.update("categories", category.id)}>
                         Change
                       </Button>
                     </Modal.Actions>
                   </Modal>
-                  <Dropdown id={`options-${category.id}`} item icon="ellipsis vertical" simple onClick={() => this.setCategory(category.id)}>
+                  <Modal trigger={<Button negative size="small" id={`delete-${category.id}`} onClick={() => this.setCategory(category.id)}>Delete</Button>} size='mini'>
+                    <Header icon='trash' content={`Are you sure you want to delete ${this.state.name} and all of it's expenses?`} />
+                    <Modal.Actions>
+                      <Button basic negative onClick={() => this.props.deleteCat(category.id)}>
+                        Delete
+                      </Button>
+                      <Button basic onClick={() => console.log("cancel")}>
+                        Cancel
+                      </Button>
+                    </Modal.Actions>
+                  </Modal>
+                  <Dropdown id={`options-${category.id}`} as={Button} positive icon="plus" simple onClick={() => this.setCategory(category.id)}>
                     <Dropdown.Menu>
-                      <Dropdown.Item>
-                      </Dropdown.Item>
                       <Header size="huge">
                         Add expense for {category.name}
                       </Header>
@@ -175,14 +177,6 @@ export default class Categories extends Component {
                       <Button size="large" fluid onClick={() => this.add("expenses")}>
                         Create
                       </Button>
-                      <Button
-                        negative
-                        fluid
-                        size="tiny"
-                        content="delete"
-                        id={`category-${category.id}`}
-                        onClick={() => this.del("categories", category.id)}
-                      />
                     </Dropdown.Menu>
                   </Dropdown>
                 </Table.HeaderCell>
@@ -197,7 +191,7 @@ export default class Categories extends Component {
                     <Table.Cell>${expense.amount}</Table.Cell>
                     <Table.Cell>{expense.name}</Table.Cell>
                     <Table.Cell>
-                      <Modal trigger={<Button id={`edit-${expense.id}`} onClick={() => this.setCategory(category.id)}>Edit</Button>} size='mini'>
+                      <Modal trigger={<Button id={`edit-${expense.id}`} size="mini" onClick={() => this.setExpense(category.id)}>Edit</Button>} size='mini'>
                         <Header icon='edit' content={`Edit ${this.state.name}...`} />
                         <Modal.Content>
                           <Input
@@ -225,12 +219,12 @@ export default class Categories extends Component {
                           />
                         </Modal.Content>
                         <Modal.Actions>
-                          <Button basic color="green" onClick={(event) => this.updateExp("expenses", expense.id)}>
+                          <Button basic circular color="green" onClick={(event) => this.updateExp("expenses", expense.id)}>
                             Change
                       </Button>
                         </Modal.Actions>
                       </Modal>
-                      <Icon as={Button} circular negative size="mini" name="times" onClick={() => this.del("expenses", expense.id)} />
+                      <Icon as={Button} negative size="mini" content="Delete" onClick={() => this.del("expenses", expense.id)} />
                     </Table.Cell>
                   </Table.Row>
                 ))}

@@ -57,30 +57,16 @@ export default class Income extends Component {
                     <Header size="large" inverted id={`name-${inco.id}`}>
                       {inco.name}
                     </Header>
-                    <input
-                      id={`edit-name-${inco.id}`}
-                      type="text"
-                      value={this.state.name}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
+
                   </Table.HeaderCell>
                   <Table.HeaderCell textAlign="center">
                     <Header size="large" inverted id={`amount-${inco.id}`}>
                       {inco.amount}
                     </Header>
-                    <input
-                      id={`edit-amount-${inco.id}`}
-                      type="text"
-                      value={this.state.amount}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
+
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <Modal trigger={<Button id={`edit-${inco.id}`} onClick={() => this.setIncome(inco.id)}>Edit</Button>} size='mini'>
+                    <Modal trigger={<Button size="small" id={`edit-${inco.id}`} onClick={() => this.setIncome(inco.id)}>Edit</Button>} size='mini'>
                       <Header icon='edit' content={`Edit ${this.state.name}...`} />
                       <Modal.Content>
                         <Input
@@ -115,9 +101,9 @@ export default class Income extends Component {
                     </Modal>
                     <Icon
                       as={Button}
-                      circular
                       negative
-                      size="mini"
+                      size="small"
+                      content="delete"
                       onClick={() =>
                         this.props
                           .deleteItem("income", inco.id)
@@ -125,19 +111,6 @@ export default class Income extends Component {
                       }
                     />
                   </Table.HeaderCell>
-                </Table.Row>
-                <Table.Row id={`date-${inco.id}`}>
-                  <Table.Cell>
-                    {inco.date}
-                    <input
-                      id={`edit-date-${inco.id}`}
-                      type="date"
-                      value={this.state.date}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Table.Cell>
                 </Table.Row>
               </Table.Header>
             </Table>
