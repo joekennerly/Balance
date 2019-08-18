@@ -14,19 +14,19 @@ export default class Totals extends Component {
           <Table.Row>
             <Table.Cell>
               <Header size="huge" inverted>
-                ${totalCat}
+                Budget: ${totalCat}
               </Header>
             </Table.Cell>
             
             <Table.Cell>
               <Header size="huge" inverted>
-                ${budgetBalance}
+                Balance: ${budgetBalance}
               </Header>
             </Table.Cell>
             
             <Table.Cell>
               <Header size="huge" inverted>
-                ${totalIn}
+                Income: ${totalIn}
               </Header>
             </Table.Cell>
           </Table.Row>
