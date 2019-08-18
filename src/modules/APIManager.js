@@ -39,7 +39,14 @@ export default Object.create(null, {
     value (name, id) {
       return fetch(`${remoteURL}/${name}/${id}`, {
         method: "DELETE",
-      }).then(data => data.json());
+      }).then(data => data.json())
+    }
+  },
+  multiDelete: {
+    value (name) {
+      return fetch(`${remoteURL}/${name}`, {
+        method: "DELETE",
+      })
     }
   }
 })

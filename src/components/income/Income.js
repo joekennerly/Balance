@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Icon, Modal, Input } from "semantic-ui-react"
+import { Button, Header, Segment, Table, Dropdown, Icon, Modal, Input } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -27,6 +27,19 @@ export default class Income extends Component {
     let upObj = this.props.income.find(inc => inc.id === id)
     this.setState(upObj)
   }
+  add = (resource) => {
+    if (this.state.name === "") {
+      return window.alert("please enter a name")
+    } else if (this.state.amount === "") {
+      return window.alert("please enter an amount")
+    } else if (this.state.date === "") {
+      return window.alert("please enter a date")
+    } else {
+      this.props
+        .addItem(resource, this.makeObj())
+        .then(() => this.props.updateChart())
+    }
+  }
 
   update = (resource, id) => {
     console.log(resource, id)
@@ -42,12 +55,22 @@ export default class Income extends Component {
 
   render() {
     return (
-      <Segment.Group
-        as={Segment}
-        inverted
-        horizontal
-        onClick={this.toggleClick}
-      >
+      <React.Fragment>
+
+        <Segment>
+
+          <Header size="huge" inverted>
+            <Dropdown item icon="chevron up" simple>
+              <Dropdown.Menu>
+                <Header>Add Income</Header>
+                <Input id="name" icon="file outline" onChange={this.handleKeyPress} />
+                <Input id="amount" type="number" icon="usd" onChange={this.handleKeyPress} />
+                <Input id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress} />
+                <Button fluid onClick={() => this.add("income")}>Create</Button>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Header>
+        </Segment>
         <Segment inverted textAlign="right">
           {this.props.income.map(inco => (
             <Table inverted key={inco.id}>
@@ -57,30 +80,16 @@ export default class Income extends Component {
                     <Header size="large" inverted id={`name-${inco.id}`}>
                       {inco.name}
                     </Header>
-                    <input
-                      id={`edit-name-${inco.id}`}
-                      type="text"
-                      value={this.state.name}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
+
                   </Table.HeaderCell>
                   <Table.HeaderCell textAlign="center">
                     <Header size="large" inverted id={`amount-${inco.id}`}>
                       {inco.amount}
                     </Header>
-                    <input
-                      id={`edit-amount-${inco.id}`}
-                      type="text"
-                      value={this.state.amount}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
+
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <Modal trigger={<Button id={`edit-${inco.id}`} onClick={() => this.setIncome(inco.id)}>Edit</Button>} size='mini'>
+                    <Modal trigger={<Button size="small" id={`edit-${inco.id}`} onClick={() => this.setIncome(inco.id)}>Edit</Button>} size='mini'>
                       <Header icon='edit' content={`Edit ${this.state.name}...`} />
                       <Modal.Content>
                         <Input
@@ -115,9 +124,9 @@ export default class Income extends Component {
                     </Modal>
                     <Icon
                       as={Button}
-                      circular
                       negative
-                      size="mini"
+                      size="small"
+                      content="delete"
                       onClick={() =>
                         this.props
                           .deleteItem("income", inco.id)
@@ -126,24 +135,11 @@ export default class Income extends Component {
                     />
                   </Table.HeaderCell>
                 </Table.Row>
-                <Table.Row id={`date-${inco.id}`}>
-                  <Table.Cell>
-                    {inco.date}
-                    <input
-                      id={`edit-date-${inco.id}`}
-                      type="date"
-                      value={this.state.date}
-                      className="hide"
-                      onChange={this.handleKeyPress}
-                      onKeyPress={this.enterKey}
-                    />
-                  </Table.Cell>
-                </Table.Row>
               </Table.Header>
             </Table>
           ))}
         </Segment>
-      </Segment.Group>
+      </React.Fragment>
     )
   }
 }
