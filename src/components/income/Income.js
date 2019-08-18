@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Dropdown, Icon, Modal, Input } from "semantic-ui-react"
+import { Button, Header, Segment, Table, Icon, Modal, Input } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {

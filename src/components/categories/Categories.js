@@ -4,7 +4,6 @@ import {
   Header,
   Segment,
   Table,
-  Dropdown,
   Input,
   Icon,
   Modal
