@@ -16,7 +16,7 @@ export default class Dashboard extends Component {
           <Chart {...this.props} />
           <Income {...this.props} />
         </Segment.Group>
-        <Outlook />
+        <Outlook {...this.props}/>
       </Segment>
     )
   }
