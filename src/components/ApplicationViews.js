@@ -72,9 +72,6 @@ class ApplicationViews extends Component {
   }
   makeArray = (arr, prop) => arr.map(el => el[prop])
 
-  // REFACTOR sum can be a reduce method
-  // sum = arrayOfEntries => arrayOfEntries.reduce((current, next) => current + next)
-
   sum = entryArray => {
     let total = 0
     entryArray.forEach(entry => (total += +entry.amount))

@@ -14,8 +14,16 @@ export default class Categories extends Component {
     name: "",
     amount: "",
     date: "",
-    category_id: ""
+    category_id: "",
+    editOpen: false,
+    catOpen: false
   }
+
+  openCat = () => this.setState({catOpen: true})
+  closeCat = () => this.setState({catOpen: false})
+  openEdit = () => this.setState({ editOpen: true })
+  closeEdit = () => this.setState({ editOpen: false })
+
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
@@ -41,7 +49,9 @@ export default class Categories extends Component {
     } else {
       this.props
         .addItem(resource, this.makeObj())
-        .then(() => this.props.updateChart())
+        .then(() => {
+          this.props.updateChart()
+        })
     }
   }
   del = (resource, id) => {
@@ -70,7 +80,6 @@ export default class Categories extends Component {
       .then(() => this.props.updateChart())
   }
   updateExp = (resource, id) => {
-    console.log(resource, id)
     this.props
       .updateItem(resource, id, {
         date: this.state.date,
@@ -86,7 +95,12 @@ export default class Categories extends Component {
     return (
       <Segment>
         <Header size="huge" inverted>
-          <Modal size="mini" trigger={<Button fluid>Add Budget</Button>}>
+          <Modal size="mini" trigger={<Button
+            onClick={this.openCat}
+            open={this.state.catOpen}
+            onClose={this.closeclose}
+            fluid>Add Budget</Button>}
+          >
             <Modal.Header>
               Add Budget
             </Modal.Header>
@@ -111,12 +125,6 @@ export default class Categories extends Component {
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                   <Header size="large" inverted id={`amount-${category.id}`}>
-                    {/* $
-                    {this.props.sum(
-                      this.props.expenses.filter(
-                        exp => exp.category_id === category.id
-                      )
-                    )} */}
                     ${category.amount}
                   </Header>
                 </Table.HeaderCell>
@@ -166,33 +174,6 @@ export default class Categories extends Component {
                       </Button>
                     </Modal.Actions>
                   </Modal>
-                  {/* <Dropdown id={`options-${category.id}`} as={Button} positive icon="plus" simple onClick={() => this.setCategory(category.id)}>
-                    <Dropdown.Menu>
-                      <Header size="huge">
-                        Add expense for {category.name}
-                      </Header>
-                      <Input
-                        id="name"
-                        icon="file outline"
-                        onChange={this.handleKeyPress}
-                      />
-                      <Input
-                        id="amount"
-                        type="number"
-                        icon="usd"
-                        onChange={this.handleKeyPress}
-                      />
-                      <Input
-                        id="date"
-                        type="date"
-                        icon="calendar alternate outline"
-                        onChange={this.handleKeyPress}
-                      />
-                      <Button size="large" fluid onClick={() => this.add("expenses")}>
-                        Create
-                      </Button>
-                    </Dropdown.Menu>
-                  </Dropdown> */}
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
