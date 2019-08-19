@@ -4,7 +4,7 @@ import Categories from "../categories/Categories"
 import Totals from "../totals/Totals"
 import Income from "../income/Income"
 import { Segment } from "semantic-ui-react"
-import Outlook from "../outlook/Outlook";
+// import Outlook from "../outlook/Outlook"
 
 export default class Dashboard extends Component {
   render() {
@@ -16,7 +16,7 @@ export default class Dashboard extends Component {
           <Chart {...this.props} />
           <Income {...this.props} />
         </Segment.Group>
-        <Outlook {...this.props}/>
+        {/* <Outlook {...this.props}/> */}
       </Segment>
     )
   }

@@ -92,21 +92,11 @@ export default class Outlook extends Component {
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
             </Table.Row>
-            <Table.Row>
-              <Table.Cell>Other</Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Other</Table.Cell>
-              <Table.Cell></Table.Cell>
+            {
+              this.props.categories.map(category => (
+                <Table.Row key={category.id}>
+                  <Table.Cell>{category.name}</Table.Cell>
+                  <Table.Cell>{category.amount}</Table.Cell>
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
@@ -116,30 +106,8 @@ export default class Outlook extends Component {
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
             </Table.Row>
-            <Table.Row>
-              <Table.Cell>Other</Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Other</Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-            </Table.Row>
+              ))
+            }
           </Table.Body>
         </Table>
       </Segment>

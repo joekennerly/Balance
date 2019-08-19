@@ -5,7 +5,6 @@ import {
   Segment,
   Table,
   Input,
-  Icon,
   Modal
 } from "semantic-ui-react"
 
@@ -14,8 +13,16 @@ export default class Categories extends Component {
     name: "",
     amount: "",
     date: "",
-    category_id: ""
+    category_id: "",
+    editOpen: false,
+    catOpen: false
   }
+
+  openCat = () => this.setState({ catOpen: true })
+  closeCat = () => this.setState({ catOpen: false })
+  openEdit = () => this.setState({ editOpen: true })
+  closeEdit = () => this.setState({ editOpen: false })
+
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
@@ -39,16 +46,17 @@ export default class Categories extends Component {
     } else if (this.state.amount === "") {
       return window.alert("please enter an amount")
     } else {
+      this.closeCat()
       this.props
         .addItem(resource, this.makeObj())
         .then(() => this.props.updateChart())
     }
   }
   del = (resource, id) => {
-    this.props.deleteItem(resource, id)
-      .then(() => this.props.updateChart())
+    this.props.deleteItem(resource, id).then(() => this.props.updateChart())
   }
   setCategory = categoryId => {
+    console.log("category")
     let upObj = this.props.categories.find(cat => cat.id === categoryId)
     upObj.category_id = categoryId
     this.setState(upObj)
@@ -70,7 +78,6 @@ export default class Categories extends Component {
       .then(() => this.props.updateChart())
   }
   updateExp = (resource, id) => {
-    console.log(resource, id)
     this.props
       .updateItem(resource, id, {
         date: this.state.date,
@@ -86,16 +93,43 @@ export default class Categories extends Component {
     return (
       <Segment>
         <Header size="huge" inverted>
-          <Modal size="mini" trigger={<Button fluid>Add Budget</Button>}>
-            <Modal.Header>
-              Add Budget
-            </Modal.Header>
+          <Modal
+            trigger={
+              <Button onClick={this.openCat} fluid>
+                Add Budget
+              </Button>
+            }
+            size="mini"
+            open={this.state.catOpen}
+            onClose={this.closeCat}
+          >
+            <Modal.Header>Add Budget</Modal.Header>
             <Modal.Content>
               <Modal.Description>
-              <Input autoFocus fluid id="name" icon="file outline" onChange={this.handleKeyPress} />
-              <Input fluid id="amount" type="number" icon="usd" onChange={this.handleKeyPress} />
-              <Input fluid id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress} />
-              <Button fluid onClick={() => this.add("categories")}>Create</Button>
+                <Input
+                  autoFocus
+                  fluid
+                  id="name"
+                  icon="file outline"
+                  onChange={this.handleKeyPress}
+                />
+                <Input
+                  fluid
+                  id="amount"
+                  type="number"
+                  icon="usd"
+                  onChange={this.handleKeyPress}
+                />
+                <Input
+                  fluid
+                  id="date"
+                  type="date"
+                  icon="calendar alternate outline"
+                  onChange={this.handleKeyPress}
+                />
+                <Button fluid onClick={() => this.add("categories")}>
+                  Create
+                </Button>
               </Modal.Description>
             </Modal.Content>
           </Modal>
@@ -111,19 +145,31 @@ export default class Categories extends Component {
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                   <Header size="large" inverted id={`amount-${category.id}`}>
-                    {/* $
-                    {this.props.sum(
-                      this.props.expenses.filter(
-                        exp => exp.category_id === category.id
-                      )
-                    )} */}
                     ${category.amount}
                   </Header>
                 </Table.HeaderCell>
                 <Table.HeaderCell>
-
-                  <Modal trigger={<Button id={`edit-${category.id}`} size="small" onClick={() => this.setCategory(category.id)}>Edit</Button>}>
-                    <Header icon='edit' content={`Edit ${this.state.name}...`} />
+                  <Modal
+                    trigger={
+                      <Button
+                        id={`edit-${category.id}`}
+                        size="small"
+                        onClick={() => {
+                          this.setCategory(category.id)
+                          this.openEdit()
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    }
+                    size="mini"
+                    open={this.state.editOpen}
+                    onClose={this.closeEdit}
+                  >
+                    <Header
+                      icon="edit"
+                      content={`Edit ${this.state.name}...`}
+                    />
                     <Modal.Content>
                       <Input
                         fluid
@@ -150,54 +196,31 @@ export default class Categories extends Component {
                       />
                     </Modal.Content>
                     <Modal.Actions>
-                      <Button basic color="green" onClick={() => this.update("categories", category.id)}>
+                      <Button
+                        basic
+                        color="green"
+                        onClick={() => {
+                          this.closeEdit()
+                          this.update("categories", category.id)
+                        }}
+                      >
                         Change
                       </Button>
                     </Modal.Actions>
                   </Modal>
-                  <Modal trigger={<Button negative size="small" id={`delete-${category.id}`} onClick={() => this.setCategory(category.id)}>Delete</Button>} size='mini'>
-                    <Header icon='trash' content={`Are you sure you want to delete ${this.state.name} and all of it's expenses?`} />
-                    <Modal.Actions>
-                      <Button basic negative onClick={() => this.props.deleteCat(category.id)}>
-                        Delete
-                      </Button>
-                      <Button basic onClick={() => console.log("cancel")}>
-                        Cancel
-                      </Button>
-                    </Modal.Actions>
-                  </Modal>
-                  {/* <Dropdown id={`options-${category.id}`} as={Button} positive icon="plus" simple onClick={() => this.setCategory(category.id)}>
-                    <Dropdown.Menu>
-                      <Header size="huge">
-                        Add expense for {category.name}
-                      </Header>
-                      <Input
-                        id="name"
-                        icon="file outline"
-                        onChange={this.handleKeyPress}
-                      />
-                      <Input
-                        id="amount"
-                        type="number"
-                        icon="usd"
-                        onChange={this.handleKeyPress}
-                      />
-                      <Input
-                        id="date"
-                        type="date"
-                        icon="calendar alternate outline"
-                        onChange={this.handleKeyPress}
-                      />
-                      <Button size="large" fluid onClick={() => this.add("expenses")}>
-                        Create
-                      </Button>
-                    </Dropdown.Menu>
-                  </Dropdown> */}
+                  <Button
+                    negative
+                    size="small"
+                    id={`delete-${category.id}`}
+                    onClick={() => this.del("categories", category.id)}
+                  >
+                    Delete
+                  </Button>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
-            <Table.Body>
+            {/* <Table.Body>
               {this.props.expenses
                 .filter(expenses => expenses.category_id === category.id)
                 .map(expense => (
@@ -205,8 +228,22 @@ export default class Categories extends Component {
                     <Table.Cell>${expense.amount}</Table.Cell>
                     <Table.Cell>{expense.name}</Table.Cell>
                     <Table.Cell>
-                      <Modal trigger={<Button id={`edit-${expense.id}`} size="mini" onClick={() => this.setExpense(category.id)}>Edit</Button>} size='mini'>
-                        <Header icon='edit' content={`Edit ${this.state.name}...`} />
+                      <Modal
+                        trigger={
+                          <Button
+                            id={`edit-${expense.id}`}
+                            size="mini"
+                            onClick={() => this.setExpense(category.id)}
+                          >
+                            Edit
+                          </Button>
+                        }
+                        size="mini"
+                      >
+                        <Header
+                          icon="edit"
+                          content={`Edit ${this.state.name}...`}
+                        />
                         <Modal.Content>
                           <Input
                             fluid
@@ -233,16 +270,29 @@ export default class Categories extends Component {
                           />
                         </Modal.Content>
                         <Modal.Actions>
-                          <Button basic circular color="green" onClick={(event) => this.updateExp("expenses", expense.id)}>
+                          <Button
+                            basic
+                            circular
+                            color="green"
+                            onClick={event =>
+                              this.updateExp("expenses", expense.id)
+                            }
+                          >
                             Change
-                      </Button>
+                          </Button>
                         </Modal.Actions>
                       </Modal>
-                      <Icon as={Button} negative size="mini" content="Delete" onClick={() => this.del("expenses", expense.id)} />
+                      <Icon
+                        as={Button}
+                        negative
+                        size="mini"
+                        content="Delete"
+                        onClick={() => this.del("expenses", expense.id)}
+                      />
                     </Table.Cell>
                   </Table.Row>
                 ))}
-            </Table.Body>
+            </Table.Body>*/}
           </Table>
         ))}
       </Segment>
