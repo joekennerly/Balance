@@ -1,12 +1,28 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Icon, Modal, Input } from "semantic-ui-react"
+import {
+  Button,
+  Header,
+  Segment,
+  Table,
+  Icon,
+  Modal,
+  Input
+} from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
     date: "",
     name: "",
-    amount: ""
+    amount: "",
+    modalOpen: false,
+    editOpen: false
   }
+
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
+  handleEditOpen = () => this.setState({ editOpen: true })
+  handleEditClose = () => this.setState({ editOpen: false })
+
   //Save current value when changed
   handleKeyPress = event => {
     const stateToChange = {}
@@ -27,7 +43,7 @@ export default class Income extends Component {
     let upObj = this.props.income.find(inc => inc.id === id)
     this.setState(upObj)
   }
-  add = (resource) => {
+  add = resource => {
     if (this.state.name === "") {
       return window.alert("please enter a name")
     } else if (this.state.amount === "") {
@@ -42,7 +58,6 @@ export default class Income extends Component {
   }
 
   update = (resource, id) => {
-    console.log(resource, id)
     this.props
       .updateItem(resource, id, {
         date: this.state.date,
@@ -55,91 +70,146 @@ export default class Income extends Component {
 
   render() {
     return (
-
-        <Segment>
-
-          <Header size="huge" inverted>
-          <Modal size="mini" trigger={<Button fluid>Add Income</Button>}>
-            <Modal.Header>
-              Add Income
-            </Modal.Header>
+      <Segment>
+        <Header size="huge" inverted>
+          <Modal
+            size="mini"
+            trigger={
+              <Button onClick={this.handleOpen} fluid>
+                Add Income
+              </Button>
+            }
+            open={this.state.modalOpen}
+            onClose={this.handleClose}
+          >
+            <Modal.Header>Add Income</Modal.Header>
             <Modal.Content>
               <Modal.Description>
-              <Input autoFocus fluid id="name" icon="file outline" onChange={this.handleKeyPress} />
-              <Input fluid id="amount" type="number" icon="usd" onChange={this.handleKeyPress} />
-              <Input fluid id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress} />
-              <Button fluid onClick={() => this.add("income")}>Create</Button>
+                <Input
+                  autoFocus
+                  fluid
+                  id="name"
+                  icon="file outline"
+                  onChange={this.handleKeyPress}
+                />
+                <Input
+                  fluid
+                  id="amount"
+                  type="number"
+                  icon="usd"
+                  onChange={this.handleKeyPress}
+                />
+                <Input
+                  fluid
+                  id="date"
+                  type="date"
+                  icon="calendar alternate outline"
+                  onChange={this.handleKeyPress}
+                />
+                <Button
+                  fluid
+                  onClick={() => {
+                    this.add("income")
+                    this.handleClose()
+                  }}
+                >
+                  Create
+                </Button>
               </Modal.Description>
             </Modal.Content>
           </Modal>
-          </Header>
-          {this.props.income.map(inco => (
-            <Table inverted key={inco.id}>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell textAlign="center">
-                    <Header size="large" inverted id={`name-${inco.id}`}>
-                      {inco.name}
-                    </Header>
-
-                  </Table.HeaderCell>
-                  <Table.HeaderCell textAlign="center">
-                    <Header size="large" inverted id={`amount-${inco.id}`}>
-                      {inco.amount}
-                    </Header>
-
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    <Modal trigger={<Button size="small" id={`edit-${inco.id}`} onClick={() => this.setIncome(inco.id)}>Edit</Button>} size='mini'>
-                      <Header icon='edit' content={`Edit ${this.state.name}...`} />
-                      <Modal.Content>
-                        <Input
-                          fluid
-                          id="name"
-                          icon="file outline"
-                          value={this.state.name}
-                          onChange={this.handleKeyPress}
-                        />
-                        <Input
-                          fluid
-                          id="amount"
-                          type="number"
-                          icon="usd"
-                          value={this.state.amount}
-                          onChange={this.handleKeyPress}
-                        />
-                        <Input
-                          fluid
-                          id="date"
-                          type="date"
-                          icon="calendar alternate outline"
-                          value={this.state.date}
-                          onChange={this.handleKeyPress}
-                        />
-                      </Modal.Content>
-                      <Modal.Actions>
-                        <Button basic color="green" onClick={(event) => this.update("income", inco.id)}>
-                          Change
+        </Header>
+        {this.props.income.map(inco => (
+          <Table inverted key={inco.id}>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell textAlign="center">
+                  <Header size="large" inverted id={`name-${inco.id}`}>
+                    {inco.name}
+                  </Header>
+                </Table.HeaderCell>
+                <Table.HeaderCell textAlign="center">
+                  <Header size="large" inverted id={`amount-${inco.id}`}>
+                    {inco.amount}
+                  </Header>
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  <Modal
+                    trigger={
+                      <Button
+                        size="small"
+                        id={`edit-${inco.id}`}
+                        onClick={() => {
+                          this.handleEditOpen()
+                          this.setIncome(inco.id)
+                        }}
+                      >
+                        Edit
                       </Button>
-                      </Modal.Actions>
-                    </Modal>
-                    <Icon
-                      as={Button}
-                      negative
-                      size="small"
-                      content="Delete"
-                      onClick={() =>
-                        this.props
-                          .deleteItem("income", inco.id)
-                          .then(() => this.props.updateChart())
-                      }
+                    }
+                    size="mini"
+                    open={this.state.editOpen}
+                    onClose={this.handleEditClose}
+                  >
+                    <Header
+                      icon="edit"
+                      content={`Edit ${this.state.name}...`}
                     />
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-            </Table>
-          ))}
-        </Segment>
+                    <Modal.Content>
+                      <Input
+                        fluid
+                        id="name"
+                        icon="file outline"
+                        value={this.state.name}
+                        onChange={this.handleKeyPress}
+                      />
+                      <Input
+                        fluid
+                        id="amount"
+                        type="number"
+                        icon="usd"
+                        value={this.state.amount}
+                        onChange={this.handleKeyPress}
+                      />
+                      <Input
+                        fluid
+                        id="date"
+                        type="date"
+                        icon="calendar alternate outline"
+                        value={this.state.date}
+                        onChange={this.handleKeyPress}
+                      />
+                    </Modal.Content>
+                    <Modal.Actions>
+                      <Button
+                        basic
+                        color="green"
+                        onClick={() => {
+                          this.handleEditClose()
+                          this.update("income", inco.id)
+                        }}
+                      >
+                        Change
+                      </Button>
+                    </Modal.Actions>
+                  </Modal>
+                  <Icon
+                    as={Button}
+                    negative
+                    size="small"
+                    content="Delete"
+                    onClick={() =>
+                      this.props
+                        .deleteItem("income", inco.id)
+                        .then(() => this.props.updateChart())
+                    }
+                  />
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+          </Table>
+        ))}
+      </Segment>
     )
   }
 }
