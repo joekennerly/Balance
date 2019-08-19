@@ -25,7 +25,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log("APP user", this.state.activeUser)
     if (this.isAuthenticated()) {
       //if there is an active user
       return (
@@ -35,20 +34,6 @@ export default class App extends Component {
               html, body {
                 background-color: #252839 !important;
               }
-              p {
-                align-content: center;
-                background-color: #495285;
-                color: #fff;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                min-height: 6em;
-              }
-              p > span {
-                opacity: 0.4;
-                text-align: center;
-              }
-            }
             `}
           </style>
           <Nav activeUser={this.state.activeUser} setUser={this.setUser} />

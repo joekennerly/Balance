@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button, Header, Segment, Table, Dropdown, Icon, Modal, Input } from "semantic-ui-react"
+import { Button, Header, Segment, Table, Icon, Modal, Input } from "semantic-ui-react"
 
 export default class Income extends Component {
   state = {
@@ -55,23 +55,24 @@ export default class Income extends Component {
 
   render() {
     return (
-      <React.Fragment>
 
         <Segment>
 
           <Header size="huge" inverted>
-            <Dropdown item icon="chevron up" simple>
-              <Dropdown.Menu>
-                <Header>Add Income</Header>
-                <Input id="name" icon="file outline" onChange={this.handleKeyPress} />
-                <Input id="amount" type="number" icon="usd" onChange={this.handleKeyPress} />
-                <Input id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress} />
-                <Button fluid onClick={() => this.add("income")}>Create</Button>
-              </Dropdown.Menu>
-            </Dropdown>
+          <Modal size="mini" trigger={<Button fluid>Add Income</Button>}>
+            <Modal.Header>
+              Add Income
+            </Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+              <Input autoFocus fluid id="name" icon="file outline" onChange={this.handleKeyPress} />
+              <Input fluid id="amount" type="number" icon="usd" onChange={this.handleKeyPress} />
+              <Input fluid id="date" type="date" icon="calendar alternate outline" onChange={this.handleKeyPress} />
+              <Button fluid onClick={() => this.add("income")}>Create</Button>
+              </Modal.Description>
+            </Modal.Content>
+          </Modal>
           </Header>
-        </Segment>
-        <Segment inverted textAlign="right">
           {this.props.income.map(inco => (
             <Table inverted key={inco.id}>
               <Table.Header>
@@ -126,7 +127,7 @@ export default class Income extends Component {
                       as={Button}
                       negative
                       size="small"
-                      content="delete"
+                      content="Delete"
                       onClick={() =>
                         this.props
                           .deleteItem("income", inco.id)
@@ -139,7 +140,6 @@ export default class Income extends Component {
             </Table>
           ))}
         </Segment>
-      </React.Fragment>
     )
   }
 }
