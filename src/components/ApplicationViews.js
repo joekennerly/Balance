@@ -11,15 +11,25 @@ let thisMonth = moment().format("YYYY-MM")
 
 let colorArray = [
   "springgreen",
-  "#313131",
-  "#313131",
-  "#313131",
-  "#313131",
-  "#313131",
-  "#313131",
-  "#313131",
-  "#313131",
-
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333"
+]
+let colorArray2 = [
+  "tomato",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333",
+  "#333333"
 ]
 
 class ApplicationViews extends Component {
@@ -55,7 +65,7 @@ class ApplicationViews extends Component {
         ).then(categories => {
           newState.categories = categories
           let currentDiff = [
-            this.diff(this.sum(newState.income), this.sum(newState.expenses))
+            this.diff(this.sum(newState.income), this.sum(newState.categories))
           ]
           newState.chartData = {
             labels: ["Current Balance"].concat(this.makeArray(categories, "name")),
@@ -106,18 +116,6 @@ class ApplicationViews extends Component {
         this.setState(newObj)
       })
   }
-  // deleteCat = (id) => {
-  //   let newObj = {}
-  //   let ids = []
-  //   let catExpenses = this.state.expenses.filter(expense => expense.category_id === id)
-  //   catExpenses.forEach(exp => ids.push(APIManager.delete("expenses", exp.id)))
-  //   APIManager.getAll("expenses")
-  //     .then(response => newObj.expenses = response)
-  //     .then(APIManager.delete("categories", id))
-  //     .then(APIManager.getAll("categories"))
-  //     .then(response => newObj.categories = response)
-  //     .then(() => this.setState(newObj))
-  // }
   updateItem = (resource, id, editedObject) => {
     let newObj = {}
     return APIManager.put(resource, id, editedObject)
@@ -167,7 +165,7 @@ class ApplicationViews extends Component {
   updateChart = () => {
     let newState = {}
     let currentDiff = [
-      this.diff(this.sum(this.state.income), this.sum(this.state.expenses))
+      this.diff(this.sum(this.state.income), this.sum(this.state.categories))
     ]
     newState.chartData = {
       labels: ["Current Balance"].concat(
