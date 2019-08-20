@@ -32,6 +32,7 @@ let colorArray2 = [
   "#333333"
 ]
 
+
 class ApplicationViews extends Component {
   state = {
     expenses: [],
@@ -72,7 +73,7 @@ class ApplicationViews extends Component {
             datasets: [
               {
                 data: currentDiff.concat(this.makeArray(categories, "amount")),
-                backgroundColor: colorArray
+                backgroundColor:(currentDiff < 0) ? colorArray2 : colorArray
               }
             ]
           }
@@ -80,6 +81,7 @@ class ApplicationViews extends Component {
       )
       .then(() => this.setState(newState))
   }
+
   makeArray = (arr, prop) => arr.map(el => el[prop])
 
   sum = entryArray => {
@@ -176,7 +178,7 @@ class ApplicationViews extends Component {
           data: currentDiff.concat(
             this.makeArray(this.state.categories, "amount")
           ),
-          backgroundColor: colorArray
+          backgroundColor: (currentDiff < 0) ? colorArray2 : colorArray
         }
       ]
     }
@@ -184,6 +186,7 @@ class ApplicationViews extends Component {
   }
 
   render() {
+
     return (
       <React.Fragment>
         <Route

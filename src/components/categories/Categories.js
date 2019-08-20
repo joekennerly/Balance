@@ -1,12 +1,5 @@
 import React, { Component } from "react"
-import {
-  Button,
-  Header,
-  Segment,
-  Table,
-  Input,
-  Modal
-} from "semantic-ui-react"
+import { Button, Header, Segment, Table, Input, Modal } from "semantic-ui-react"
 
 export default class Categories extends Component {
   state = {
@@ -18,6 +11,7 @@ export default class Categories extends Component {
     catOpen: false
   }
 
+  //Handle Modal
   openCat = () => this.setState({ catOpen: true })
   closeCat = () => this.setState({ catOpen: false })
   openEdit = () => this.setState({ editOpen: true })
@@ -29,6 +23,7 @@ export default class Categories extends Component {
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
   }
+
   //Factory function
   makeObj = () => {
     return {
@@ -39,49 +34,36 @@ export default class Categories extends Component {
       user_id: +sessionStorage.getItem("activeUser")
     }
   }
-  // ADD / Delete
-  add = resource => {
-    if (this.state.name === "") {
-      return window.alert("please enter a name")
-    } else if (this.state.amount === "") {
-      return window.alert("please enter an amount")
-    } else {
-      this.closeCat()
-      this.props
-        .addItem(resource, this.makeObj())
-        .then(() => this.props.updateChart())
-    }
-  }
-  del = (resource, id) => {
-    this.props.deleteItem(resource, id).then(() => this.props.updateChart())
-  }
+
   setCategory = categoryId => {
     console.log("category")
     let upObj = this.props.categories.find(cat => cat.id === categoryId)
     upObj.category_id = categoryId
     this.setState(upObj)
   }
-  setExpense = id => {
-    let upObj = this.props.expenses.find(exp => exp.category_id === id)
-    this.setState(upObj)
+
+  add = resource => {
+    if (this.state.name === "") {
+      return window.alert("please enter a name")
+    } else if (this.state.amount === "") {
+      return window.alert("please enter an amount")
+    } else if (this.state.date === "") {
+      return window.alert("please enter an amount")
+    } else {
+      this.props
+        .addItem(resource, this.makeObj())
+        .then(() => this.props.updateChart())
+    }
+  }
+
+  del = (resource, id) => {
+    this.props.deleteItem(resource, id).then(() => this.props.updateChart())
   }
 
   update = (resource, id) => {
-    console.log(resource, id)
     this.props
       .updateItem(resource, id, {
         date: this.state.date,
-        name: this.state.name,
-        amount: this.state.amount,
-        user_id: +sessionStorage.getItem("activeUser")
-      })
-      .then(() => this.props.updateChart())
-  }
-  updateExp = (resource, id) => {
-    this.props
-      .updateItem(resource, id, {
-        date: this.state.date,
-        category_id: this.state.category_id,
         name: this.state.name,
         amount: this.state.amount,
         user_id: +sessionStorage.getItem("activeUser")
@@ -90,6 +72,7 @@ export default class Categories extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <Segment>
         <Header size="huge" inverted>
@@ -127,7 +110,13 @@ export default class Categories extends Component {
                   icon="calendar alternate outline"
                   onChange={this.handleKeyPress}
                 />
-                <Button fluid onClick={() => this.add("categories")}>
+                <Button
+                  fluid
+                  onClick={() => {
+                    this.add("categories")
+                    this.closeCat()
+                  }}
+                >
                   Create
                 </Button>
               </Modal.Description>
@@ -155,8 +144,8 @@ export default class Categories extends Component {
                         id={`edit-${category.id}`}
                         size="small"
                         onClick={() => {
-                          this.setCategory(category.id)
                           this.openEdit()
+                          this.setCategory(category.id)
                         }}
                       >
                         Edit
@@ -200,8 +189,8 @@ export default class Categories extends Component {
                         basic
                         color="green"
                         onClick={() => {
-                          this.closeEdit()
                           this.update("categories", category.id)
+                          this.closeEdit()
                         }}
                       >
                         Change
@@ -212,87 +201,15 @@ export default class Categories extends Component {
                     negative
                     size="small"
                     id={`delete-${category.id}`}
-                    onClick={() => this.del("categories", category.id)}
+                    onClick={() => {
+                      this.del("categories", category.id)
+                    }}
                   >
                     Delete
                   </Button>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
-
-            {/* <Table.Body>
-              {this.props.expenses
-                .filter(expenses => expenses.category_id === category.id)
-                .map(expense => (
-                  <Table.Row key={expense.id}>
-                    <Table.Cell>${expense.amount}</Table.Cell>
-                    <Table.Cell>{expense.name}</Table.Cell>
-                    <Table.Cell>
-                      <Modal
-                        trigger={
-                          <Button
-                            id={`edit-${expense.id}`}
-                            size="mini"
-                            onClick={() => this.setExpense(category.id)}
-                          >
-                            Edit
-                          </Button>
-                        }
-                        size="mini"
-                      >
-                        <Header
-                          icon="edit"
-                          content={`Edit ${this.state.name}...`}
-                        />
-                        <Modal.Content>
-                          <Input
-                            fluid
-                            id="name"
-                            icon="file outline"
-                            value={this.state.name}
-                            onChange={this.handleKeyPress}
-                          />
-                          <Input
-                            fluid
-                            id="amount"
-                            type="number"
-                            icon="usd"
-                            value={this.state.amount}
-                            onChange={this.handleKeyPress}
-                          />
-                          <Input
-                            fluid
-                            id="date"
-                            type="date"
-                            icon="calendar alternate outline"
-                            value={this.state.date}
-                            onChange={this.handleKeyPress}
-                          />
-                        </Modal.Content>
-                        <Modal.Actions>
-                          <Button
-                            basic
-                            circular
-                            color="green"
-                            onClick={event =>
-                              this.updateExp("expenses", expense.id)
-                            }
-                          >
-                            Change
-                          </Button>
-                        </Modal.Actions>
-                      </Modal>
-                      <Icon
-                        as={Button}
-                        negative
-                        size="mini"
-                        content="Delete"
-                        onClick={() => this.del("expenses", expense.id)}
-                      />
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-            </Table.Body>*/}
           </Table>
         ))}
       </Segment>
