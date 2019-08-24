@@ -39,17 +39,19 @@ export default class Income extends Component {
       user_id: +sessionStorage.getItem("activeUser")
     }
   }
+
   setIncome = id => {
     let upObj = this.props.income.find(inc => inc.id === id)
     this.setState(upObj)
   }
+
   add = resource => {
     if (this.state.name === "") {
       return window.alert("please enter a name")
     } else if (this.state.amount === "") {
       return window.alert("please enter an amount")
     } else if (this.state.date === "") {
-      return window.alert("please enter a date")
+      return window.alert("please enter an amount")
     } else {
       this.props
         .addItem(resource, this.makeObj())

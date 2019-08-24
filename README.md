@@ -1,87 +1,46 @@
 # Balance
+Balance is a budget planning app. The intent is to allow users the ability to add their monthly income, expenses, and view their balance remainder.
+
+## Table of Contents
+1. [Requirements](https://github.com/joekennerly/Balance#requirements)
+1. [Setup](https://github.com/joekennerly/Balance#setup)
+1. [Getting Started](https://github.com/joekennerly/Balance#getting-started)
+1. [Development Libraries and Tools](https://github.com/joekennerly/Balance#development-libraries-and-tools)
+
 ## Requirements
-1. Install npm
-2. Install json-server
+1. [Install npm](https://www.npmjs.com/get-npm)
+2. [Install json-server](https://www.npmjs.com/package/json-server)
 
 ## Setup
 1. Clone the Repo
 1. Run `npm install` in the root directory of application
-2. Goto  `api/` from root directory in application
-3. Rename `dummy-data.json` to `database.json`
-4. (Inside api folder) Run `json-server -p 5002 -w database.json`
-5. Open another terminal and run `npm start` in project folder
+1. Goto  `api/` from root directory in application
+1. Create db file `database.json`
+1. Run `json-server -p 5002 -w database.json`
+1. Open another terminal and run `npm start` in project folder
 
+## Copy this into your own file
+### database.json
+```
+{
+  "users":[],
+  "categories":[],
+  "income":[],
+  "expenses":[]
+}
+```
+
+## Getting Started
+1. Register a new user
+2. Login with existing user
+
+## Development Libraries and Tools
+* React js
+* Semantic UI
+* Moment js
+* Chart js
 
 
 --------------
 
-## REACT INFO
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-### Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
