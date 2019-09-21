@@ -47,7 +47,7 @@ class ApplicationViews extends Component {
       .then(
         expenses =>
           (newState.expenses = expenses.filter(expense =>
-            expense.date.startsWith(thisMonth)
+            expense
           ))
       )
       .then(() =>
@@ -56,7 +56,7 @@ class ApplicationViews extends Component {
         ).then(
           income =>
             (newState.income = income.filter(income =>
-              income.date.startsWith(thisMonth)
+              income
             ))
         )
       )

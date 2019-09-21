@@ -13,9 +13,21 @@ export default class Categories extends Component {
 
   //Handle Modal
   openCat = () => this.setState({ catOpen: true })
-  closeCat = () => this.setState({ catOpen: false })
+  closeCat = () => this.setState({
+    catOpen: false,
+    name: "",
+    amount: "",
+    date: "",
+    category_id: ""
+  })
   openEdit = () => this.setState({ editOpen: true })
-  closeEdit = () => this.setState({ editOpen: false })
+  closeEdit = () => this.setState({
+    editOpen: false,
+    name: "",
+    amount: "",
+    date: "",
+    category_id: ""
+  })
 
   //Save current value when changed
   handleKeyPress = event => {
@@ -36,7 +48,6 @@ export default class Categories extends Component {
   }
 
   setCategory = categoryId => {
-    console.log("category")
     let upObj = this.props.categories.find(cat => cat.id === categoryId)
     upObj.category_id = categoryId
     this.setState(upObj)
@@ -48,7 +59,7 @@ export default class Categories extends Component {
     } else if (this.state.amount === "") {
       return window.alert("please enter an amount")
     } else if (this.state.date === "") {
-      return window.alert("please enter an amount")
+      return window.alert("please enter an date")
     } else {
       this.props
         .addItem(resource, this.makeObj())
@@ -72,7 +83,6 @@ export default class Categories extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Segment>
         <Header size="huge" inverted>
