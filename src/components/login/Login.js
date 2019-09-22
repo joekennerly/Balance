@@ -5,7 +5,7 @@ import {
   Form,
   Grid,
   Header,
-  Message,
+  // Message,
   Segment
 } from "semantic-ui-react"
 
@@ -46,7 +46,7 @@ export default class Login extends Component {
       >
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as="h2" color="teal" textAlign="center">
-            Log-in to your account
+            Log-in to the test account
           </Header>
           <Form size="large">
             <Segment stacked>
@@ -57,7 +57,7 @@ export default class Login extends Component {
                 iconPosition="left"
                 placeholder="Username"
                 onChange={this.handleFieldChange}
-              />
+                />
               <Form.Input
                 id="password"
                 fluid
