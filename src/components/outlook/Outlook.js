@@ -12,7 +12,6 @@ export default class Outlook extends Component {
     return moment().startOf("week").add(weekNum, "weeks").format("M/D")
   }
   render() {
-    console.log(this.props)
     return (
       <Segment textAlign="center" inverted>
         <Header size="huge">Outlook</Header>

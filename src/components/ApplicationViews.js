@@ -47,7 +47,7 @@ class ApplicationViews extends Component {
       .then(
         expenses =>
           (newState.expenses = expenses.filter(expense =>
-            expense.date.startsWith(thisMonth)
+            expense
           ))
       )
       .then(() =>
@@ -56,7 +56,7 @@ class ApplicationViews extends Component {
         ).then(
           income =>
             (newState.income = income.filter(income =>
-              income.date.startsWith(thisMonth)
+              income
             ))
         )
       )
@@ -100,21 +100,8 @@ class ApplicationViews extends Component {
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
       )
-      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
       .then(items => {
         newObj[resource] = items
-        this.setState(newObj)
-      })
-  }
-  deleteCat = (id) => {
-    let newObj = {}
-    return APIManager.delete("categories", id)
-      .then(() =>
-        APIManager.getAll(`categories?user_id=${this.props.activeUser}`)
-      )
-      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
-      .then(items => {
-        newObj["categories"] = items
         this.setState(newObj)
       })
   }
@@ -124,36 +111,12 @@ class ApplicationViews extends Component {
       .then(() =>
         APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
       )
-      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
       .then(items => {
         newObj[resource] = items
         this.setState(newObj)
       })
   }
   addItem = (resource, item) => {
-    let newObj = {}
-    return APIManager.post(resource, item)
-      .then(() =>
-        APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-      )
-      .then(items => items.filter(arr => arr.date.startsWith(thisMonth)))
-      .then(items => {
-        newObj[resource] = items
-        this.setState(newObj)
-      })
-  }
-  updateCat = (resource, id, editedObject) => {
-    let newObj = {}
-    return APIManager.put(resource, id, editedObject)
-      .then(() =>
-        APIManager.getAll(`${resource}?user_id=${this.props.activeUser}`)
-      )
-      .then(items => {
-        newObj[resource] = items
-        this.setState(newObj)
-      })
-  }
-  addCat = (resource, item) => {
     let newObj = {}
     return APIManager.post(resource, item)
       .then(() =>
@@ -212,10 +175,9 @@ class ApplicationViews extends Component {
                   activeUser={this.props.activeUser}
                   sum={this.sum}
                   diff={this.diff}
-                  addItem={this.addCat}
-                  deleteCat={this.deleteCat}
+                  addItem={this.addItem}
                   deleteItem={this.deleteItem}
-                  updateItem={this.updateCat}
+                  updateItem={this.updateItem}
                   income={this.state.income}
                   expenses={this.state.expenses}
                   categories={this.state.categories}

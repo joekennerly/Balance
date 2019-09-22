@@ -4,8 +4,6 @@ import { Header, Table } from "semantic-ui-react"
 export default class Totals extends Component {
   render() {
     let totalIn = this.props.sum(this.props.income)
-    // let totalEx = this.props.sum(this.props.expenses)
-    // let totalBalance = this.props.diff(totalIn, totalEx)
     let totalCat = this.props.sum(this.props.categories)
     let budgetBalance = this.props.diff(totalIn, totalCat)
     return (
@@ -17,13 +15,13 @@ export default class Totals extends Component {
                 Budget: ${totalCat}
               </Header>
             </Table.Cell>
-            
+
             <Table.Cell>
               <Header size="huge" inverted>
                 Balance: ${budgetBalance}
               </Header>
             </Table.Cell>
-            
+
             <Table.Cell>
               <Header size="huge" inverted>
                 Income: ${totalIn}

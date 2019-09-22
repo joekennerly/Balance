@@ -19,9 +19,19 @@ export default class Income extends Component {
   }
 
   handleOpen = () => this.setState({ modalOpen: true })
-  handleClose = () => this.setState({ modalOpen: false })
+  handleClose = () => this.setState({
+    modalOpen: false,
+    date: "",
+    name: "",
+    amount: ""
+  })
   handleEditOpen = () => this.setState({ editOpen: true })
-  handleEditClose = () => this.setState({ editOpen: false })
+  handleEditClose = () => this.setState({
+    editOpen: false,
+    date: "",
+    name: "",
+    amount: ""
+  })
 
   //Save current value when changed
   handleKeyPress = event => {

@@ -73,9 +73,9 @@ export default class Login extends Component {
               </Button>
             </Segment>
           </Form>
-          <Message>
+          {/* <Message>
             <a href="/register">Sign Up</a>
-          </Message>
+          </Message> */}
         </Grid.Column>
       </Grid>
     )
