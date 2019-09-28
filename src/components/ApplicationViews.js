@@ -4,7 +4,6 @@ import { withRouter } from "react-router"
 import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
-import Register from "./login/Register"
 
 let moment = require("moment")
 let thisMonth = moment().format("YYYY-MM")
@@ -156,10 +155,6 @@ class ApplicationViews extends Component {
           exact
           path="/dashboard"
           render={props => <Redirect to="/" />}
-        />
-        <Route
-          path="/register"
-          render={props => <Register setUser={this.props.setUser} {...props} />}
         />
         <Route
           path="/login"
