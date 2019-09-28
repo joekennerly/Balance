@@ -5,7 +5,8 @@ import {
   Form,
   Grid,
   Header,
-  Message,
+  Icon,
+  // Message,
   Segment
 } from "semantic-ui-react"
 
@@ -37,6 +38,51 @@ export default class Login extends Component {
     })
   }
 
+  reg = () => {
+    if (
+      this.state.name === "" ||
+      this.state.password === ""
+    ) {window.alert("All fields must be filled out")}
+    else {
+      //check if username and email are unique
+      fetch(`http://localhost:5002/users`)
+        .then(res => res.json())
+        .then(allUsers => {
+          let filteredUsers = allUsers.filter(filterUsers => {
+            return (
+              filterUsers.name === this.state.name
+            )
+          })
+          if (filteredUsers.length !== 0) window.alert("user already exists")
+          else {
+            //build and object of input values
+            //post object to db
+            fetch(`http://localhost:5002/users`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(this.state)
+            }).then(() => {
+              fetch(
+                `http://localhost:5002/users?name=${this.state.name}`
+              )
+                .then(res => res.json())
+                .then(user => {
+                  //set sessionStorage
+                  sessionStorage.setItem("activeUser", user[0].id)
+                  this.props.setUser(user[0].id)
+
+                  //routing to dashboard
+                  this.props.history.push("/")
+                })
+            })
+          }
+        })
+    }
+  }
+
+
   render() {
     return (
       <Grid
@@ -45,8 +91,11 @@ export default class Login extends Component {
         verticalAlign="middle"
       >
         <Grid.Column style={{ maxWidth: 450 }}>
+          <Header size="huge" as="h2" color="teal" textAlign="center">
+            <Icon name="balance" />
+          </Header>
           <Header as="h2" color="teal" textAlign="center">
-            Log-in to your account
+            Please login or register
           </Header>
           <Form size="large">
             <Segment stacked>
@@ -57,7 +106,7 @@ export default class Login extends Component {
                 iconPosition="left"
                 placeholder="Username"
                 onChange={this.handleFieldChange}
-              />
+                />
               <Form.Input
                 id="password"
                 fluid
@@ -68,14 +117,14 @@ export default class Login extends Component {
                 onChange={this.handleFieldChange}
               />
 
-              <Button onClick={this.submit} color="teal" fluid size="large">
+              <Button onClick={this.submit} color="teal" size="large">
                 Login
+              </Button>
+              <Button onClick={this.reg} color="teal" size="large">
+                Register
               </Button>
             </Segment>
           </Form>
-          {/* <Message>
-            <a href="/register">Sign Up</a>
-          </Message> */}
         </Grid.Column>
       </Grid>
     )
