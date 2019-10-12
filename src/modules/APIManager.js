@@ -1,4 +1,4 @@
-const remoteURL = "http://localhost:5002"
+const remoteURL = "https://balanceapi.herokuapp.com"
 
 export default Object.create(null, {
   get: {
@@ -21,7 +21,7 @@ export default Object.create(null, {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(newPost)
-        }).then(data => data.json())
+        })
     }
   },
   put: {
@@ -32,19 +32,12 @@ export default Object.create(null, {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(updatedPost)
-      }).then(data => data.json());
+      })
     }
   },
   delete: {
     value (name, id) {
       return fetch(`${remoteURL}/${name}/${id}`, {
-        method: "DELETE",
-      }).then(data => data.json())
-    }
-  },
-  multiDelete: {
-    value (name) {
-      return fetch(`${remoteURL}/${name}`, {
         method: "DELETE",
       })
     }
