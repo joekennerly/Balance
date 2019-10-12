@@ -42,15 +42,7 @@ class ApplicationViews extends Component {
   componentDidMount() {
     //Filtering by month on income and expenses
     let newState = {}
-    return APIManager.get(`expenses?user_id=${sessionStorage.getItem("activeUser")}`)
-      .then(
-        expenses =>
-          (newState.expenses = expenses.filter(expense =>
-            expense
-          ))
-      )
-      .then(() =>
-        APIManager.get(
+    return APIManager.get(
           `income?user_id=${sessionStorage.getItem("activeUser")}`
         ).then(
           income =>
@@ -58,7 +50,6 @@ class ApplicationViews extends Component {
               income
             ))
         )
-      )
       .then(() =>
         APIManager.get(
           `categories?user_id=${sessionStorage.getItem("activeUser")}`
