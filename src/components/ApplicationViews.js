@@ -5,8 +5,8 @@ import APIManager from "../modules/APIManager"
 import Dashboard from "./dashboard/Dashboard"
 import Login from "./login/Login"
 
-let moment = require("moment")
-let thisMonth = moment().format("YYYY-MM")
+// let moment = require("moment")
+// let thisMonth = moment().format("YYYY-MM")
 
 let colorArray = [
   "springgreen",
@@ -158,19 +158,19 @@ class ApplicationViews extends Component {
             if (this.isAuthenticated()) {
               return (
                 <Dashboard
-                  activeUser={this.props.activeUser}
+                  // activeUser={this.props.activeUser}
                   sum={this.sum}
                   diff={this.diff}
                   addItem={this.addItem}
                   deleteItem={this.deleteItem}
                   updateItem={this.updateItem}
                   income={this.state.income}
-                  expenses={this.state.expenses}
+                  // expenses={this.state.expenses}
                   categories={this.state.categories}
-                  date={moment().format("YYYY-MM-DD")}
+                  // date={moment().format("YYYY-MM-DD")}
                   chartData={this.state.chartData}
                   updateChart={this.updateChart}
-                  thisMonth={thisMonth}
+                  // thisMonth={thisMonth}
                   {...props}
                 />
               )

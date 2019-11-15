@@ -3,15 +3,21 @@ import { Segment, Header, Table } from "semantic-ui-react"
 let moment = require("moment")
 
 export default class Outlook extends Component {
-  state={
+  state = {
     now: moment(),
     today: moment().format("M/D"),
-    start: moment().startOf("week").format("M/D")
+    start: moment()
+      .startOf("week")
+      .format("M/D")
   }
 
-  getWeekStart = (weekNum) => moment().startOf("week").add(weekNum, "weeks").format("M/D")
+  getWeekStart = weekNum =>
+    moment()
+      .startOf("week")
+      .add(weekNum, "weeks")
+      .format("M/D")
 
-  getWeekNum = (startDate) => moment(startDate).week()
+  getWeekNum = startDate => moment(startDate).week()
 
   isThisDue = (startWeek, currentWeek, frequency) => {
     const diff = currentWeek - startWeek
@@ -20,22 +26,9 @@ export default class Outlook extends Component {
     return isDue
   }
 
-  payments = [
-    {amount: 100, start: '2019-01-13', frequency: 2},
-    {amount: 50, start: '2019-04-06', frequency: 3}
-  ]
-
-  curr = this.getWeekNum(this.state.now)
-  payment1 = this.getWeekNum(this.payments[0].start)
-  payment2 = this.getWeekNum(this.payments[1].start)
-
-  isPayment1Due = this.isThisDue(this.payment1, this.curr, this.payments[0].frequency )
-  isPayment2Due = this.isThisDue(this.payment2, this.curr, this.payments[1].frequency )
-
-
   render() {
-    // console.log("p1", this.isPayment1Due)
-    // console.log("p2", this.isPayment2Due)
+    const { income, categories } = this.props
+    console.log(income, categories)
 
     return (
       <Segment textAlign="center" inverted>
@@ -45,20 +38,41 @@ export default class Outlook extends Component {
             <Table.Row>
               <Table.HeaderCell></Table.HeaderCell>
               <Table.HeaderCell>Week 1 - {this.state.start}</Table.HeaderCell>
-              <Table.HeaderCell>Week 2 - {this.getWeekStart(1)}</Table.HeaderCell>
-              <Table.HeaderCell>Week 3 - {this.getWeekStart(2)}</Table.HeaderCell>
-              <Table.HeaderCell>Week 4 - {this.getWeekStart(3)}</Table.HeaderCell>
-              <Table.HeaderCell>Week 5 - {this.getWeekStart(4)}</Table.HeaderCell>
-              <Table.HeaderCell>Week 6 - {this.getWeekStart(5)}</Table.HeaderCell>
-              <Table.HeaderCell>Week 7 - {this.getWeekStart(6)}</Table.HeaderCell>
-              <Table.HeaderCell>Week 8 - {this.getWeekStart(7)}</Table.HeaderCell>
-              <Table.HeaderCell>Week 9 - {this.getWeekStart(8)}</Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 2 - {this.getWeekStart(1)}
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 3 - {this.getWeekStart(2)}
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 4 - {this.getWeekStart(3)}
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 5 - {this.getWeekStart(4)}
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 6 - {this.getWeekStart(5)}
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 7 - {this.getWeekStart(6)}
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 8 - {this.getWeekStart(7)}
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Week 9 - {this.getWeekStart(8)}
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             <Table.Row>
               <Table.Cell>Balance Total</Table.Cell>
-              <Table.Cell>{this.props.diff(this.props.sum(this.props.income),this.props.sum(this.props.categories))}</Table.Cell>
+              <Table.Cell>
+                {this.props.diff(
+                  this.props.sum(this.props.income),
+                  this.props.sum(this.props.categories)
+                )}
+              </Table.Cell>
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
@@ -116,22 +130,92 @@ export default class Outlook extends Component {
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
             </Table.Row>
-            {
-              this.props.categories.map(category => (
-                <Table.Row key={category.id}>
-                  <Table.Cell>{category.name}</Table.Cell>
-                  <Table.Cell>{category.amount}</Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-            </Table.Row>
-              ))
-            }
+            {this.props.categories.map(category => (
+              <Table.Row key={category.id}>
+                <Table.Cell>{category.name}</Table.Cell>
+                <Table.Cell>
+                  {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(0)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(1)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(2)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(3)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(4)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(5)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(6)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(7)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+                <Table.Cell>
+                {this.isThisDue(
+                    this.getWeekNum(category.date),
+                    this.getWeekNum(this.getWeekStart(8)),
+                    category.frequency
+                  )
+                    ? category.amount
+                    : ""}
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
       </Segment>
