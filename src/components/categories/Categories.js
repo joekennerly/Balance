@@ -6,7 +6,7 @@ export default class Categories extends Component {
     name: "",
     amount: "",
     date: "",
-    category_id: "",
+    frequency: "",
     editOpen: false,
     catOpen: false
   }
@@ -14,22 +14,22 @@ export default class Categories extends Component {
   //Handle Modal
   openCat = () => this.setState({ catOpen: true })
   closeCat = () =>
-    this.setState({
-      catOpen: false,
-      name: "",
-      amount: "",
-      date: "",
-      category_id: ""
-    })
+  this.setState({
+    catOpen: false,
+    name: "",
+    amount: "",
+    date: "",
+    frequency: "",
+  })
   openEdit = () => this.setState({ editOpen: true })
   closeEdit = () =>
-    this.setState({
-      editOpen: false,
-      name: "",
-      amount: "",
-      date: "",
-      category_id: ""
-    })
+  this.setState({
+    editOpen: false,
+    name: "",
+    amount: "",
+    date: "",
+    frequency: "",
+  })
 
   //Save current value when changed
   handleKeyPress = event => {
@@ -44,15 +44,9 @@ export default class Categories extends Component {
       name: this.state.name,
       amount: this.state.amount,
       date: this.state.date,
-      category_id: this.state.category_id,
+      frequency: this.state.frequency,
       user_id: +sessionStorage.getItem("activeUser")
     }
-  }
-
-  setCategory = categoryId => {
-    let upObj = this.props.categories.find(cat => cat.id === categoryId)
-    upObj.category_id = categoryId
-    this.setState(upObj)
   }
 
   add = resource => {
@@ -61,8 +55,11 @@ export default class Categories extends Component {
     } else if (this.state.amount === "") {
       return window.alert("please enter an amount")
     } else if (this.state.date === "") {
-      return window.alert("please enter an date")
+      return window.alert("please enter a date")
+    } else if (this.state.frequency === "") {
+      return window.alert("please enter a frequency")
     } else {
+      console.log(resource, this.makeObj())
       this.props
         .addItem(resource, this.makeObj())
         .then(() => this.props.updateChart())
@@ -79,6 +76,7 @@ export default class Categories extends Component {
         date: this.state.date,
         name: this.state.name,
         amount: this.state.amount,
+        frequency: this.state.frequency,
         user_id: +sessionStorage.getItem("activeUser")
       })
       .then(() => this.props.updateChart())
@@ -127,7 +125,7 @@ export default class Categories extends Component {
                 />
                 <Input
                   fluid
-                  id="freq"
+                  id="frequency"
                   type="number"
                   placeholder="Frequency (in weeks)"
                   onChange={this.handleKeyPress}
@@ -167,7 +165,6 @@ export default class Categories extends Component {
                         size="small"
                         onClick={() => {
                           this.openEdit()
-                          this.setCategory(category.id)
                         }}
                       >
                         Edit
@@ -207,7 +204,7 @@ export default class Categories extends Component {
                       />
                       <Input
                         fluid
-                        id="freq"
+                        id="frequency"
                         type="number"
                         value={this.state.frequency}
                         onChange={this.handleKeyPress}
