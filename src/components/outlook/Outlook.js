@@ -8,18 +8,34 @@ export default class Outlook extends Component {
     today: moment().format("M/D"),
     start: moment().startOf("week").format("M/D")
   }
-  getWeekStart = (weekNum) => {
-    return moment().startOf("week").add(weekNum, "weeks").format("M/D")
+
+  getWeekStart = (weekNum) => moment().startOf("week").add(weekNum, "weeks").format("M/D")
+
+  getWeekNum = (startDate) => moment(startDate).week()
+
+  isThisDue = (startWeek, currentWeek, frequency) => {
+    const diff = currentWeek - startWeek
+    const isDue = diff % frequency === 0 ? true : false
+
+    return isDue
   }
 
+  payments = [
+    {amount: 100, start: '2019-01-13', frequency: 2},
+    {amount: 50, start: '2019-04-06', frequency: 3}
+  ]
+
+  curr = this.getWeekNum(this.state.now)
+  payment1 = this.getWeekNum(this.payments[0].start)
+  payment2 = this.getWeekNum(this.payments[1].start)
+
+  isPayment1Due = this.isThisDue(this.payment1, this.curr, this.payments[0].frequency )
+  isPayment2Due = this.isThisDue(this.payment2, this.curr, this.payments[1].frequency )
+
+
   render() {
-    let { now } = this.state
-    let thisWeek = now.week()
-    let startWeek = moment('2019-01-01').week()
-    let duration = thisWeek - startWeek
-    let frequency = 3
-    const isOccurance = () => duration % frequency === 0 ? true : false
-    console.log(isOccurance())
+    console.log("p1", this.isPayment1Due)
+    console.log("p2", this.isPayment2Due)
 
     return (
       <Segment textAlign="center" inverted>
