@@ -44,7 +44,7 @@ export default class Categories extends Component {
       name: this.state.name,
       amount: this.state.amount,
       date: this.state.date,
-      frequency: this.state.frequency,
+      frequency: +this.state.frequency,
       user_id: +sessionStorage.getItem("activeUser")
     }
   }

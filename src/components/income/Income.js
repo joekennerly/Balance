@@ -14,6 +14,7 @@ export default class Income extends Component {
     date: "",
     name: "",
     amount: "",
+    frequency: "",
     modalOpen: false,
     editOpen: false
   }
@@ -23,14 +24,16 @@ export default class Income extends Component {
     modalOpen: false,
     date: "",
     name: "",
-    amount: ""
+    amount: "",
+    frequency: ""
   })
   handleEditOpen = () => this.setState({ editOpen: true })
   handleEditClose = () => this.setState({
     editOpen: false,
     date: "",
     name: "",
-    amount: ""
+    amount: "",
+    frequency: ""
   })
 
   //Save current value when changed
@@ -46,6 +49,7 @@ export default class Income extends Component {
       date: this.state.date,
       name: this.state.name,
       amount: this.state.amount,
+      frequency: +this.state.frequency,
       user_id: +sessionStorage.getItem("activeUser")
     }
   }
@@ -62,6 +66,8 @@ export default class Income extends Component {
       return window.alert("please enter an amount")
     } else if (this.state.date === "") {
       return window.alert("please enter an amount")
+    } else if (this.state.frequency === "") {
+      return window.alert("please enter a frequency")
     } else {
       this.props
         .addItem(resource, this.makeObj())
@@ -75,6 +81,7 @@ export default class Income extends Component {
         date: this.state.date,
         name: this.state.name,
         amount: this.state.amount,
+        frequency: +this.state.frequency,
         user_id: +sessionStorage.getItem("activeUser")
       })
       .then(() => this.props.updateChart())
@@ -102,20 +109,29 @@ export default class Income extends Component {
                   fluid
                   id="name"
                   icon="file outline"
+                  placeholder="Name"
                   onChange={this.handleKeyPress}
-                />
+                  />
                 <Input
                   fluid
                   id="amount"
                   type="number"
                   icon="usd"
+                  placeholder="Amount"
                   onChange={this.handleKeyPress}
-                />
+                  />
                 <Input
                   fluid
                   id="date"
                   type="date"
                   icon="calendar alternate outline"
+                  onChange={this.handleKeyPress}
+                  />
+                <Input
+                  fluid
+                  id="frequency"
+                  type="number"
+                  placeholder="Frequency (in weeks)"
                   onChange={this.handleKeyPress}
                 />
                 <Button
@@ -142,7 +158,7 @@ export default class Income extends Component {
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="center">
                   <Header size="large" inverted id={`amount-${inco.id}`}>
-                    {inco.amount}
+                    ${inco.amount}
                   </Header>
                 </Table.HeaderCell>
                 <Table.HeaderCell>
@@ -189,6 +205,13 @@ export default class Income extends Component {
                         type="date"
                         icon="calendar alternate outline"
                         value={this.state.date}
+                        onChange={this.handleKeyPress}
+                      />
+                      <Input
+                        fluid
+                        id="frequency"
+                        type="number"
+                        value={this.state.frequency}
                         onChange={this.handleKeyPress}
                       />
                     </Modal.Content>
