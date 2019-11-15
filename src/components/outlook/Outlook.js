@@ -11,7 +11,16 @@ export default class Outlook extends Component {
   getWeekStart = (weekNum) => {
     return moment().startOf("week").add(weekNum, "weeks").format("M/D")
   }
+
   render() {
+    let { now } = this.state
+    let thisWeek = now.week()
+    let startWeek = moment('2019-01-01').week()
+    let duration = thisWeek - startWeek
+    let frequency = 3
+    const isOccurance = () => duration % frequency === 0 ? true : false
+    console.log(isOccurance())
+
     return (
       <Segment textAlign="center" inverted>
         <Header size="huge">Outlook</Header>
