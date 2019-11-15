@@ -34,8 +34,8 @@ export default class Outlook extends Component {
 
 
   render() {
-    console.log("p1", this.isPayment1Due)
-    console.log("p2", this.isPayment2Due)
+    // console.log("p1", this.isPayment1Due)
+    // console.log("p2", this.isPayment2Due)
 
     return (
       <Segment textAlign="center" inverted>

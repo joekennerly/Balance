@@ -13,21 +13,23 @@ export default class Categories extends Component {
 
   //Handle Modal
   openCat = () => this.setState({ catOpen: true })
-  closeCat = () => this.setState({
-    catOpen: false,
-    name: "",
-    amount: "",
-    date: "",
-    category_id: ""
-  })
+  closeCat = () =>
+    this.setState({
+      catOpen: false,
+      name: "",
+      amount: "",
+      date: "",
+      category_id: ""
+    })
   openEdit = () => this.setState({ editOpen: true })
-  closeEdit = () => this.setState({
-    editOpen: false,
-    name: "",
-    amount: "",
-    date: "",
-    category_id: ""
-  })
+  closeEdit = () =>
+    this.setState({
+      editOpen: false,
+      name: "",
+      amount: "",
+      date: "",
+      category_id: ""
+    })
 
   //Save current value when changed
   handleKeyPress = event => {
@@ -104,6 +106,7 @@ export default class Categories extends Component {
                   fluid
                   id="name"
                   icon="file outline"
+                  placeholder="Name"
                   onChange={this.handleKeyPress}
                 />
                 <Input
@@ -111,13 +114,22 @@ export default class Categories extends Component {
                   id="amount"
                   type="number"
                   icon="usd"
+                  placeholder="Amount"
                   onChange={this.handleKeyPress}
                 />
                 <Input
                   fluid
                   id="date"
                   type="date"
+                  placeholder="Starting date"
                   icon="calendar alternate outline"
+                  onChange={this.handleKeyPress}
+                />
+                <Input
+                  fluid
+                  id="freq"
+                  type="number"
+                  placeholder="Frequency (in weeks)"
                   onChange={this.handleKeyPress}
                 />
                 <Button
@@ -191,6 +203,13 @@ export default class Categories extends Component {
                         type="date"
                         icon="calendar alternate outline"
                         value={this.state.date}
+                        onChange={this.handleKeyPress}
+                      />
+                      <Input
+                        fluid
+                        id="freq"
+                        type="number"
+                        value={this.state.frequency}
                         onChange={this.handleKeyPress}
                       />
                     </Modal.Content>

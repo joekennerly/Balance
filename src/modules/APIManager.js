@@ -1,4 +1,4 @@
-const remoteURL = "https://balanceapi.herokuapp.com"
+const remoteURL = "http://localhost:3000"
 
 export default Object.create(null, {
   get: {
