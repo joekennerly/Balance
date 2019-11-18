@@ -15,6 +15,7 @@ export default class Income extends Component {
     name: "",
     amount: "",
     frequency: "",
+    income_id: "",
     modalOpen: false,
     editOpen: false
   }
@@ -25,6 +26,7 @@ export default class Income extends Component {
     date: "",
     name: "",
     amount: "",
+    income_id: "",
     frequency: ""
   })
   handleEditOpen = () => this.setState({ editOpen: true })
@@ -33,6 +35,7 @@ export default class Income extends Component {
     date: "",
     name: "",
     amount: "",
+    income_id: "",
     frequency: ""
   })
 
@@ -56,6 +59,7 @@ export default class Income extends Component {
 
   setIncome = id => {
     let upObj = this.props.income.find(inc => inc.id === id)
+    upObj.income_id = id
     this.setState(upObj)
   }
 
@@ -221,7 +225,7 @@ export default class Income extends Component {
                         color="green"
                         onClick={() => {
                           this.handleEditClose()
-                          this.update("income", inco.id)
+                          this.update("income", this.state.income_id)
                         }}
                       >
                         Change

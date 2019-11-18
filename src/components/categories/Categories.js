@@ -228,7 +228,6 @@ export default class Categories extends Component {
                         basic
                         color="green"
                         onClick={() => {
-                          // console.log(this.state.category_id)
                           this.update("categories", this.state.category_id)
                           this.closeEdit()
                         }}
