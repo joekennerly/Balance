@@ -27,8 +27,8 @@ export default class Outlook extends Component {
   }
 
   render() {
-    const { income, categories } = this.props
-    console.log(income, categories)
+    // const { income, categories } = this.props
+    // console.log(income, categories)
 
     return (
       <Segment textAlign="center" inverted>

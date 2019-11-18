@@ -7,6 +7,7 @@ export default class Categories extends Component {
     amount: "",
     date: "",
     frequency: "",
+    category_id: "",
     editOpen: false,
     catOpen: false
   }
@@ -19,6 +20,7 @@ export default class Categories extends Component {
     name: "",
     amount: "",
     date: "",
+    category_id: "",
     frequency: "",
   })
   openEdit = () => this.setState({ editOpen: true })
@@ -28,6 +30,7 @@ export default class Categories extends Component {
     name: "",
     amount: "",
     date: "",
+    category_id: "",
     frequency: "",
   })
 
@@ -89,6 +92,8 @@ export default class Categories extends Component {
   }
 
   render() {
+
+    console.log(this.state.category_id)
     return (
       <Segment>
         <Header size="huge" inverted>
@@ -172,6 +177,7 @@ export default class Categories extends Component {
                         onClick={() => {
                           this.openEdit()
                           this.setCategory(category.id)
+                          console.log(category.id)
                         }}
                       >
                         Edit
@@ -222,7 +228,8 @@ export default class Categories extends Component {
                         basic
                         color="green"
                         onClick={() => {
-                          this.update("categories", category.id)
+                          // console.log(this.state.category_id)
+                          this.update("categories", this.state.category_id)
                           this.closeEdit()
                         }}
                       >
