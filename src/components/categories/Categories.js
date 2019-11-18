@@ -82,6 +82,12 @@ export default class Categories extends Component {
       .then(() => this.props.updateChart())
   }
 
+  setCategory = categoryId => {
+    let upObj = this.props.categories.find(cat => cat.id === categoryId)
+    upObj.category_id = categoryId
+    this.setState(upObj)
+  }
+
   render() {
     return (
       <Segment>
@@ -165,6 +171,7 @@ export default class Categories extends Component {
                         size="small"
                         onClick={() => {
                           this.openEdit()
+                          this.setCategory(category.id)
                         }}
                       >
                         Edit
