@@ -5,30 +5,31 @@ let moment = require("moment")
 export default class Outlook extends Component {
   state = {
     now: moment(),
-    today: moment().format("M/D"),
     start: moment()
       .startOf("week")
       .format("M/D")
   }
 
+  // Displays the first day of the week
   getWeekStart = weekNum =>
     moment()
       .startOf("week")
       .add(weekNum, "weeks")
-      .format("M/D")
 
-  getWeekNum = startDate => moment(startDate).startOf('week').week()
+  getWeekNum = startDate => moment(startDate).week()
 
-  isThisDue = (startWeek, currentWeek, frequency) => {
+  isThisDue = (start, current, frequency) => {
+    const startWeek = this.getWeekNum(start)
+    const currentWeek = this.getWeekNum(current)
     const diff = currentWeek - startWeek
     const isDue = diff % frequency === 0 ? true : false
 
     return isDue
   }
 
+  addWeek = (start, weeksToAdd) => moment(start).add(weeksToAdd, "weeks")
+
   render() {
-    // const { income, categories } = this.props
-    // console.log(income, categories)
 
     return (
       <Segment textAlign="center" inverted>
@@ -39,28 +40,28 @@ export default class Outlook extends Component {
               <Table.HeaderCell></Table.HeaderCell>
               <Table.HeaderCell>Week 1 - {this.state.start}</Table.HeaderCell>
               <Table.HeaderCell>
-                Week 2 - {this.getWeekStart(1)}
+                Week 2 - {this.getWeekStart(1).format("M/D")}
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Week 3 - {this.getWeekStart(2)}
+                Week 3 - {this.getWeekStart(2).format("M/D")}
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Week 4 - {this.getWeekStart(3)}
+                Week 4 - {this.getWeekStart(3).format("M/D")}
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Week 5 - {this.getWeekStart(4)}
+                Week 5 - {this.getWeekStart(4).format("M/D")}
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Week 6 - {this.getWeekStart(5)}
+                Week 6 - {this.getWeekStart(5).format("M/D")}
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Week 7 - {this.getWeekStart(6)}
+                Week 7 - {this.getWeekStart(6).format("M/D")}
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Week 8 - {this.getWeekStart(7)}
+                Week 8 - {this.getWeekStart(7).format("M/D")}
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Week 9 - {this.getWeekStart(8)}
+                Week 9 - {this.getWeekStart(8).format("M/D")}
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -130,13 +131,16 @@ export default class Outlook extends Component {
               <Table.Cell></Table.Cell>
               <Table.Cell></Table.Cell>
             </Table.Row> */}
+
+
+
             {this.props.categories.map(category => (
               <Table.Row key={category.id}>
                 <Table.Cell>{category.name}</Table.Cell>
                 <Table.Cell>
                   {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now),
+                    category.date,
+                    this.addWeek(this.state.now, 0),
                     category.frequency
                   )
                     ? category.amount
@@ -144,8 +148,8 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(1, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 1),
                     category.frequency
                   )
                     ? category.amount
@@ -153,8 +157,8 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(2, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 2),
                     category.frequency
                   )
                     ? category.amount
@@ -162,8 +166,8 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(3, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 3),
                     category.frequency
                   )
                     ? category.amount
@@ -171,8 +175,8 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(4, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 4),
                     category.frequency
                   )
                     ? category.amount
@@ -180,8 +184,8 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(5, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 5),
                     category.frequency
                   )
                     ? category.amount
@@ -189,8 +193,8 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(6, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 6),
                     category.frequency
                   )
                     ? category.amount
@@ -198,8 +202,8 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(7, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 7),
                     category.frequency
                   )
                     ? category.amount
@@ -207,13 +211,15 @@ export default class Outlook extends Component {
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
-                    this.getWeekNum(category.date),
-                    this.getWeekNum(this.state.now.add(8, "weeks")),
+                    category.date,
+                    this.addWeek(this.state.now, 8),
                     category.frequency
                   )
                     ? category.amount
                     : ""}
                 </Table.Cell>
+
+
               </Table.Row>
             ))}
           </Table.Body>

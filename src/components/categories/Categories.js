@@ -62,7 +62,6 @@ export default class Categories extends Component {
     } else if (this.state.frequency === "") {
       return window.alert("please enter a frequency")
     } else {
-      console.log(resource, this.makeObj())
       this.props
         .addItem(resource, this.makeObj())
         .then(() => this.props.updateChart())
@@ -93,7 +92,6 @@ export default class Categories extends Component {
 
   render() {
 
-    console.log(this.state.category_id)
     return (
       <Segment>
         <Header size="huge" inverted>
@@ -177,7 +175,6 @@ export default class Categories extends Component {
                         onClick={() => {
                           this.openEdit()
                           this.setCategory(category.id)
-                          console.log(category.id)
                         }}
                       >
                         Edit
