@@ -10,6 +10,18 @@ export default class Outlook extends Component {
       .format("M/D")
   }
 
+  weekGrid = {
+    w1: 0,
+    w2: 0,
+    w3: 0,
+    w4: 0,
+    w5: 0,
+    w6: 0,
+    w7: 0,
+    w8: 0,
+    w9: 0
+  }
+
   // Displays the first day of the week
   getWeekStart = weekNum =>
     moment()
@@ -18,13 +30,17 @@ export default class Outlook extends Component {
 
   getWeekNum = startDate => moment(startDate).week()
 
-  isThisDue = (start, current, frequency) => {
+  isThisDue = (start, current, frequency, amount, weekNumber) => {
     const startWeek = this.getWeekNum(start)
     const currentWeek = this.getWeekNum(current)
     const diff = currentWeek - startWeek
     const isDue = diff % frequency === 0 ? true : false
-
-    return isDue
+    console.log(+this.weekGrid[weekNumber] + +amount)
+    if (isDue === true) {
+      this.weekGrid[weekNumber] = +this.weekGrid[weekNumber] + +amount
+      return amount
+    }
+    else return ""
   }
 
   addWeek = (start, weeksToAdd) => moment(start).add(weeksToAdd, "weeks")
@@ -118,19 +134,22 @@ export default class Outlook extends Component {
               <Table.Cell />
               <Table.Cell />
               <Table.Cell />
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Budget Total</Table.Cell>
-              <Table.Cell>{this.props.sum(this.props.categories)}</Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
             </Table.Row> */}
+
+
+
+            <Table.Row>
+              <Table.Cell>Week's Budget</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+              <Table.Cell>{this.weekGrid.w1}</Table.Cell>
+            </Table.Row>
 
 
 
@@ -141,82 +160,82 @@ export default class Outlook extends Component {
                   {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 0),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w1"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 1),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w2"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 2),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w3"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 3),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w4"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 4),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w5"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 5),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w6"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 6),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w7"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 7),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w8"
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                 {this.isThisDue(
                     category.date,
                     this.addWeek(this.state.now, 8),
-                    category.frequency
-                  )
-                    ? category.amount
-                    : ""}
+                    category.frequency,
+                    category.amount,
+                    "w9"
+                  )}
                 </Table.Cell>
 
 
